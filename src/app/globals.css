@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles.css */
+
+@keyframes moveDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes menuDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-moveDown {
+  animation: moveDown 1s ease-out;
+}
+.animate-menuDown {
+  animation: menuDown 1s ease-out;
+}
+
+@keyframes TurnOff_on {
+  2% {
+    color: transparent;
+  }
+  100% {
+    color: #f3e8ff;
+  }
+}
+
+.animate-TurnOff_on {
+  animation: TurnOff_on 2s infinite;
+}
+
+.half-circle {
+  border-top-left-radius: 100%;
+  border-top-right-radius: 100%;
+}
+
+.custom-divider {
+  width: 95%;
+}
