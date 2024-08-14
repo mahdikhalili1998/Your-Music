@@ -8,7 +8,7 @@ import PersonalInfo from "../module/PersonalInfo";
 
 const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
-  console.log(openPersonalModal);
+  // console.log(openPersonalModal);
 
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);

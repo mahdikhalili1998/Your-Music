@@ -137,7 +137,7 @@ function OtpPage() {
           {nextLevel ? (
             loading ? (
               <div className="mx-auto w-max">
-                <Loader />
+                <Loader height={40} width={80} />
               </div>
             ) : (
               <div className="flex items-center justify-center gap-4">

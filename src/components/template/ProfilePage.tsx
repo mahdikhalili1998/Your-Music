@@ -29,7 +29,7 @@ const ProfilePage = async () => {
         />
         <div className="space-y-4">
           <div className="flex flex-col items-start gap-2">
-            <p className="text-p-950">_ Don't have an account?</p>
+            <p className="text-p-950">_ Dont have an account?</p>
             <Link
               href="send-otp"
               className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"

@@ -6,3 +6,7 @@ export interface IUserInfo {
   readonly phoneNumber: string;
   password: string;
 }
+
+export type OmitWithTag<T, K extends keyof T> = Omit<T, K> & {
+  [key: string]: unknown;
+};
