@@ -8,3 +8,7 @@ export interface IProfileDetail {
   userData: any;
   openPersonalModal: boolean;
 }
+
+export interface IUser {
+  user: any;
+}
