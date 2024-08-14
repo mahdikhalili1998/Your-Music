@@ -1,5 +1,6 @@
 export interface ILoginInfo {
   email: string;
   userName: string;
-  updatedAt: Date;
+  updatedAt: string;
+  _id: string;
 }

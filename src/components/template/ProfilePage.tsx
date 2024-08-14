@@ -11,8 +11,12 @@ const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
   const user = await userInfo.findOne({ email: session?.user?.email });
 
+
   return session?.user?.email ? (
-    <ProfileDetail userData={JSON.parse(JSON.stringify(user))} />
+    <ProfileDetail
+      userData={JSON.parse(JSON.stringify(user))}
+      openPersonalModal={false}
+    />
   ) : (
     <div className="space-y-4">
       <h2 className="text-center font-medium text-p-950">

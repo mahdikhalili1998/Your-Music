@@ -1,17 +1,40 @@
 "use client";
 import { ILoginInfo } from "@/types/editProfileDetail";
 import { IProfileDetail } from "@/types/props";
-import React, { FC, useRef, useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import { useRouter } from "next/navigation";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
   const [edit, setEdit] = useState<boolean>(false);
+  const [passLevel, setPassLevel] = useState<boolean>(false);
   const [editedInfo, setEditedInfo] = useState<ILoginInfo>({
-    email: "",
-    userName: "",
-    updatedAt: userData.updatedAt,
+    email: userData.email,
+    userName: userData.userName,
+    updatedAt: moment().format("YYYY/MM/DD HH:mm:ss"),
+    _id: userData._id,
   });
   const [changingOption, setChangingOption] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const router = useRouter();
   const inputRef = useRef(null);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setPassLevel(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const editInfohandler = (name: string) => {
     setChangingOption(name);
@@ -28,45 +51,139 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
     setEditedInfo({ ...editedInfo, [name]: value });
   };
 
+  const saveHandler = async () => {
+    setPassLevel(true);
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
+  };
+
+  const finalSaveHander = async () => {
+    await axios
+      .patch("/api/edit-info", { editedInfo, password })
+      .then((res) => {
+        // console.log(res);
+        if (res.status === 201) {
+          toast.success("The operation was successful", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+          router.push("/sign-in");
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+        if (error) {
+          toast.error(error.response.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        }
+      });
+  };
+
   return (
-    <ul
-      className={`space-y-2 transition-all duration-700 ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950`}
+    <div
+      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} transition-all duration-700`}
     >
-      <li onClick={(e) => editInfohandler("email")}>
-        {changingOption === "email" && edit ? (
-          <div className="flex flex-col items-center justify-center">
-            <span className="font-medium text-rose-800">Email : </span>{" "}
-            <input
-              className="rounded-xl px-2 py-1 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
-              ref={inputRef}
-              type="text"
-              name="email"
-              value={edit ? editedInfo.email : userData.email}
-              onChange={(e) => changeHandler(e)}
-            />
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center">
-            <span className="font-medium text-rose-800">Email : </span>
-            <span>{userData.email}</span>
-          </div>
-        )}
-      </li>
-      <li
-        onClick={(e) => editInfohandler("userName")}
-        className="flex flex-col items-center justify-center"
+      <ul
+        className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950`}
       >
-        <span className="font-medium text-rose-800">UserName: </span>
-        <span>{userData.userName}</span>
-      </li>
-      <li
-        onClick={(e) => editInfohandler("updatedAt")}
-        className="flex flex-col items-center justify-center"
-      >
-        <span className="font-medium text-rose-800"> Last Update Date: </span>
-        <span>{new Date(userData.updatedAt).toLocaleDateString("en-US")}</span>
-      </li>
-    </ul>
+        <li onClick={(e) => editInfohandler("email")}>
+          {changingOption === "email" && edit ? (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">Email : </span>{" "}
+              <input
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                ref={inputRef}
+                type="text"
+                name="email"
+                value={edit ? editedInfo.email : userData.email}
+                onChange={(e) => changeHandler(e)}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">Email : </span>
+              <span>{edit ? editedInfo.email : userData.email}</span>
+            </div>
+          )}
+        </li>
+        <li onClick={(e) => editInfohandler("userName")}>
+          {changingOption === "userName" && edit ? (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">userName : </span>{" "}
+              <input
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                ref={inputRef}
+                type="text"
+                name="userName"
+                value={edit ? editedInfo.userName : userData.userName}
+                onChange={(e) => changeHandler(e)}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">UserName : </span>
+              <span>{edit ? editedInfo.userName : userData.userName}</span>
+            </div>
+          )}
+        </li>
+        <li className="flex flex-col items-center justify-center">
+          <span className="font-medium text-rose-800"> Last Update Date: </span>
+          <span>{moment(userData.updatedAt).format("YYYY/MM/DD")}</span>
+        </li>
+        {edit ? (
+          <button
+            onClick={(e) => saveHandler()}
+            className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500"
+          >
+            Save
+          </button>
+        ) : null}
+      </ul>
+      {passLevel ? (
+        <div
+          ref={divRef}
+          className="absolute left-[12%] top-[25%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
+        >
+          <h2 className="text-center text-sm font-medium">
+            Enter your password to continue :
+          </h2>
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            ref={inputRef}
+            className="w-[90%] rounded-xl border-2 border-solid border-p-700 bg-transparent px-2 py-1 text-center text-p-950 outline-4 outline-white focus:outline-none"
+          />
+          <button
+            onClick={(e) => finalSaveHander()}
+            disabled={!password}
+            className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500 disabled:opacity-55"
+          >
+            Save
+          </button>
+        </div>
+      ) : null}
+      <ToastContainer />
+    </div>
   );
 };
 

@@ -31,7 +31,7 @@ export const authOptions = {
         if (!isValid) {
           throw new Error(MESSSGE.INCORRECT_USERNAME_PASSWORD);
         }
-
+        console.log(user.email);
         return { email: user.email };
       },
     }),

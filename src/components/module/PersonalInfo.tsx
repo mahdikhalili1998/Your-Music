@@ -1,6 +1,7 @@
 "use client";
 
 import { IProfileDetail } from "@/types/props";
+import moment from "moment";
 import { FC } from "react";
 
 const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
@@ -23,7 +24,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
       </li>
       <li className="flex flex-col items-center justify-center">
         <span className="font-medium text-rose-800"> ِDate of sign in : </span>
-        <span>{new Date(userData.createdAt).toLocaleDateString("en-US")}</span>
+        <span>{moment(userData.updatedAt).format("YYYY/MM/DD")}</span>
       </li>
     </ul>
   );

@@ -9,7 +9,7 @@ import LoginInfo from "../module/LoginInfo";
 
 const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
-  const [openLoginModal, setOpenLoginModal] = useState<boolean>(true);
+  const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   // console.log(openPersonalModal);
 
   const personalHandler = () => {
