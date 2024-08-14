@@ -5,13 +5,18 @@ import { RiArrowDownWideFill } from "react-icons/ri";
 import { RiArrowUpWideFill } from "react-icons/ri";
 import React, { FC, useState } from "react";
 import PersonalInfo from "../module/PersonalInfo";
+import LoginInfo from "../module/LoginInfo";
 
 const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
+  const [openLoginModal, setOpenLoginModal] = useState<boolean>(true);
   // console.log(openPersonalModal);
 
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
+  };
+  const loginHandler = () => {
+    setOpenLoginModal((openLoginModal) => !openLoginModal);
   };
 
   return (
@@ -28,7 +33,7 @@ const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
           onClick={(e) => personalHandler()}
           className="flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300"
         >
-          Personal Info{" "}
+          Personal Info
           {openPersonalModal ? (
             <RiArrowUpWideFill className="mt-1 text-2xl font-medium text-p-950" />
           ) : (
@@ -39,11 +44,18 @@ const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
           userData={userData}
           openPersonalModal={openPersonalModal}
         />
-        <button className="flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300">
-          {" "}
-          Login Info{" "}
-          <RiArrowDownWideFill className="mt-1 text-2xl font-medium text-p-950" />
+        <button
+          onClick={(e) => loginHandler()}
+          className="flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300"
+        >
+          Login Info
+          {openLoginModal ? (
+            <RiArrowUpWideFill className="mt-1 text-2xl font-medium text-p-950" />
+          ) : (
+            <RiArrowDownWideFill className="mt-1 text-2xl font-medium text-p-950" />
+          )}
         </button>
+        <LoginInfo userData={userData} openPersonalModal={openLoginModal} />
       </div>
     </div>
   );
