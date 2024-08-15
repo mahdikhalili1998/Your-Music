@@ -8,12 +8,20 @@ import ConnectDB from "@/utils/ConnectDB";
 async function HomePage() {
   await ConnectDB();
   const session = await getServerSession(authOptions);
-  const user = await userInfo.findOne({ email: session.user.email });
-  console.log(user);
+  let user = null;
+  if (session) {
+    const dbUser = await userInfo.findOne({ email: session.user.email });
+
+    user = {
+      name: dbUser.name,
+    };
+  }
+
+  // console.log(user);
   return (
     <div>
       HomePage
-      <Welcome user={user} />
+      {user ? <Welcome user={{ ...user }} /> : null}
     </div>
   );
 }

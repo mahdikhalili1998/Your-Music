@@ -8,10 +8,13 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import Loader from "./Loader";
+import Link from "next/link";
 
 const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [passLevel, setPassLevel] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
   const [editedInfo, setEditedInfo] = useState<ILoginInfo>({
     email: userData.email,
     userName: userData.userName,
@@ -61,6 +64,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
   };
 
   const finalSaveHander = async () => {
+    setLoader(true);
     await axios
       .patch("/api/edit-info", { editedInfo, password })
       .then((res) => {
@@ -96,6 +100,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
           });
         }
       });
+    setLoader(false);
   };
 
   return (
@@ -161,7 +166,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
       {passLevel ? (
         <div
           ref={divRef}
-          className="absolute left-[12%] top-[25%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
+          className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
         >
           <h2 className="text-center text-sm font-medium">
             Enter your password to continue :
@@ -173,13 +178,25 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
             ref={inputRef}
             className="w-[90%] rounded-xl border-2 border-solid border-p-700 bg-transparent px-2 py-1 text-center text-p-950 outline-4 outline-white focus:outline-none"
           />
-          <button
-            onClick={(e) => finalSaveHander()}
-            disabled={!password}
-            className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500 disabled:opacity-55"
+          {loader ? (
+            <div>
+              <Loader height={40} width={80} />
+            </div>
+          ) : (
+            <button
+              onClick={(e) => finalSaveHander()}
+              disabled={!password}
+              className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500 disabled:opacity-55"
+            >
+              Save
+            </button>
+          )}
+          <Link
+            className="w-max text-sm font-medium text-blue-600"
+            href="/reset-pass"
           >
-            Save
-          </button>
+            Forget Your Password ?
+          </Link>
         </div>
       ) : null}
       <ToastContainer />

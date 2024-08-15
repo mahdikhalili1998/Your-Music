@@ -10,3 +10,8 @@ export interface IUserInfo {
 export type OmitWithTag<T, K extends keyof T> = Omit<T, K> & {
   [key: string]: unknown;
 };
+
+export interface IPassword {
+  password: string;
+  repeatPassword: string;
+}
