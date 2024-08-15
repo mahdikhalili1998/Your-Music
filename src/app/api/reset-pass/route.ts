@@ -3,34 +3,23 @@ import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/utils/ConnectDB";
 import userInfo from "@/model/userInfo";
 import { regexInfo } from "@/constant/regex";
-import { verifyPassword } from "@/utils/nextPass";
+import { hashPassword } from "@/utils/nextPass";
 
 export async function PATCH(req: NextRequest) {
   try {
     await ConnectDB();
-    const {
-      editedInfo: { email, userName, updatedAt, _id },
-      password,
-    } = await req.json();
+    const { resetPass } = await req.json();
+    const { password, phone } = resetPass;
 
-    const user = await userInfo.findOne({ _id });
-    const isValid = await verifyPassword(password, user.password);
-    if (!isValid) {
-      return NextResponse.json(
-        {
-          message: MESSSGE.INCORRECT_PASSWORD,
-        },
-        { status: STATUS.INCORRECT_INFO },
-      );
-    }
-
-    if (!email || !userName) {
+    const user = await userInfo.findOne({ phoneNumber: resetPass.phone });
+    // console.log(user);
+    if (!password || !phone) {
       return NextResponse.json(
         { message: MESSSGE.INCORRECT_INFO },
         { status: STATUS.INCORRECT_INFO },
       );
     }
-    if (!regexInfo.email.test(email) || !regexInfo.userName.test(userName)) {
+    if (!regexInfo.password.test(password)) {
       return NextResponse.json(
         { message: MESSSGE.INCORRECT_INFO },
         { status: STATUS.INCORRECT_INFO },
@@ -42,12 +31,11 @@ export async function PATCH(req: NextRequest) {
         { status: STATUS.NOT_FOUND },
       );
     }
-    user.email = email;
-    user.userName = userName;
-    user.updatedAt = updatedAt;
+    const hashPass = hashPassword(password);
+    user.password = hashPass;
     user.save();
     return NextResponse.json(
-      { message: MESSSGE.SUCCSESS },
+      { message: MESSSGE.PASS_CHANGE },
       { status: STATUS.EDIT_INFO },
     );
   } catch (error) {

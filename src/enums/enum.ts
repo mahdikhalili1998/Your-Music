@@ -9,6 +9,7 @@ export enum MESSSGE {
   INCORRECT_PASSWORD = "Your Password Is Wrong ! 🚫",
   CREATE_ACCOUNT = "Please create account first",
   INCORRECT_USERNAME_PASSWORD = "userName or password is incorrect",
+  PASS_CHANGE = "Password changed successfully",
 }
 
 export enum STATUS {

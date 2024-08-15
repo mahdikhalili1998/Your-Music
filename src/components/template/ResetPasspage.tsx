@@ -8,42 +8,45 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
+import { error } from "console";
 
 function ResetPasspage() {
-  const [userOtpCode, setUserOtpCode] = useState<string>("1234");
-  const [otpCode, setOtpCode] = useState<string>("1234");
+  const [userOtpCode, setUserOtpCode] = useState<string>("");
+  const [otpCode, setOtpCode] = useState<string>("");
   const [resetModal, setResetModal] = useState<boolean>(false);
   const [resetPass, setResetPass] = useState<IPassword>({
     password: "",
     repeatPassword: "",
+    phone: "",
   });
   const [loader, setLoader] = useState<boolean>(false);
   const router = useRouter();
-  //   console.log(otpCode, userOtpCode);
-  //   useEffect(() => {
-  //     const phoneNumber = localStorage.getItem("phoneNumber");
-  //     const num = `{"to":"${phoneNumber}"}`;
-  //     const headers = {
-  //       "Content-Type": "application/json",
-  //     };
 
-  //     axios
-  //       .post("api/psroxy", num, { headers })
-  //       .then((res) => {
-  //         if (res) {
-  //           setOtpCode(res?.data.code);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         if (error) {
-  //           toast.error("Server Error , try again", {
-  //             position: "top-center",
-  //             transition: Flip,
-  //           });
-  //           return;
-  //         }
-  //       });
-  //   }, []);
+  useEffect(() => {
+    const phoneNumber = localStorage.getItem("phoneNumber");
+    setResetPass({ ...resetPass, phone: phoneNumber });
+    const num = `{"to":"${phoneNumber}"}`;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    axios
+      .post("api/psroxy", num, { headers })
+      .then((res) => {
+        if (res) {
+          setOtpCode(res?.data.code);
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          toast.error("Server Error , try again", {
+            position: "top-center",
+            transition: Flip,
+          });
+          return;
+        }
+      });
+  }, []);
 
   const otpHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLoader(true);
@@ -53,7 +56,38 @@ function ResetPasspage() {
     setLoader(false);
   };
 
-  const passwordHandler = () => {};
+  const passwordHandler = async () => {
+    if (resetPass.password === resetPass.repeatPassword) {
+      setLoader(true);
+      await axios
+        .patch("/api/reset-pass", { resetPass })
+        .then((res) => {
+          //   console.log(res);
+          if (res.status === 201) {
+            toast.success(res.data.message, {
+              position: "top-center",
+              transition: Flip,
+            });
+          }
+          router.push("/profile");
+        })
+        .catch((error) => {
+          //   console.log(error);
+          if (error) {
+            toast.error(error.response.data.message, {
+              position: "top-center",
+              transition: Flip,
+            });
+          }
+        });
+      setLoader(false);
+    } else {
+      toast.error("Passwords are not the same", {
+        position: "top-center",
+        transition: Flip,
+      });
+    }
+  };
 
   return (
     <div className="bg-gradient-to-r from-p-500 to-p-200 py-3">

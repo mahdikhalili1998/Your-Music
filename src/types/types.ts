@@ -14,4 +14,5 @@ export type OmitWithTag<T, K extends keyof T> = Omit<T, K> & {
 export interface IPassword {
   password: string;
   repeatPassword: string;
+  phone: string;
 }
