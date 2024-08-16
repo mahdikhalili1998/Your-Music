@@ -11,10 +11,13 @@ async function HomePage() {
   let user = null;
   if (session) {
     const dbUser = await userInfo.findOne({ email: session.user.email });
-
-    user = {
-      name: dbUser.name,
-    };
+    if (dbUser) {
+      user = {
+        name: dbUser.name,
+      };
+    } else {
+      return null;
+    }
   }
 
   // console.log(user);

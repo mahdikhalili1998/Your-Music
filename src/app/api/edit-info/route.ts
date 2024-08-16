@@ -13,8 +13,58 @@ export async function PATCH(req: NextRequest) {
       password,
     } = await req.json();
 
-    const user = await userInfo.findOne({ _id });
+    // console.log(email);
+    const user = await userInfo.findOne({ _id }); //main account
+
+    const exitedEmail = await userInfo.findOne({ email }); //exsited account with this email
+
+    const existedUserName = await userInfo.findOne({ userName }); //exsited account with this userName
+
     const isValid = await verifyPassword(password, user.password);
+
+    // console.log(userUserName);
+
+    if (!regexInfo.email.test(email) || !regexInfo.userName.test(userName)) {
+      return NextResponse.json(
+        { message: MESSSGE.INCORRECT_INFO },
+        { status: STATUS.INCORRECT_INFO },
+      );
+    }
+
+    if (exitedEmail && exitedEmail.email !== user.email) {
+      return NextResponse.json(
+        {
+          message: MESSSGE.EXISTED_USER_NAME.replace("username", "email"),
+        },
+        { status: STATUS.EXSITED_INFO },
+      );
+    }
+
+    if (existedUserName && existedUserName.userName !== user.userName) {
+      return NextResponse.json(
+        {
+          message: MESSSGE.EXISTED_USER_NAME,
+        },
+        { status: STATUS.EXSITED_INFO },
+      );
+    }
+    // if (
+    //   userEmail.email !== user.email &&
+    //   userUserName.userName !== user.userName
+    // ) {
+    //   return NextResponse.json(
+    //     { message: MESSSGE.EXSITED_USER.replace("email", "info") },
+    //     { status: STATUS.EXSITED_INFO },
+    //   );
+    // }
+
+    if (email === user.email && userName === user.userName) {
+      return NextResponse.json(
+        { message: MESSSGE.DUPLICATE_INFORMATION },
+        { status: STATUS.EXSITED_INFO },
+      );
+    }
+
     if (!isValid) {
       return NextResponse.json(
         {
@@ -30,12 +80,7 @@ export async function PATCH(req: NextRequest) {
         { status: STATUS.INCORRECT_INFO },
       );
     }
-    if (!regexInfo.email.test(email) || !regexInfo.userName.test(userName)) {
-      return NextResponse.json(
-        { message: MESSSGE.INCORRECT_INFO },
-        { status: STATUS.INCORRECT_INFO },
-      );
-    }
+
     if (!user) {
       return NextResponse.json(
         { message: MESSSGE.USER_NOT_FOUND },
@@ -44,8 +89,8 @@ export async function PATCH(req: NextRequest) {
     }
     user.email = email;
     user.userName = userName;
-    user.updatedAt = updatedAt;
     user.save();
+
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS },
       { status: STATUS.EDIT_INFO },

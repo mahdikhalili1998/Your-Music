@@ -52,6 +52,7 @@ function OtpPage() {
             })
             .catch((error) => {
               if (error) {
+                console.log(error);
                 toast.error("Server Error , try again", {
                   position: "top-center",
                   transition: Flip,

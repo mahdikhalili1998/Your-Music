@@ -61,6 +61,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
         inputRef.current.focus();
       }
     }, 0);
+    setPassword("");
   };
 
   const finalSaveHander = async () => {
@@ -85,7 +86,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
         }
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
         if (error) {
           toast.error(error.response.data.message, {
             position: "top-right",
@@ -98,6 +99,8 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
             theme: "light",
             transition: Bounce,
           });
+          setPassLevel(false);
+          router.refresh();
         }
       });
     setLoader(false);

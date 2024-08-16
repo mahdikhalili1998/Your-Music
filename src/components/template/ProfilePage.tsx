@@ -11,7 +11,6 @@ const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
   const user = await userInfo.findOne({ email: session?.user?.email });
 
-
   return session?.user?.email ? (
     <ProfileDetail
       userData={JSON.parse(JSON.stringify(user))}
