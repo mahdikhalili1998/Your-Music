@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -8,29 +8,39 @@ import { IoMdDownload } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { FaCircleInfo } from "react-icons/fa6";
 import Link from "next/link";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 function Layout({ children }: any) {
   const [open, setOpen] = useState<boolean>(false);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="relative overflow-x-hidden">
       <Header open={open} setOpen={setOpen} header={() => {}} />
       <div className={`my-[3rem]`}>
         <div
-          className={`${!open ? null : "opacity-30"} transition-opacity duration-300`}
+          className={`${!open ? null : "pointer-events-none blur-sm"} transition-all duration-300`}
         >
           {children}
         </div>
         <div
-          className={`fixed left-0 top-0 h-max w-full bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-0" : "translate-x-full"} ${open ? "visible" : "invisible"}`}
+          ref={divRef}
+          className={`fixed left-0 top-0 flex h-full w-full flex-col bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} ${open ? "visible" : "invisible"}`}
         >
-          <span
-            className="mr-1 flex justify-end"
-            onClick={() => setOpen(false)}
-          >
-            <IoMdCloseCircle className={`mt-3 text-2xl text-p-950`} />
-          </span>
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <div className="flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black">
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
@@ -64,6 +74,16 @@ function Layout({ children }: any) {
               </Link>
             </div>
           </div>
+          <span
+            onClick={(e) => setOpen(false)}
+            className="-z-10 -ml-9 mt-10 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90"
+          >
+            {open ? (
+              <IoIosArrowDropleftCircle className="text-3xl text-p-950" />
+            ) : (
+              <IoIosArrowDroprightCircle />
+            )}
+          </span>
         </div>
       </div>
 

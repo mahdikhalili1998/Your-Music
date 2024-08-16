@@ -12,7 +12,9 @@ const Header: FC<Iheader> = ({ open, setOpen }) => {
   };
 
   return (
-    <div className="relative">
+    <div
+      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300`}
+    >
       <div className="flex justify-between bg-gradient-to-r from-p-500 to-p-200 py-3 font-shantell">
         <h2 className="relative ml-2 mt-5 flex items-center p-2 text-3xl text-p-200">
           <Link href="/" className="flex items-center">
