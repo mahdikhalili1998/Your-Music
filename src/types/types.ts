@@ -16,3 +16,9 @@ export interface IPassword {
   repeatPassword: string;
   phone: string;
 }
+
+export interface IPersonalInfo {
+  name: string;
+  phoneNumber: string;
+  _id: string;
+}
