@@ -46,9 +46,9 @@ export async function POST(req: NextRequest) {
 
     const newUser = await userInfo.create({
       name,
-      userName,
+      userName: userName.toLowerCase(),
       password: hashPass,
-      email,
+      email: email.toLowerCase(),
       phoneNumber,
     });
 

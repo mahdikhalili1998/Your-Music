@@ -87,8 +87,9 @@ export async function PATCH(req: NextRequest) {
         { status: STATUS.NOT_FOUND },
       );
     }
-    user.email = email;
-    user.userName = userName;
+
+    user.email = email.toLowerCase();
+    user.userName = userName.toLowerCase();
     user.save();
 
     return NextResponse.json(
