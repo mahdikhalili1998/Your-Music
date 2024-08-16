@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import axios, { AxiosError } from "axios";
 import Loader from "../module/Loader";
 import { IAxios } from "@/types/axios";
+import Link from "next/link";
 
 function OtpPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -170,6 +171,9 @@ function OtpPage() {
             </button>
           )}
         </div>
+        <Link className="text-sm font-medium text-blue-500" href="/sign-in">
+          _ Do you have an account ?
+        </Link>
         <BtLight nextLevel={nextLevel} />
       </div>
       <ToastContainer />

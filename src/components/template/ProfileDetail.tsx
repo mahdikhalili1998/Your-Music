@@ -5,7 +5,9 @@ import { RiArrowDownWideFill } from "react-icons/ri";
 import { RiArrowUpWideFill } from "react-icons/ri";
 import React, { FC, useState } from "react";
 import PersonalInfo from "../module/PersonalInfo";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import LoginInfo from "../module/LoginInfo";
+import { signOut } from "next-auth/react";
 
 const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
@@ -17,6 +19,10 @@ const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
   };
   const loginHandler = () => {
     setOpenLoginModal((openLoginModal) => !openLoginModal);
+  };
+
+  const signOutHandler = () => {
+    signOut({ callbackUrl: "/profile" });
   };
 
   return (
@@ -57,6 +63,12 @@ const ProfileDetail: FC<IProfileDetail> = ({ userData }) => {
         </button>
         <LoginInfo userData={userData} openPersonalModal={openLoginModal} />
       </div>
+      <button
+        onClick={(e) => signOutHandler()}
+        className="flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white"
+      >
+        Sign Out <RiLogoutCircleRLine className="text-2xl font-medium" />
+      </button>
     </div>
   );
 };

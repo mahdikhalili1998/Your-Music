@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import SignUpInput from "../module/SignUpInput";
 
+
 function SignUpPage() {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -15,6 +16,7 @@ function SignUpPage() {
         priority
       />
       <SignUpInput />
+ 
     </div>
   );
 }

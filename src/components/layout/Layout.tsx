@@ -38,9 +38,9 @@ function Layout({ children }: any) {
         </div>
         <div
           ref={divRef}
-          className={`fixed left-0 top-0 flex h-full w-full flex-col bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} ${open ? "visible" : "invisible"}`}
+          className={`fixed left-0 top-0 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
         >
-          <div className="flex justify-start">
+          <div className="mt-10 flex justify-start">
             <div className="flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black">
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
@@ -74,20 +74,23 @@ function Layout({ children }: any) {
               </Link>
             </div>
           </div>
-          <span
-            onClick={(e) => setOpen(false)}
-            className="-z-10 -ml-9 mt-10 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90"
-          >
+          <span className="z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90">
             {open ? (
-              <IoIosArrowDropleftCircle className="text-3xl text-p-950" />
+              <IoIosArrowDroprightCircle
+                onClick={(e) => setOpen(false)}
+                className="text-2xl text-p-950 opacity-100"
+              />
             ) : (
-              <IoIosArrowDroprightCircle />
+              <IoIosArrowDropleftCircle
+                onClick={(e) => setOpen(true)}
+                className="text-2xl text-p-950 opacity-100"
+              />
             )}
           </span>
         </div>
       </div>
 
-      <Footer />
+      <Footer open={open} setOpen={setOpen} header={() => {}} />
     </div>
   );
 }

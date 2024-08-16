@@ -29,7 +29,7 @@ const Header: FC<Iheader> = ({ open, setOpen }) => {
           </span>
         </h2>
         <span onClick={() => clickHandler()} className="animate-menuDown mr-1">
-          <TiThMenu className={`text-xl ${open ? "hidden" : "block"}`} />
+          <TiThMenu className={` text-xl ${open ? "hidden" : "block"}`} />
         </span>
       </div>
       <p className="half-circle -mt-1 h-6 w-full rotate-180 bg-gradient-to-r from-p-200 to-p-500"></p>

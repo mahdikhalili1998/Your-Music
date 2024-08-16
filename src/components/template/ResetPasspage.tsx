@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
-import { error } from "console";
 
 function ResetPasspage() {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
@@ -31,13 +30,14 @@ function ResetPasspage() {
     };
 
     axios
-      .post("api/psroxy", num, { headers })
+      .post("api/proxy", num, { headers })
       .then((res) => {
         if (res) {
           setOtpCode(res?.data.code);
         }
       })
       .catch((error) => {
+        console.log(error);
         if (error) {
           toast.error("Server Error , try again", {
             position: "top-center",

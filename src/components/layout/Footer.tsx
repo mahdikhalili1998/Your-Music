@@ -1,9 +1,14 @@
-import React from 'react'
+import { Iheader } from "@/types/header";
+import React, { FC } from "react";
 
-function Footer() {
+const Footer: FC<Iheader> = ({ header, open, setOpen }) => {
   return (
-    <div>Footer</div>
-  )
-}
+    <div
+      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300`}
+    >
+      Footer
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;
