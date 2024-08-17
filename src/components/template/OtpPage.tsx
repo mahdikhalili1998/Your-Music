@@ -46,6 +46,7 @@ function OtpPage() {
           axios
             .post("api/proxy", num, { headers })
             .then((res) => {
+              // console.log(res);
               if (res) {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);

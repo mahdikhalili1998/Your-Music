@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Loader from "../module/Loader";
 import axios from "axios";
 import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
@@ -8,45 +8,18 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
+import { IResetProps } from "@/types/props";
 
-function ResetPasspage() {
+const ResetPasspage: FC<IResetProps> = ({
+  otpCode,
+  changePass,
+  setChangePass,
+}) => {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
-  const [otpCode, setOtpCode] = useState<string>("");
   const [resetModal, setResetModal] = useState<boolean>(false);
-  const [resetPass, setResetPass] = useState<IPassword>({
-    password: "",
-    repeatPassword: "",
-    phone: "",
-  });
+
   const [loader, setLoader] = useState<boolean>(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const phoneNumber = localStorage.getItem("phoneNumber");
-    setResetPass({ ...resetPass, phone: phoneNumber });
-    const num = `{"to":"${phoneNumber}"}`;
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    axios
-      .post("api/proxy", num, { headers })
-      .then((res) => {
-        if (res) {
-          setOtpCode(res?.data.code);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error) {
-          toast.error("Server Error , try again", {
-            position: "top-center",
-            transition: Flip,
-          });
-          return;
-        }
-      });
-  }, []);
 
   const otpHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLoader(true);
@@ -57,10 +30,10 @@ function ResetPasspage() {
   };
 
   const passwordHandler = async () => {
-    if (resetPass.password === resetPass.repeatPassword) {
+    if (changePass.password === changePass.repeatPassword) {
       setLoader(true);
       await axios
-        .patch("/api/reset-pass", { resetPass })
+        .patch("/api/reset-pass", { changePass })
         .then((res) => {
           //   console.log(res);
           if (res.status === 201) {
@@ -111,9 +84,9 @@ function ResetPasspage() {
                 id="resetPass"
                 name="resetPass"
                 placeholder="new password"
-                value={resetPass.password}
+                value={changePass.password}
                 onChange={(e) =>
-                  setResetPass({ ...resetPass, password: e.target.value })
+                  setChangePass({ ...changePass, password: e.target.value })
                 }
                 className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
               />
@@ -122,9 +95,12 @@ function ResetPasspage() {
                 id="repeatPassword"
                 name="repeatPassword"
                 placeholder="Re-enter the password"
-                value={resetPass.repeatPassword}
+                value={changePass.repeatPassword}
                 onChange={(e) =>
-                  setResetPass({ ...resetPass, repeatPassword: e.target.value })
+                  setChangePass({
+                    ...changePass,
+                    repeatPassword: e.target.value,
+                  })
                 }
                 className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
               />
@@ -164,6 +140,6 @@ function ResetPasspage() {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default ResetPasspage;

@@ -9,9 +9,16 @@ import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import Loader from "./Loader";
-import Link from "next/link";
 
-const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
+
+const LoginInfo: FC<IProfileDetail> = ({
+  openPersonalModal,
+  userData,
+  changePass,
+  setChangePass,
+  setOtpCode,
+  setResetPass,
+}) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [passLevel, setPassLevel] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -23,6 +30,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
   });
   const [changingOption, setChangingOption] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const router = useRouter();
   const inputRef = useRef(null);
   const divRef = useRef(null);
@@ -104,6 +112,42 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
         }
       });
     setLoader(false);
+  };
+
+  const sendOtpHandler = async () => {
+    const phoneNumber = localStorage.getItem("phoneNumber");
+    setChangePass({ ...changePass, phone: phoneNumber });
+    const num = `{"to":"${phoneNumber}"}`;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    // console.log(phoneNumber);
+    setLoader(true);
+    await axios
+      .post("api/proxy", num, { headers })
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === "ارسال نشده") {
+          toast.error("please try again later");
+          setLoader(false);
+          return;
+        }
+        if (res) {
+          setOtpCode(res?.data.code);
+          setResetPass(true);
+          setLoader(false);
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          console.log(error);
+          toast.error("Server Error , try again", {
+            position: "top-center",
+            transition: Flip,
+          });
+          return;
+        }
+      });
   };
 
   return (
@@ -194,12 +238,12 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
               Save
             </button>
           )}
-          <Link
+          <p
             className="w-max text-sm font-medium text-blue-600"
-            href="/reset-pass"
+            onClick={(e) => sendOtpHandler()}
           >
             Forget Your Password ?
-          </Link>
+          </p>
         </div>
       ) : null}
       <ToastContainer />

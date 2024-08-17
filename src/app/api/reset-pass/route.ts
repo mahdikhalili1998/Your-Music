@@ -8,10 +8,10 @@ import { hashPassword } from "@/utils/nextPass";
 export async function PATCH(req: NextRequest) {
   try {
     await ConnectDB();
-    const { resetPass } = await req.json();
-    const { password, phone } = resetPass;
+    const { changePass } = await req.json();
+    const { password, phone } = changePass;
 
-    const user = await userInfo.findOne({ phoneNumber: resetPass.phone });
+    const user = await userInfo.findOne({ phoneNumber: changePass.phone });
     // console.log(user);
     if (!password || !phone) {
       return NextResponse.json(
