@@ -3,18 +3,19 @@ import { IProfileDetail } from "@/types/props";
 import { IPersonalInfo } from "@/types/types";
 import axios from "axios";
 import moment from "moment";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
 import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import Loader from "./Loader";
+import Link from "next/link";
 
 const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [passLevel, setPassLevel] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
+  const [passLevel, setPassLevel] = useState<boolean>(false);
+
   const [editedInfo, setEditedInfo] = useState<IPersonalInfo>({
     name: userData.name,
     phoneNumber: userData.phoneNumber,
@@ -63,12 +64,12 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
     setPassword("");
   };
 
-  const finalSaveHander = async () => {
+  const finalSaverHander = async () => {
     setLoader(true);
     await axios
-      .patch("/api/edit-info", { editedInfo, password })
+      .patch("/api/edit-info/personals", { editedInfo, password })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         if (res.status === 201) {
           toast.success("The operation was successful", {
             position: "top-right",
@@ -87,7 +88,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
       .catch((error) => {
         console.log(error);
         if (error) {
-          toast.error(error.response.data.message, {
+          toast.warn(error.response.data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -95,16 +96,13 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
-            transition: Bounce,
           });
           setPassLevel(false);
-          router.refresh();
         }
       });
     setLoader(false);
   };
-  // console.log(userData);
+
   return (
     <div
       className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} transition-all duration-700`}
@@ -196,7 +194,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
             </div>
           ) : (
             <button
-              onClick={(e) => finalSaveHander()}
+              onClick={(e) => finalSaverHander()}
               disabled={!password}
               className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500 disabled:opacity-55"
             >
@@ -204,8 +202,8 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
             </button>
           )}
           <Link
-            className="w-max text-sm font-medium text-blue-600"
             href="/reset-pass"
+            className="w-max text-sm font-medium text-blue-600"
           >
             Forget Your Password ?
           </Link>

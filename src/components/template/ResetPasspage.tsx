@@ -8,23 +8,69 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
-import { IResetProps } from "@/types/props";
 
-const ResetPasspage: FC<IResetProps> = ({
-  otpCode,
-  changePass,
-  setChangePass,
-}) => {
+const ResetPasspage = () => {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
   const [resetModal, setResetModal] = useState<boolean>(false);
-
   const [loader, setLoader] = useState<boolean>(false);
+  const [resetPass, setResetPass] = useState<boolean>(false);
   const router = useRouter();
+  const [otpCode, setOtpCode] = useState<string>("");
+  const [changePass, setChangePass] = useState<IPassword>({
+    password: "",
+    repeatPassword: "",
+    phone: "",
+  });
+  console.log(otpCode);
+  useEffect(() => {
+    const phoneNumber = localStorage.getItem("phoneNumber");
+    if (phoneNumber) {
+      setChangePass({ ...changePass, phone: phoneNumber });
+      const num = `{"to":"${phoneNumber}"}`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      // console.log(phoneNumber);
+      setLoader(true);
+      axios
+        .post("api/proxy", num, { headers })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status === "ارسال نشده") {
+            toast.error("please try again later");
+            setLoader(false);
+            return;
+          }
+          if (res) {
+            setOtpCode(res?.data.code);
+            setResetPass(true);
+            setLoader(false);
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            console.log(error);
+            toast.error("Server Error , try again", {
+              position: "top-center",
+              transition: Flip,
+            });
+            return;
+          }
+        });
+    } else {
+      router.push("/profile");
+    }
+  }, []);
 
   const otpHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLoader(true);
     if (otpCode === userOtpCode) {
       setResetModal(true);
+    } else {
+      toast.warning("The entered value does not match the SMS code", {
+        position: "top-center",
+        transition: Flip,
+      });
     }
     setLoader(false);
   };
@@ -36,7 +82,7 @@ const ResetPasspage: FC<IResetProps> = ({
         .patch("/api/reset-pass", { changePass })
         .then((res) => {
           //   console.log(res);
-          if (res.status === 201) {
+          if (res.status === 200 || res.data.status === "ارسال موفق بود") {
             toast.success(res.data.message, {
               position: "top-center",
               transition: Flip,
@@ -107,7 +153,7 @@ const ResetPasspage: FC<IResetProps> = ({
             </div>
           ) : (
             <input
-              type="password"
+              type="number"
               id="otpCode"
               name="otpCode"
               placeholder="x x x x"

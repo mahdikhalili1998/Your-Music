@@ -9,19 +9,12 @@ import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import Loader from "./Loader";
+import Link from "next/link";
 
-
-const LoginInfo: FC<IProfileDetail> = ({
-  openPersonalModal,
-  userData,
-  changePass,
-  setChangePass,
-  setOtpCode,
-  setResetPass,
-}) => {
+const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [passLevel, setPassLevel] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
+  const [passLevel, setPassLevel] = useState<boolean>(false);
   const [editedInfo, setEditedInfo] = useState<ILoginInfo>({
     email: userData.email,
     userName: userData.userName,
@@ -75,7 +68,7 @@ const LoginInfo: FC<IProfileDetail> = ({
   const finalSaveHander = async () => {
     setLoader(true);
     await axios
-      .patch("/api/edit-info", { editedInfo, password })
+      .patch("/api/edit-info/login", { editedInfo, password })
       .then((res) => {
         // console.log(res);
         if (res.status === 201) {
@@ -94,7 +87,7 @@ const LoginInfo: FC<IProfileDetail> = ({
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         if (error) {
           toast.error(error.response.data.message, {
             position: "top-right",
@@ -112,42 +105,6 @@ const LoginInfo: FC<IProfileDetail> = ({
         }
       });
     setLoader(false);
-  };
-
-  const sendOtpHandler = async () => {
-    const phoneNumber = localStorage.getItem("phoneNumber");
-    setChangePass({ ...changePass, phone: phoneNumber });
-    const num = `{"to":"${phoneNumber}"}`;
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    // console.log(phoneNumber);
-    setLoader(true);
-    await axios
-      .post("api/proxy", num, { headers })
-      .then((res) => {
-        console.log(res);
-        if (res.data.status === "ارسال نشده") {
-          toast.error("please try again later");
-          setLoader(false);
-          return;
-        }
-        if (res) {
-          setOtpCode(res?.data.code);
-          setResetPass(true);
-          setLoader(false);
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          console.log(error);
-          toast.error("Server Error , try again", {
-            position: "top-center",
-            transition: Flip,
-          });
-          return;
-        }
-      });
   };
 
   return (
@@ -238,12 +195,12 @@ const LoginInfo: FC<IProfileDetail> = ({
               Save
             </button>
           )}
-          <p
+          <Link
+            href="/reset-pass"
             className="w-max text-sm font-medium text-blue-600"
-            onClick={(e) => sendOtpHandler()}
           >
             Forget Your Password ?
-          </p>
+          </Link>
         </div>
       ) : null}
       <ToastContainer />

@@ -16,11 +16,20 @@ export async function PATCH(req: NextRequest) {
     // console.log(email);
     const user = await userInfo.findOne({ _id }); //main account
 
+    const isValid = await verifyPassword(password, user.password);
+
+    if (!isValid) {
+      return NextResponse.json(
+        {
+          message: MESSSGE.INCORRECT_PASSWORD,
+        },
+        { status: STATUS.INCORRECT_INFO },
+      );
+    }
+
     const exitedEmail = await userInfo.findOne({ email }); //exsited account with this email
 
     const existedUserName = await userInfo.findOne({ userName }); //exsited account with this userName
-
-    const isValid = await verifyPassword(password, user.password);
 
     // console.log(userUserName);
 
@@ -48,29 +57,10 @@ export async function PATCH(req: NextRequest) {
         { status: STATUS.EXSITED_INFO },
       );
     }
-    // if (
-    //   userEmail.email !== user.email &&
-    //   userUserName.userName !== user.userName
-    // ) {
-    //   return NextResponse.json(
-    //     { message: MESSSGE.EXSITED_USER.replace("email", "info") },
-    //     { status: STATUS.EXSITED_INFO },
-    //   );
-    // }
-
     if (email === user.email && userName === user.userName) {
       return NextResponse.json(
         { message: MESSSGE.DUPLICATE_INFORMATION },
         { status: STATUS.EXSITED_INFO },
-      );
-    }
-
-    if (!isValid) {
-      return NextResponse.json(
-        {
-          message: MESSSGE.INCORRECT_PASSWORD,
-        },
-        { status: STATUS.INCORRECT_INFO },
       );
     }
 

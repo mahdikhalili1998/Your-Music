@@ -29,6 +29,7 @@ function SignInPage() {
     repeatPassword: "",
     phone: "",
   });
+
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -67,7 +68,7 @@ function SignInPage() {
     await axios
       .post("api/proxy", num, { headers })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.status === "ارسال نشده") {
           toast.error("please try again later");
           setLoader(false);
@@ -77,12 +78,12 @@ function SignInPage() {
           setOtpCode(res?.data.code);
           setResetPass(true);
           setLoader(false);
-          router.push("/reset-pass");
+          // router.push("/reset-pass");
         }
       })
       .catch((error) => {
         if (error) {
-          console.log(error);
+          // console.log(error);
           toast.error("Server Error , try again", {
             position: "top-center",
             transition: Flip,

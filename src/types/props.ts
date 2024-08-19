@@ -8,10 +8,9 @@ export interface IPropsBtLight {
 export interface IProfileDetail {
   userData: any;
   openPersonalModal: boolean;
-  setOtpCode: Function;
-  changePass: IPassword;
-  setChangePass: Function;
-  setResetPass: Function;
+}
+export interface IProf {
+  userData: any;
 }
 
 export interface IUser {

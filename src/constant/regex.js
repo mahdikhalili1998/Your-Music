@@ -4,6 +4,7 @@ const regexInfo = {
   email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   password: /^1234$/,
   //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  phoneNumber: /^09\d{9}$/,
 };
 
 export { regexInfo };
