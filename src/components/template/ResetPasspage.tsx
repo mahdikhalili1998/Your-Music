@@ -48,6 +48,7 @@ const ResetPasspage = () => {
           }
         })
         .catch((error) => {
+          console.log(error);
           if (error) {
             console.log(error);
             toast.error("Server Error , try again", {

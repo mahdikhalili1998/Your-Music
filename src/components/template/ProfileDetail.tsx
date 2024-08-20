@@ -12,6 +12,8 @@ import { signOut } from "next-auth/react";
 const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
+  const [isBlur, setIsBlur] = useState<boolean>(false);
+ 
 
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
@@ -34,13 +36,13 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
           width={200}
           height={200}
           alt="information"
-          // className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
+          className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
           priority
         />
         <div className={`flex flex-col items-center justify-center gap-4`}>
           <button
             onClick={(e) => personalHandler()}
-            className={`flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
+            className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
           >
             Personal Info
             {openPersonalModal ? (
@@ -52,10 +54,11 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
           <PersonalInfo
             userData={userData}
             openPersonalModal={openPersonalModal}
+            setIsBlur={setIsBlur}
           />
           <button
             onClick={(e) => loginHandler()}
-            className={`flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
+            className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
           >
             Login Info
             {openLoginModal ? (
@@ -64,11 +67,15 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
               <RiArrowDownWideFill className="mt-1 text-2xl font-medium text-p-950" />
             )}
           </button>
-          <LoginInfo userData={userData} openPersonalModal={openLoginModal} />
+          <LoginInfo
+            userData={userData}
+            openPersonalModal={openLoginModal}
+            setIsBlur={setIsBlur}
+          />
         </div>
         <button
           onClick={(e) => signOutHandler()}
-          className="flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white"
+          className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white`}
         >
           Sign Out <RiLogoutCircleRLine className="text-2xl font-medium" />
         </button>

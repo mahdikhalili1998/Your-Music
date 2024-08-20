@@ -3,7 +3,7 @@ import { IUserInfo } from "@/types/types";
 import { addAbortListener } from "events";
 import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/utils/ConnectDB";
-import { hashPassword } from "@/utils/nextPass";
+
 import userInfo from "@/model/userInfo";
 
 export async function POST(req: NextRequest) {

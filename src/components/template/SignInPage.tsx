@@ -56,7 +56,6 @@ function SignInPage() {
   };
 
   const sendOtpHandler = async () => {
-   
     const phoneNumber = localStorage.getItem("phoneNumber");
     setChangePass({ ...changePass, phone: phoneNumber });
     const num = `{"to":"${phoneNumber}"}`;
@@ -68,7 +67,7 @@ function SignInPage() {
     await axios
       .post("api/proxy", num, { headers })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         if (res.data.status === "ارسال نشده") {
           toast.error("please try again later");
           setLoader(false);
@@ -83,7 +82,7 @@ function SignInPage() {
       })
       .catch((error) => {
         if (error) {
-          // console.log(error);
+          console.log(error);
           toast.error("Server Error , try again", {
             position: "top-center",
             transition: Flip,
@@ -103,11 +102,7 @@ function SignInPage() {
         className={`${loader ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
       >
         {resetPass ? (
-          <ResetPasspage
-            otpCode={otpCode}
-            setChangePass={setChangePass}
-            changePass={changePass}
-          />
+          <ResetPasspage />
         ) : (
           <div className="flex flex-col gap-7 bg-gradient-to-r from-p-500 to-p-200 pb-8">
             <h2 className="py-3 pl-2 font-medium text-white">

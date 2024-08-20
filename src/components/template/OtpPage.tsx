@@ -41,7 +41,6 @@ function OtpPage() {
       .then((res) => {
         if (res.status === 200) {
           if (phoneRegex.test(phoneNumber)) {
-            setNextLevel(true);
           }
           axios
             .post("api/proxy", num, { headers })
@@ -50,11 +49,12 @@ function OtpPage() {
               if (res) {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);
+                console.log(otpCode);
               }
             })
             .catch((error) => {
               if (error) {
-                console.log(error);
+                // console.log(error);
                 toast.error("Server Error , try again", {
                   position: "top-center",
                   transition: Flip,

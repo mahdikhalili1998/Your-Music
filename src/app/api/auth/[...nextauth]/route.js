@@ -31,11 +31,39 @@ export const authOptions = {
         if (!isValid) {
           throw new Error(MESSSGE.INCORRECT_USERNAME_PASSWORD);
         }
-        // console.log(user.email);
-        return { email: user.email };
+
+        // ایمیل کاربر را برگردانید
+        return { email: user.email, id: user._id };
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      // اگر کاربر جدید وارد شد، ایمیل و آی‌دی را در توکن ذخیره کنید
+      if (user) {
+        token.email = user.email;
+        token.sub = user.id; // ذخیره ID کاربر
+      }
+
+      // اتصال به MongoDB
+      await ConnectDB();
+
+      // بررسی ایمیل جدید از پایگاه داده
+      const updatedUser = await userInfo.findById(token.sub);
+
+      if (updatedUser && updatedUser.email !== token.email) {
+        // به‌روزرسانی ایمیل در توکن
+        token.email = updatedUser.email;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // ایمیل به‌روز شده را در session ذخیره کنید
+      session.user.email = token.email;
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

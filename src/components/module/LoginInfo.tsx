@@ -11,7 +11,11 @@ import "react-toastify/dist/ReactToastify.min.css";
 import Loader from "./Loader";
 import Link from "next/link";
 
-const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
+const LoginInfo: FC<IProfileDetail> = ({
+  openPersonalModal,
+  userData,
+  setIsBlur,
+}) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [passLevel, setPassLevel] = useState<boolean>(false);
@@ -32,6 +36,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
     function handleClickOutside(event) {
       if (divRef.current && !divRef.current.contains(event.target)) {
         setPassLevel(false);
+        setIsBlur(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -57,6 +62,7 @@ const LoginInfo: FC<IProfileDetail> = ({ openPersonalModal, userData }) => {
 
   const saveHandler = async () => {
     setPassLevel(true);
+    setIsBlur(true);
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();

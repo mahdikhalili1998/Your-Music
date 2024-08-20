@@ -8,6 +8,7 @@ export interface IPropsBtLight {
 export interface IProfileDetail {
   userData: any;
   openPersonalModal: boolean;
+  setIsBlur: Function;
 }
 export interface IProf {
   userData: any;

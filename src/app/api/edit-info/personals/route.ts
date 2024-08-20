@@ -53,7 +53,10 @@ export async function PATCH(req: NextRequest) {
     user.name = name;
     await user.save();
 
-    return NextResponse.json({ message: "hi" }, { status: STATUS.EDIT_INFO });
+    return NextResponse.json(
+      { message: MESSSGE.SUCCSESS },
+      { status: STATUS.EDIT_INFO },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(

@@ -5,13 +5,16 @@ import axios from "axios";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+
 import Loader from "./Loader";
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
 
-const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
+const PersonalInfo: FC<IProfileDetail> = ({
+  userData,
+  openPersonalModal,
+  setIsBlur,
+}) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [passLevel, setPassLevel] = useState<boolean>(false);
@@ -31,6 +34,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
     function handleClickOutside(event) {
       if (divRef.current && !divRef.current.contains(event.target)) {
         setPassLevel(false);
+        setIsBlur(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,6 +60,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
 
   const saveHandler = async () => {
     setPassLevel(true);
+    setIsBlur(true);
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -71,32 +76,14 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
       .then((res) => {
         console.log(res);
         if (res.status === 201) {
-          toast.success("The operation was successful", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.success(res.data.message);
           router.push("/sign-in");
         }
       })
       .catch((error) => {
         console.log(error);
         if (error) {
-          toast.warn(error.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.error(error.response.data.message);
           setPassLevel(false);
         }
       });
@@ -209,7 +196,7 @@ const PersonalInfo: FC<IProfileDetail> = ({ userData, openPersonalModal }) => {
           </Link>
         </div>
       ) : null}
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

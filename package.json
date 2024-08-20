@@ -17,9 +17,11 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.1",
     "react-loader-spinner": "^6.1.6",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
