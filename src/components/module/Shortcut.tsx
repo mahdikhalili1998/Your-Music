@@ -4,6 +4,8 @@ import React, { FC } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { ImHome } from "react-icons/im";
 import { PiMusicNotesPlusBold } from "react-icons/pi";
+import { IoMdSettings } from "react-icons/io";
+import { FiSearch } from "react-icons/fi";
 
 const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
   return (
@@ -13,14 +15,24 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
       <Link href="/profile">
         <MdAccountCircle className="text-3xl text-white" />
       </Link>
-      <Link
-        href="/"
-        className="270:right-[40%] 350:right-[42%] absolute right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4"
-      >
-        <PiMusicNotesPlusBold className="text-2xl text-white" />
+      <Link href="/profile">
+        <FiSearch className="mr-5 text-3xl text-white" />
       </Link>
+      <div>
+        {" "}
+        <Link
+          href="/"
+          className="270:right-[40%] 350:right-[42%] absolute -top-[5px] right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4"
+        >
+          <PiMusicNotesPlusBold className="text-2xl text-white" />
+        </Link>
+      </div>
+
       <Link href="/">
         <ImHome className="text-2xl text-white" />
+      </Link>
+      <Link href="/">
+        <IoMdSettings className="text-2xl text-white" />
       </Link>
     </div>
   );
