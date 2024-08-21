@@ -20,6 +20,7 @@ const config: Config = {
         "p-700": "#7e22ce",
         "p-950": "#3b0764",
       },
+      screens: { 270: "270px", 350: "350px" },
     },
   },
   plugins: [],

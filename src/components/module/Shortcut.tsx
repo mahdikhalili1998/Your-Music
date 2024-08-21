@@ -15,7 +15,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
       </Link>
       <Link
         href="/"
-        className="absolute right-[35%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4"
+        className="270:right-[40%] 350:right-[42%] absolute right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4"
       >
         <PiMusicNotesPlusBold className="text-2xl text-white" />
       </Link>
