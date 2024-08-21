@@ -92,7 +92,7 @@ function SignUpInput() {
       {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
         <input
           key={key}
-          className={`ml-2 w-[10rem] border-b-2 border-solid bg-transparent py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "border-green-500" : "border-p-700"} ${key === "role" ? "hidden" : null}`}
+          className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" ? "hidden" : null}`}
           value={userInfo[key as keyof IUserInfo]}
           name={key}
           readOnly={key === "phoneNumber"}
