@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { MdOutlineLabelImportant } from "react-icons/md";
 import ResetPasspage from "./ResetPasspage";
 import axios from "axios";
 import { IPassword } from "@/types/types";

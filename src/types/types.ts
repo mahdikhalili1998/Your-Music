@@ -1,5 +1,6 @@
 export interface IUserInfo {
   name: string;
+  gender: string;
   userName: string;
   email: string;
   readonly role: string;
@@ -21,4 +22,8 @@ export interface IPersonalInfo {
   name: string;
   phoneNumber: string;
   _id: string;
+}
+
+export interface IProfilePicProps {
+  gender: string;
 }

@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import Loader from "./Loader";
 import { useRouter } from "next/navigation";
+import ProfilePic from "./ProfilePic";
 
 function SignUpInput() {
   const [userInfo, setUserInfo] = useState<IUserInfo>({
@@ -18,10 +19,13 @@ function SignUpInput() {
     phoneNumber: "",
     role: "user",
     password: "",
+    gender: "",
   });
+
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { name, userName, email, password, phoneNumber } = userInfo;
+
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
     setUserInfo({ ...userInfo, phoneNumber: `${userPhone}` });
@@ -88,34 +92,52 @@ function SignUpInput() {
     setUserInfo({ ...userInfo, [name]: value });
   };
   return (
-    <div className="flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-5 pr-28">
-      {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
-        <input
-          key={key}
-          className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" ? "hidden" : null}`}
-          value={userInfo[key as keyof IUserInfo]}
-          name={key}
-          readOnly={key === "phoneNumber"}
-          placeholder={key}
-          onChange={(e) => changeHandler(e)}
-        />
-      ))}
-      {loading ? (
-        <div className="mx-auto w-max">
-          <Loader height={40} width={80} />
+    <>
+      <ProfilePic gender={userInfo.gender} />
+      <div className="flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-5 pr-28">
+        {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
+          <input
+            key={key}
+            className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" || key === "gender" ? "hidden" : null}`}
+            value={userInfo[key as keyof IUserInfo]}
+            name={key}
+            readOnly={key === "phoneNumber"}
+            placeholder={key}
+            onChange={(e) => changeHandler(e)}
+          />
+        ))}
+        <div>
+          {/* <label htmlFor="fruit-select">یک میوه انتخاب کنید:</label> */}
+          <select
+            id="fruit-select"
+            className="border-b-2 border-solid border-p-700 text-p-950 focus:outline-none"
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, gender: e.target.value })
+            }
+          >
+            <option value="">Gender</option>
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="other">Other</option>
+          </select>
         </div>
-      ) : (
-        <button
-          onClick={(e) => sendHandler()}
-          className="rounded-lg bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-35"
-          disabled={!name || !userName || !email || !password}
-        >
-          send
-        </button>
-      )}
+        {loading ? (
+          <div className="mx-auto w-max">
+            <Loader height={40} width={80} />
+          </div>
+        ) : (
+          <button
+            onClick={(e) => sendHandler()}
+            className="rounded-lg bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-35"
+            disabled={!name || !userName || !email || !password}
+          >
+            send
+          </button>
+        )}
 
-      <ToastContainer />
-    </div>
+        <ToastContainer />
+      </div>
+    </>
   );
 }
 
