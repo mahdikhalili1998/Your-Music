@@ -27,3 +27,10 @@ export interface IPersonalInfo {
 export interface IProfilePicProps {
   gender: string;
 }
+
+export interface IImgProfile {
+  men: string;
+  women: string;
+  other: string;
+  user: string;
+}
