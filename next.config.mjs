@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreBuildErrors: true, // اگر نمی‌خواهید خطاهای TypeScript در هنگام بیلد بررسی شوند
   },
   images: {
-    domains: ["rfxfsykqywfvnaeygmjn.supabase.co"], // دامنه‌های مجاز برای بارگذاری تصاویر
+    domains: ["gxajjxknndbjfcoxazof.supabase.co"], // دامنه‌های مجاز برای بارگذاری تصاویر
   },
 };
 

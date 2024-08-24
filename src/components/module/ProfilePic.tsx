@@ -13,7 +13,7 @@ const ProfilePic: FC<IProfilePicProps> = ({ gender }) => {
     user: "",
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  
+
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -36,7 +36,7 @@ const ProfilePic: FC<IProfilePicProps> = ({ gender }) => {
 
       // Upload the file
       let { data, error } = await supabase.storage
-        .from("image") // نام باکت خود را اینجا وارد کنید
+        .from("user-profile") // نام باکت خود را اینجا وارد کنید
         .upload(filePath, file);
 
       if (error) {
@@ -46,7 +46,7 @@ const ProfilePic: FC<IProfilePicProps> = ({ gender }) => {
 
       // Get the public URL
       const { data: publicUrlData, error: publicUrlError } = supabase.storage
-        .from("image")
+        .from("user-profile")
         .getPublicUrl(filePath);
 
       if (publicUrlError) {
