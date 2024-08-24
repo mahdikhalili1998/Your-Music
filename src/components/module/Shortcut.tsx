@@ -10,7 +10,7 @@ import { FiSearch } from "react-icons/fi";
 const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
   return (
     <div
-      className={`fixed bottom-3 flex w-full items-center justify-between rounded-lg bg-p-700 p-2 ${!open ? null : "pointer-events-none blur-sm"} `}
+      className={`fixed bottom-3 z-[49] flex w-full items-center justify-between rounded-lg bg-p-700 p-2 ${!open ? null : "pointer-events-none blur-sm"} `}
     >
       <Link href="/profile">
         <MdAccountCircle className="text-3xl text-white" />
@@ -22,7 +22,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
         {" "}
         <Link
           href="/"
-          className="270:right-[40%] 350:right-[42%] absolute -top-[5px] right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4"
+          className="absolute -top-[5px] right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4 270:right-[40%] 350:right-[42%]"
         >
           <PiMusicNotesPlusBold className="text-2xl text-white" />
         </Link>

@@ -9,7 +9,16 @@ export async function POST(req: NextRequest) {
   try {
     await ConnectDB();
     const {
-      userInfo: { email, name, password, userName, phoneNumber },
+      userInfo: {
+        email,
+        name,
+        password,
+        userName,
+        phoneNumber,
+        creditCardNumber,
+        gender,
+        profilePicUrl,
+      },
     }: { userInfo: IUserInfo } = await req.json();
 
     if (!email || !name || !password || !userName || !phoneNumber) {
@@ -50,6 +59,9 @@ export async function POST(req: NextRequest) {
       password: hashPass,
       email: email.toLowerCase(),
       phoneNumber,
+      gender,
+      creditCardNumber,
+      profilePicUrl,
     });
 
     return NextResponse.json(

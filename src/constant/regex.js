@@ -5,6 +5,7 @@ const regexInfo = {
   password: /^1234$/,
   //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   phoneNumber: /^09\d{9}$/,
+  creditCard: /^\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}$/, //با جداساز هم مطابقت دارد
 };
 
 export { regexInfo };

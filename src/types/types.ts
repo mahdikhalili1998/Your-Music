@@ -6,6 +6,8 @@ export interface IUserInfo {
   readonly role: string;
   readonly phoneNumber: string;
   password: string;
+  profilePicUrl: string;
+  creditCardNumber: string;
 }
 
 export type OmitWithTag<T, K extends keyof T> = Omit<T, K> & {
@@ -25,7 +27,12 @@ export interface IPersonalInfo {
 }
 
 export interface IProfilePicProps {
-  gender: string;
+  userInfo: IUserInfo;
+  setUserInfo: Function;
+  image: File;
+  setImage: Function;
+  isEditing: boolean;
+  setIsEditing: Function;
 }
 
 export interface IImgProfile {
@@ -33,4 +40,11 @@ export interface IImgProfile {
   women: string;
   other: string;
   user: string;
+}
+
+export interface ISignupPage {
+  image: File;
+  setImage: Function;
+  isEditing: boolean;
+  setIsEditing: Function;
 }
