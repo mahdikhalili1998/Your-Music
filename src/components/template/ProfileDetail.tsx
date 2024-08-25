@@ -13,7 +13,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
-
+  console.log(userData);
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
   };
@@ -30,14 +30,27 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
       <div
         className={`flex flex-col items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3`}
       >
-        <Image
-          src="/image/info.png"
-          width={200}
-          height={200}
-          alt="information"
-          className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
-          priority
-        />
+        <div>
+          {userData.profilePicUrl ? (
+            <Image
+              src={userData.profilePicUrl}
+              width={400}
+              height={400}
+              alt="information"
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
+              priority
+            />
+          ) : (
+            <Image
+              src="/image/info.png"
+              width={200}
+              height={200}
+              alt="information"
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
+              priority
+            />
+          )}
+        </div>
         <div className={`flex flex-col items-center justify-center gap-4`}>
           <button
             onClick={(e) => personalHandler()}

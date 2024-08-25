@@ -54,7 +54,7 @@ const ProfilePage = async () => {
   const user = await userInfo.findOne({ email: session.user.email }).lean();
 
   if (user) {
-    return <ProfileDetail userData={user} />;
+    return <ProfileDetail userData={JSON.parse(JSON.stringify(user))} />;
   } else {
     return (
       <div className="space-y-4">

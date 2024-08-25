@@ -14,7 +14,7 @@ import Link from "next/link";
 function OtpPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpCode, setOtpCode] = useState<string>("");
-  console.log(otpCode);
+  // console.log(otpCode);
   const [userCode, setUserCode] = useState<string>("");
   const [userGender, setUserGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,7 +47,7 @@ function OtpPage() {
           axios
             .post("api/proxy", num, { headers })
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               if (typeof res?.data?.code === "string") {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);
@@ -90,8 +90,14 @@ function OtpPage() {
     setLoading(true);
     if (otpCode === userCode) {
       localStorage.setItem("phoneNumber", phoneNumber);
-      localStorage.setItem("gender", userGender);
-      router.push("/sign-up");
+      if (!userGender) {
+        toast.error("Select your gender", { position: "top-center" });
+      } else {
+        localStorage.setItem("gender", userGender);
+        router.push("/sign-up");
+      }
+    } else {
+      toast.error("Wrong Code", { position: "top-center" });
     }
     setLoading(false);
   };
@@ -164,7 +170,8 @@ function OtpPage() {
               <div className="flex items-center justify-center gap-4">
                 <button
                   onClick={(e) => otpHandler()}
-                  className="rounded-lg bg-p-700 px-2 py-1 text-white"
+                  className="rounded-lg bg-p-700 px-2 py-1 text-white disabled:opacity-55"
+                  disabled={!userGender && !userCode}
                 >
                   Send
                 </button>

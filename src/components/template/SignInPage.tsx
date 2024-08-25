@@ -28,7 +28,6 @@ function SignInPage() {
     repeatPassword: "",
     phone: "",
   });
-
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -90,6 +89,7 @@ function SignInPage() {
         }
       });
   };
+  
   return (
     <div className="relative">
       {loader ? (

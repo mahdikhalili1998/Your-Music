@@ -102,7 +102,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
             priority
             width={180}
             height={180}
-            className={`${userInfo.gender === "women" ? "px-2" : null} h-24 w-24 rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
+            className={`h-24 w-24 rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
           />
         </div>
         <input
