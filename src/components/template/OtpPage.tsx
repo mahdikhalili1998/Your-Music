@@ -14,7 +14,9 @@ import Link from "next/link";
 function OtpPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpCode, setOtpCode] = useState<string>("");
+  console.log(otpCode);
   const [userCode, setUserCode] = useState<string>("");
+  const [userGender, setUserGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [nextLevel, setNextLevel] = useState<boolean>(false);
   const router = useRouter();
@@ -45,8 +47,8 @@ function OtpPage() {
           axios
             .post("api/proxy", num, { headers })
             .then((res) => {
-              // console.log(res);
-              if (res) {
+              console.log(res);
+              if (typeof res?.data?.code === "string") {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);
                 console.log(otpCode);
@@ -88,6 +90,7 @@ function OtpPage() {
     setLoading(true);
     if (otpCode === userCode) {
       localStorage.setItem("phoneNumber", phoneNumber);
+      localStorage.setItem("gender", userGender);
       router.push("/sign-up");
     }
     setLoading(false);
@@ -137,6 +140,21 @@ function OtpPage() {
             }}
             className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
           />
+          {nextLevel ? (
+            <div className="mx-auto my-2">
+              {/* <label htmlFor="fruit-select">یک میوه انتخاب کنید:</label> */}
+              <select
+                id="fruit-select"
+                className="border-b-2 border-solid border-p-700 text-p-950 focus:outline-none"
+                onChange={(e) => setUserGender(e.target.value)}
+              >
+                <option value="">Gender</option>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          ) : null}
           {nextLevel ? (
             loading ? (
               <div className="mx-auto w-max">

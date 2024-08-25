@@ -31,20 +31,16 @@ const SignUpInput: FC<ISignupPage> = ({
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const {
-    name,
-    userName,
-    email,
-    password,
-    phoneNumber,
-    creditCardNumber,
-    gender,
-    profilePicUrl,
-  } = userInfo;
+  const { name, userName, email, password, gender } = userInfo;
 
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
-    setUserInfo({ ...userInfo, phoneNumber: `${userPhone}` });
+    const userGender = localStorage.getItem("gender");
+    setUserInfo({
+      ...userInfo,
+      phoneNumber: `${userPhone}`,
+      gender: `${userGender}`,
+    });
   }, []);
 
   const sendHandler = async () => {
