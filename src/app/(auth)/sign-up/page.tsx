@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 async function page() {
   const session = await getServerSession(authOptions);
   if (session) redirect("/profile");
+  if (!session) redirect("/send-otp");
+
   return <SignUpPage />;
 }
 
