@@ -29,10 +29,12 @@ const SignUpInput: FC<ISignupPage> = ({
     profilePicUrl: "",
     creditCardNumber: "",
   });
+  // console.log(userInfo);
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { name, userName, email, password, lastName } = userInfo;
+  const { name, userName, email, password, lastName, profilePicUrl, gender } =
+    userInfo;
 
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
@@ -65,6 +67,7 @@ const SignUpInput: FC<ISignupPage> = ({
       });
       return;
     }
+
     setLoading(true);
     await axios
       .post("/api/auth/sign-up", { userInfo })
@@ -85,6 +88,7 @@ const SignUpInput: FC<ISignupPage> = ({
         }
       })
       .catch((error) => {
+        console.log(error);
         toast.error(error.response.data.message, {
           position: "top-center",
           autoClose: 5000,

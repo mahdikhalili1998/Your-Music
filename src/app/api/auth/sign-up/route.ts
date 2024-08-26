@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/utils/ConnectDB";
 import { hashPassword } from "@/utils/nextPass";
 import userInfo from "@/model/userInfo";
+import { profileImages } from "@/constant/image";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +13,7 @@ export async function POST(req: NextRequest) {
       userInfo: {
         email,
         name,
+        lastName,
         password,
         userName,
         phoneNumber,
@@ -21,15 +23,31 @@ export async function POST(req: NextRequest) {
       },
     }: { userInfo: IUserInfo } = await req.json();
 
-    if (!email || !name || !password || !userName || !phoneNumber) {
+    if (
+      !email ||
+      !name ||
+      !lastName ||
+      !password ||
+      !userName ||
+      !phoneNumber
+    ) {
       return NextResponse.json(
         { message: MESSSGE.INCORRECT_INFO },
         { status: STATUS.INCORRECT_INFO },
       );
     }
 
-    const hashPass = await hashPassword(password);
+    // مقداردهی profilePicUrl بر اساس gender
+    let finalProfilePicUrl = profilePicUrl;
+    if (!profilePicUrl) {
+      if (gender === "men" || gender === "other") {
+        finalProfilePicUrl = profileImages.men;
+      } else if (gender === "women") {
+        finalProfilePicUrl = profileImages.women;
+      }
+    }
 
+    const hashPass = await hashPassword(password);
     const exsitedEmail = await userInfo.findOne({ email });
     const exsitedUserName = await userInfo.findOne({ userName });
 
@@ -55,13 +73,14 @@ export async function POST(req: NextRequest) {
 
     const newUser = await userInfo.create({
       name,
+      lastName,
       userName: userName.toLowerCase(),
       password: hashPass,
       email: email.toLowerCase(),
       phoneNumber,
       gender,
       creditCardNumber,
-      profilePicUrl,
+      profilePicUrl: finalProfilePicUrl, // استفاده از مقدار نهایی profilePicUrl
     });
 
     return NextResponse.json(
