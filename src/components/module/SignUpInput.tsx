@@ -19,6 +19,7 @@ const SignUpInput: FC<ISignupPage> = ({
 }) => {
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     name: "",
+    lastName: "",
     userName: "",
     email: "",
     phoneNumber: "",
@@ -31,7 +32,7 @@ const SignUpInput: FC<ISignupPage> = ({
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { name, userName, email, password, gender } = userInfo;
+  const { name, userName, email, password, lastName } = userInfo;
 
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
@@ -48,7 +49,8 @@ const SignUpInput: FC<ISignupPage> = ({
       !regexInfo.name.test(name) ||
       !regexInfo.email.test(email) ||
       !regexInfo.userName.test(userName) ||
-      !regexInfo.password.test(password)
+      !regexInfo.password.test(password) ||
+      !regexInfo.lastName.test(lastName)
     ) {
       toast("Please enter correct information", {
         position: "top-right",
@@ -119,7 +121,7 @@ const SignUpInput: FC<ISignupPage> = ({
         {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
           <input
             key={key}
-            className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "creditCardNumber" && regexInfo.creditCard.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" || key === "gender" || key === "profilePicUrl" ? "hidden" : null}`}
+            className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "lastName" && regexInfo.lastName.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "creditCardNumber" && regexInfo.creditCard.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" || key === "gender" || key === "profilePicUrl" ? "hidden" : null}`}
             value={userInfo[key as keyof IUserInfo]}
             name={key}
             readOnly={key === "phoneNumber"}
@@ -127,21 +129,7 @@ const SignUpInput: FC<ISignupPage> = ({
             onChange={(e) => changeHandler(e)}
           />
         ))}
-        <div>
-          {/* <label htmlFor="fruit-select">یک میوه انتخاب کنید:</label> */}
-          <select
-            id="fruit-select"
-            className="border-b-2 border-solid border-p-700 text-p-950 focus:outline-none"
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, gender: e.target.value })
-            }
-          >
-            <option value="">Gender</option>
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+
         {loading ? (
           <div className="mx-auto w-max">
             <Loader height={40} width={80} />

@@ -13,7 +13,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
-  console.log(userData);
+  // console.log(userData);
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
   };

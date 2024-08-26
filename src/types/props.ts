@@ -16,6 +16,7 @@ export interface IProf {
 
 export interface IUser {
   user: any;
+  // profilePicUrl: string;
 }
 
 export interface IResetProps {

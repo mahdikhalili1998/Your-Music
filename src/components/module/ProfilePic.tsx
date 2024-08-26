@@ -4,6 +4,7 @@ import { supabase } from "../../../supabase";
 import Image from "next/image";
 import AvatarEditor from "react-avatar-editor";
 import { IImgProfile, IProfilePicProps } from "@/types/types";
+import { profileImages } from "@/constant/image";
 
 const ProfilePic: FC<IProfilePicProps> = ({
   setUserInfo,
@@ -14,9 +15,9 @@ const ProfilePic: FC<IProfilePicProps> = ({
   setIsEditing,
 }) => {
   const [img, setImg] = useState<IImgProfile>({
-    men: "/image/profile.photo.png",
-    women: "/image/womenProf.png",
-    other: "/image/profile.photo.png",
+    men: profileImages.men,
+    women: profileImages.women,
+    other: profileImages.men,
     user: "",
   });
 
@@ -66,6 +67,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
         console.error("Error getting public URL:", publicUrlError.message);
       } else {
         setImg({ ...img, user: publicUrlData.publicUrl });
+        // console.log(publicUrlData.publicUrl);
         setUserInfo({ ...userInfo, profilePicUrl: publicUrlData.publicUrl });
         setImage(null);
         setIsEditing(false); // غیرفعال کردن حالت ویرایش
@@ -100,8 +102,8 @@ const ProfilePic: FC<IProfilePicProps> = ({
                       : img.other
             }
             priority
-            width={180}
-            height={180}
+            width={400}
+            height={400}
             className={`h-24 w-24 rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
           />
         </div>
@@ -118,8 +120,8 @@ const ProfilePic: FC<IProfilePicProps> = ({
           <AvatarEditor
             ref={editorRef}
             image={image}
-            width={180}
-            height={180}
+            width={200}
+            height={200}
             border={50}
             borderRadius={90} // برش دایره‌ای
             scale={scale} // استفاده از مقدار زوم
