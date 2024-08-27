@@ -11,6 +11,7 @@ export enum MESSSGE {
   INCORRECT_USERNAME_PASSWORD = "userName or password is incorrect",
   PASS_CHANGE = "Password changed successfully",
   DUPLICATE_INFORMATION = "You have not made any changes",
+  DELETE = "Delete succsessfully",
 }
 
 export enum STATUS {

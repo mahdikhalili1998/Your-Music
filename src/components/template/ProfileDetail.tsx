@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { TbCaptureFilled } from "react-icons/tb";
 import { MdKeyboardReturn } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
@@ -37,6 +38,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
   });
   const editorRef = useRef<AvatarEditor | null>(null);
   const [scale, setScale] = useState(1.2); // مقدار زوم اولیه
+  const router = useRouter();
 
   const handleSave = async () => {
     if (editorRef.current && image) {
@@ -126,15 +128,27 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
   };
 
   const changeProfHandler = () => {
-    setProfileOption((profileOption) => !profileOption);
+    setProfileOption(true);
   };
 
   const finallChange = () => {
     fileInputRef.current?.click();
   };
 
-  const deleteProfile = () => {
-    console.log("deleteeeee");
+  const deleteProfile = async () => {
+    const data = [];
+    data.push(userData);
+
+    await axios
+      .delete("/api/edit-info/profile-picture", { data })
+      .then((res) => {
+        if (res.status === 201) {
+          router.refresh();
+          setProfileOption(false);
+          toast.success(res.data.message);
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -149,7 +163,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
               width={400}
               height={400}
               alt="information"
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-md" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
               priority
             />
           </div>
