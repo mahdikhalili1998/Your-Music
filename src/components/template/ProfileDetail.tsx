@@ -16,9 +16,13 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { TbCaptureFilled } from "react-icons/tb";
+import { MdKeyboardReturn } from "react-icons/md";
 
 const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
+  const [profileOption, setProfileOption] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
   // console.log(userData);
@@ -71,10 +75,11 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
         // setUserInfo({ ...userInfo, profilePicUrl: publicUrlData.publicUrl });
         userData.profilePicUrl = publicUrlData.publicUrl;
         await axios
-          .patch("/api/edit-info/p/rofile-picture", { userData })
+          .patch("/api/edit-info/profile-picture", { userData })
           .then((res) => {
             // console.log(res);
             if (res.status === 201) {
+              setProfileOption(false);
               toast.success("Your profile picture changed", {
                 position: "top-center",
               });
@@ -120,32 +125,33 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
     }
   };
 
+  const changeProfHandler = () => {
+    setProfileOption((profileOption) => !profileOption);
+  };
+
+  const finallChange = () => {
+    fileInputRef.current?.click();
+  };
+
+  const deleteProfile = () => {
+    console.log("deleteeeee");
+  };
+
   return (
     <>
       <div
         className={`flex flex-col items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3`}
       >
-        <div>
-          <div onClick={() => fileInputRef.current?.click()}>
-            {userData.profilePicUrl ? (
-              <Image
-                src={userData.profilePicUrl}
-                width={400}
-                height={400}
-                alt="information"
-                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
-                priority
-              />
-            ) : (
-              <Image
-                src="/image/info.png"
-                width={200}
-                height={200}
-                alt="information"
-                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
-                priority
-              />
-            )}
+        <div className="relative">
+          <div onClick={(e) => changeProfHandler()}>
+            <Image
+              src={userData.profilePicUrl}
+              width={400}
+              height={400}
+              alt="information"
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-md" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
+              priority
+            />
           </div>
           <input
             type="file"
@@ -154,6 +160,22 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
             accept="image/*"
             onChange={handleFileChange}
           />
+          {profileOption ? (
+            <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] border-solid border-p-700">
+              <span onClick={(e) => finallChange()} className="p-1 text-3xl">
+                <TbCaptureFilled className="text-green-500" />
+              </span>
+              <span onClick={(e) => deleteProfile()} className="p-1 text-3xl">
+                <RiDeleteBin5Line className="text-red-600" />
+              </span>
+              <span
+                onClick={(e) => setProfileOption(false)}
+                className="p-1 text-3xl"
+              >
+                <MdKeyboardReturn className="text-p-500" />
+              </span>
+            </div>
+          ) : null}
         </div>
         {isEditing && image && (
           <div className="absolute z-[11] bg-gray-900/50 py-3">
