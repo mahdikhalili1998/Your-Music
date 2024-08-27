@@ -3,16 +3,103 @@ import { IProf } from "@/types/props";
 import Image from "next/image";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { RiArrowUpWideFill } from "react-icons/ri";
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import PersonalInfo from "../module/PersonalInfo";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import LoginInfo from "../module/LoginInfo";
 import { signOut } from "next-auth/react";
+import { profileImages } from "@/constant/image";
+import { IImgProfile } from "@/types/types";
+import AvatarEditor from "react-avatar-editor";
+import { supabase } from "../../../supabase";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const ProfileDetail: FC<IProf> = ({ userData }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
+  // console.log(userData);
+  const [image, setImage] = useState<File | null>(null); //مربوط به انتخاب عکس
+  const [isEditing, setIsEditing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [img, setImg] = useState<IImgProfile>({
+    men: profileImages.men,
+    women: profileImages.women,
+    other: profileImages.men,
+    user: "",
+  });
+  const editorRef = useRef<AvatarEditor | null>(null);
+  const [scale, setScale] = useState(1.2); // مقدار زوم اولیه
+
+  const handleSave = async () => {
+    if (editorRef.current && image) {
+      const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
+      const blob = await fetch(canvas).then((res) => res.blob());
+      const file = new File([blob], image.name, { type: image.type });
+
+      // آپلود تصویر به Supabase
+      handleUpload(file);
+    }
+  };
+  const handleUpload = async (file: File) => {
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = fileName;
+
+      let { data, error } = await supabase.storage
+        .from("user-profile") // نام باکت خود را اینجا وارد کنید
+        .upload(filePath, file);
+
+      if (error) {
+        console.error("Error uploading image:", error.message);
+        return;
+      }
+
+      const { data: publicUrlData, error: publicUrlError } = supabase.storage
+        .from("user-profile")
+        .getPublicUrl(filePath);
+
+      if (publicUrlError) {
+        console.error("Error getting public URL:", publicUrlError.message);
+      } else {
+        setImg({ ...img, user: publicUrlData.publicUrl });
+        // console.log(publicUrlData.publicUrl);
+        // setUserInfo({ ...userInfo, profilePicUrl: publicUrlData.publicUrl });
+        userData.profilePicUrl = publicUrlData.publicUrl;
+        await axios
+          .patch("/api/edit-info/p/rofile-picture", { userData })
+          .then((res) => {
+            // console.log(res);
+            if (res.status === 201) {
+              toast.success("Your profile picture changed", {
+                position: "top-center",
+              });
+            }
+          })
+          .catch((error) => {
+            // console.log(error);
+            if (error) {
+              toast.error("An error has occurred", {
+                position: "top-center",
+              });
+            }
+          });
+
+        setImage(null);
+        setIsEditing(false); // غیرفعال کردن حالت ویرایش
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  const handleScaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setScale(parseFloat(event.target.value));
+  };
   // console.log(userData);
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
@@ -25,32 +112,80 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
     signOut({ callbackUrl: "/profile" });
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (file) {
+      setImage(file);
+      setIsEditing(true); // فعال کردن حالت ویرایش
+    }
+  };
+
   return (
     <>
       <div
         className={`flex flex-col items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3`}
       >
         <div>
-          {userData.profilePicUrl ? (
-            <Image
-              src={userData.profilePicUrl}
-              width={400}
-              height={400}
-              alt="information"
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
-              priority
-            />
-          ) : (
-            <Image
-              src="/image/info.png"
+          <div onClick={() => fileInputRef.current?.click()}>
+            {userData.profilePicUrl ? (
+              <Image
+                src={userData.profilePicUrl}
+                width={400}
+                height={400}
+                alt="information"
+                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
+                priority
+              />
+            ) : (
+              <Image
+                src="/image/info.png"
+                width={200}
+                height={200}
+                alt="information"
+                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
+                priority
+              />
+            )}
+          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div>
+        {isEditing && image && (
+          <div className="absolute z-[11] bg-gray-900/50 py-3">
+            <AvatarEditor
+              ref={editorRef}
+              image={image}
               width={200}
               height={200}
-              alt="information"
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
-              priority
+              border={50}
+              borderRadius={90} // برش دایره‌ای
+              scale={scale} // استفاده از مقدار زوم
+              rotate={0}
             />
-          )}
-        </div>
+            <div className="flex flex-col items-center justify-center gap-3 px-2">
+              <input
+                type="range"
+                min="1"
+                max="2.5"
+                step="0.01"
+                value={scale}
+                onChange={handleScaleChange}
+                className="mt-4 w-max"
+              />
+              <button
+                onClick={handleSave}
+                className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        )}
         <div className={`flex flex-col items-center justify-center gap-4`}>
           <button
             onClick={(e) => personalHandler()}
@@ -92,6 +227,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
           Sign Out <RiLogoutCircleRLine className="text-2xl font-medium" />
         </button>
       </div>
+      <ToastContainer />
     </>
   );
 };
