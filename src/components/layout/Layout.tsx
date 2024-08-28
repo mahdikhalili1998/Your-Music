@@ -60,7 +60,7 @@ function Layout({ children }: any) {
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href=""
+                href="/setting-page"
                 onClick={() => setOpen(false)}
               >
                 <IoMdSettings className="text-3xl" />

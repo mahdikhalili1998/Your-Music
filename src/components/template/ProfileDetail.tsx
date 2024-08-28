@@ -175,7 +175,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
             onChange={handleFileChange}
           />
           {profileOption ? (
-            <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] border-solid border-p-700">
+            <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] bg-gray-600/55 border-solid border-p-700">
               <span onClick={(e) => finallChange()} className="p-1 text-3xl">
                 <TbCaptureFilled className="text-green-500" />
               </span>

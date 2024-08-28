@@ -31,7 +31,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
       <Link href="/">
         <ImHome className="text-2xl text-white" />
       </Link>
-      <Link href="/">
+      <Link href="/setting-page">
         <IoMdSettings className="text-2xl text-white" />
       </Link>
     </div>

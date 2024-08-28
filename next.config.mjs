@@ -4,7 +4,14 @@ const nextConfig = {
     ignoreBuildErrors: true, // اگر نمی‌خواهید خطاهای TypeScript در هنگام بیلد بررسی شوند
   },
   images: {
-    domains: ["gxajjxknndbjfcoxazof.supabase.co"], // دامنه‌های مجاز برای بارگذاری تصاویر
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "gxajjxknndbjfcoxazof.supabase.co", // دامنه مجاز برای بارگذاری تصاویر
+        port: "", // پورت اگر وجود ندارد خالی بگذارید
+        pathname: "**", // الگوی مسیرهای مجاز
+      },
+    ],
   },
 };
 

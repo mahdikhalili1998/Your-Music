@@ -24,3 +24,7 @@ export interface IResetProps {
   changePass: IPassword;
   setChangePass: Function;
 }
+
+export interface IDeleteAccount {
+  email: string;
+}
