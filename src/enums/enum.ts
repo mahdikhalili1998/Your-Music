@@ -12,6 +12,7 @@ export enum MESSSGE {
   PASS_CHANGE = "Password changed successfully",
   DUPLICATE_INFORMATION = "You have not made any changes",
   DELETE = "Delete succsessfully",
+  DELETE_ACCOUNT = "Delete Account succsessfully",
 }
 
 export enum STATUS {
