@@ -74,7 +74,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
     await axios
       .patch("/api/edit-info/personals", { editedInfo, password })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 201) {
           toast.success(res.data.message);
           router.push("/sign-in");

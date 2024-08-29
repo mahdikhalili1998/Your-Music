@@ -21,7 +21,7 @@ const ResetPasspage = () => {
     repeatPassword: "",
     phone: "",
   });
-  console.log(otpCode);
+  // console.log(otpCode);
   useEffect(() => {
     const phoneNumber = localStorage.getItem("phoneNumber");
     if (phoneNumber) {
@@ -35,7 +35,7 @@ const ResetPasspage = () => {
       axios
         .post("api/proxy", num, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.status === "ارسال نشده") {
             toast.error("please try again later");
             setLoader(false);

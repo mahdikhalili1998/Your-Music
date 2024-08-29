@@ -27,4 +27,10 @@ export interface IResetProps {
 
 export interface IDeleteAccount {
   email: string;
+  isSure: boolean;
+  setIsSure: Function;
+}
+
+export interface ISession {
+  session: any;
 }

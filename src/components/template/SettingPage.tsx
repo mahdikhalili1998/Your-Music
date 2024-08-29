@@ -1,14 +1,19 @@
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import DeleteAccount from "../module/DeleteAccount";
+"use client";
 
-async function SettingPage() {
-  const session = await getServerSession(authOptions);
+import Image from "next/image";
+
+import DeleteAccount from "../module/DeleteAccount";
+import { FC, useState } from "react";
+import { ISession } from "@/types/props";
+
+const SettingPage: FC<ISession> = ({ session }) => {
+  const [isSure, setIsSure] = useState<boolean>(false);
 
   return (
     <div className="space-y-8 bg-gradient-to-r from-p-500 to-p-200 p-2">
-      <h2 className="text-left font-medium tracking-[1px] text-white">
+      <h2
+        className={` ${isSure ? "pointer-events-none blur-sm" : null} text-left font-medium tracking-[1px] text-white`}
+      >
         Setting
       </h2>
       <div className="mx-auto w-max">
@@ -18,16 +23,31 @@ async function SettingPage() {
           height={300}
           priority
           alt="setting-logo"
-          className="size-[11rem]"
+          className={`${isSure ? "pointer-events-none blur-sm" : null} size-[11rem]`}
         />
       </div>
-      <div className="-ml-2 rounded-br-full rounded-tr-full w-max pr-20 bg-white p-2">
+      <div className="-ml-2 w-max rounded-br-full rounded-tr-full bg-white p-2 pr-20">
         {session?.user?.email ? (
-          <DeleteAccount email={session.user.email} />
+          <>
+            <DeleteAccount
+              email={session.user.email}
+              isSure={isSure}
+              setIsSure={setIsSure}
+            />
+            <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
+              reser password
+            </p>
+          </>
         ) : null}
+        <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
+          Languages
+        </p>
+        <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
+          Theme
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default SettingPage;
