@@ -7,8 +7,8 @@ export async function DELETE(req: NextRequest) {
   try {
     await ConnectDB();
     const email = await req.json();
-    const user = await userInfo.findOne({ email });
-    console.log(user);
+    const user = await userInfo.deleteOne({ email });
+    console.log(email);
     return NextResponse.json(
       { message: MESSSGE.DELETE_ACCOUNT },
       { status: STATUS.SUCCSESS },
