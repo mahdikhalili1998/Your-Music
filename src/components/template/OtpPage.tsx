@@ -22,12 +22,14 @@ function OtpPage() {
   const router = useRouter();
 
   const sendNumber = async () => {
-    const num = `{"to":"${phoneNumber}"}`;
+    const num = { to: phoneNumber }; // تبدیل به یک آبجکت برای JSON.stringify
     const phoneRegex = /^09\d{9}$/;
     const headers = {
       "Content-Type": "application/json",
+      Authorization: "Bearer your_auth_token", // هدر Authorization در صورت نیاز
     };
 
+    // بررسی فرمت شماره تلفن
     if (!phoneRegex.test(phoneNumber)) {
       toast.error("Enter the correct phone number", {
         position: "top-center",
@@ -38,37 +40,27 @@ function OtpPage() {
 
     setLoading(true);
 
-    await axios
-      .post("/api/auth/exsitedPhoneNumber", { phoneNumber } as IAxios)
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .post("api/proxy", num, { headers })
-            .then((res) => {
-              // console.log(res);
-              if (typeof res?.data?.code === "string") {
-                setOtpCode(res?.data.code);
-                setLoading(false);
-                setNextLevel(true);
-                // console.log(otpCode);
-              }
-            })
-            .catch((error) => {
-              if (error) {
-                console.log(error);
-                toast.error("Server Error , try again", {
-                  position: "top-center",
-                  transition: Flip,
-                });
-                setLoading(false);
-                return;
-              }
-            });
+    try {
+      // اولین درخواست به سرور برای بررسی شماره
+      const res = await axios.post("/api/auth/exsitedPhoneNumber", {
+        phoneNumber,
+      });
+
+      if (res.status === 200) {
+        // دومین درخواست به پروکسی API
+        const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
+          headers,
+        });
+
+        if (typeof proxyRes?.data?.code === "string") {
+          setOtpCode(proxyRes.data.code);
+          setNextLevel(true);
         }
-      })
-      .catch((error) => {
+      }
+    } catch (error) {
+      if (error.response) {
+        // خطای سرور
         if (error.response.status === 409) {
-          setLoading(false);
           toast.error(error.response.data.message, {
             position: "top-center",
             autoClose: 5000,
@@ -80,10 +72,23 @@ function OtpPage() {
             theme: "light",
             transition: Bounce,
           });
-          return;
+        } else {
+          toast.error("Server Error, try again", {
+            position: "top-center",
+            transition: Flip,
+          });
         }
-      });
-    setLoading(false);
+      } else {
+        // خطای شبکه
+        console.log(error);
+        toast.error("Network Error, try again", {
+          position: "top-center",
+          transition: Flip,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const otpHandler = () => {
@@ -99,7 +104,6 @@ function OtpPage() {
     } else {
       toast.error("Wrong Code", { position: "top-center" });
     }
-   
   };
 
   const editHandler = () => {
