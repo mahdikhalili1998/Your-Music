@@ -48,7 +48,7 @@ function OtpPage() {
               // console.log(res);
               if (typeof res?.data?.code === "string") {
                 setOtpCode(res?.data.code);
-                setLoading(false);
+                // setLoading(false);
                 setNextLevel(true);
                 // console.log(otpCode);
               }
@@ -60,7 +60,7 @@ function OtpPage() {
                   position: "top-center",
                   transition: Flip,
                 });
-                setLoading(false);
+                // setLoading(false);
                 return;
               }
             });
@@ -68,7 +68,7 @@ function OtpPage() {
       })
       .catch((error) => {
         if (error.response.status === 409) {
-          setLoading(false);
+          // setLoading(false);
           toast.error(error.response.data.message, {
             position: "top-center",
             autoClose: 5000,
@@ -83,6 +83,7 @@ function OtpPage() {
           return;
         }
       });
+    setLoading(false);
   };
 
   const otpHandler = () => {
