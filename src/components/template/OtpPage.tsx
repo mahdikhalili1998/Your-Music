@@ -51,7 +51,7 @@ function OtpPage() {
               if (typeof res?.data?.code === "string") {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);
-                console.log(otpCode);
+                // console.log(otpCode);
               }
             })
             .catch((error) => {

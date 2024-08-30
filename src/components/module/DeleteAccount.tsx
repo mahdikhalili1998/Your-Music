@@ -6,7 +6,8 @@ import React, { FC, useState } from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
-import { clearAllCookies, clearLocalStorage } from "@/helper/function.js";
+import { clearLocalStorage } from "@/helper/function.js";
+import { signOut } from "next-auth/react";
 
 const DeleteAccount: FC<IDeleteAccount> = ({ email, isSure, setIsSure }) => {
   const deleteAccountHandler = async () => {
@@ -27,12 +28,8 @@ const DeleteAccount: FC<IDeleteAccount> = ({ email, isSure, setIsSure }) => {
         if (res.status === 200) {
           toast.success(res.data.message, { id: toastId });
           setLoading(false);
-          clearAllCookies([
-            "next-auth.session-token",
-            "next-auth.csrf-token",
-            "next-auth.callback-url",
-          ]);
           clearLocalStorage();
+          signOut({ callbackUrl: "/profile" });
           router.push("/");
         }
       })
