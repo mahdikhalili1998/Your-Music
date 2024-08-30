@@ -14,7 +14,7 @@ import Link from "next/link";
 function OtpPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpCode, setOtpCode] = useState<string>("");
-  // console.log(otpCode);
+  console.log(otpCode);
   const [userCode, setUserCode] = useState<string>("");
   const [userGender, setUserGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,16 +42,14 @@ function OtpPage() {
       .post("/api/auth/exsitedPhoneNumber", { phoneNumber } as IAxios)
       .then((res) => {
         if (res.status === 200) {
-          if (phoneRegex.test(phoneNumber)) {
-          }
           axios
             .post("api/proxy", num, { headers })
             .then((res) => {
               // console.log(res);
               if (typeof res?.data?.code === "string") {
-                setNextLevel(true);
                 setOtpCode(res?.data.code);
                 setLoading(false);
+                setNextLevel(true);
                 // console.log(otpCode);
               }
             })
