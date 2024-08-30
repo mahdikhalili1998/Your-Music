@@ -54,7 +54,7 @@ function OtpPage() {
 
         console.log(proxyRes);
 
-        if (typeof proxyRes?.data?.code === "string") {
+        if (proxyRes.status === 200) {
           setOtpCode(proxyRes.data.code);
           setNextLevel(true);
         }
