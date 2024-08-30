@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import DeleteAccount from "../module/DeleteAccount";
 import { FC, useState } from "react";
 import { ISession } from "@/types/props";
@@ -40,9 +40,10 @@ const SettingPage: FC<ISession> = ({ user, session }) => {
             />
             <Link
               href={"/reset-pass"}
-              className={`${isSure ? "pointer-events-none blur-sm" : null} `}
+              className={`${isSure ? "pointer-events-none blur-sm" : null} flex items-center text-p-950`}
             >
-              Reset Password
+              Reset Password{" "}
+              <MdOutlineKeyboardArrowRight className="mt-[2px] text-2xl" />
             </Link>
           </>
         ) : null}
