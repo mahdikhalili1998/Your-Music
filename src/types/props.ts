@@ -26,11 +26,16 @@ export interface IResetProps {
 }
 
 export interface IDeleteAccount {
-  email: string;
+  user: any;
   isSure: boolean;
   setIsSure: Function;
+  setFinalDeleting: Function;
+  finalDeleting: boolean;
 }
 
+export interface ISession {
+  user: any;
+}
 export interface ISession {
   session: any;
 }

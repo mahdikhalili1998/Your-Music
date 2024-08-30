@@ -5,9 +5,11 @@ import Image from "next/image";
 import DeleteAccount from "../module/DeleteAccount";
 import { FC, useState } from "react";
 import { ISession } from "@/types/props";
+import Link from "next/link";
 
-const SettingPage: FC<ISession> = ({ session }) => {
+const SettingPage: FC<ISession> = ({ user, session }) => {
   const [isSure, setIsSure] = useState<boolean>(false);
+  const [finalDeleting, setFinalDeleting] = useState<boolean>(false);
 
   return (
     <div className="space-y-8 bg-gradient-to-r from-p-500 to-p-200 p-2">
@@ -27,16 +29,21 @@ const SettingPage: FC<ISession> = ({ session }) => {
         />
       </div>
       <div className="-ml-2 w-max rounded-br-full rounded-tr-full bg-white p-2 pr-20">
-        {session?.user?.email ? (
+        {user?.email ? (
           <>
             <DeleteAccount
-              email={session.user.email}
+              user={user}
               isSure={isSure}
               setIsSure={setIsSure}
+              finalDeleting={finalDeleting}
+              setFinalDeleting={setFinalDeleting}
             />
-            <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
-              reser password
-            </p>
+            <Link
+              href={"/reset-pass"}
+              className={`${isSure ? "pointer-events-none blur-sm" : null} `}
+            >
+              Reset Password
+            </Link>
           </>
         ) : null}
         <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>

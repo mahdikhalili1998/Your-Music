@@ -51,6 +51,7 @@ function OtpPage() {
               if (typeof res?.data?.code === "string") {
                 setNextLevel(true);
                 setOtpCode(res?.data.code);
+                setLoading(false);
                 // console.log(otpCode);
               }
             })
@@ -61,10 +62,10 @@ function OtpPage() {
                   position: "top-center",
                   transition: Flip,
                 });
+                setLoading(false);
                 return;
               }
             });
-          setLoading(false);
         }
       })
       .catch((error) => {
