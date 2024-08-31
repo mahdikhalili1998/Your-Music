@@ -21,50 +21,112 @@ const ResetPasspage = () => {
     repeatPassword: "",
     phone: "",
   });
-  // console.log(otpCode);
-  useEffect(() => {
-    const phoneNumber = localStorage.getItem("phoneNumber");
-    if (phoneNumber) {
-      setChangePass({ ...changePass, phone: phoneNumber });
-      const num = `{"to":"${phoneNumber}"}`;
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      // console.log(phoneNumber);
-      setLoader(true);
-      axios
-        .post("api/proxy", num, { headers })
-        .then((res) => {
-          // console.log(res);
-          if (res.data.status === "ارسال نشده") {
-            toast.error("please try again later");
-            setLoader(false);
-            return;
-          }
-          if (res) {
-            setOtpCode(res?.data.code);
-            setResetPass(true);
-            setLoader(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error) {
-            console.log(error);
-            toast.error("Server Error , try again", {
-              position: "top-center",
-              transition: Flip,
-            });
-            return;
-          }
-        });
-    } else {
-      router.push("/profile");
-    }
-  }, []);
 
-  const otpHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  // console.log(otpCode);
+  // useEffect(() => {
+  //   const phoneNumber = localStorage.getItem("phoneNumber");
+  //   if (phoneNumber) {
+  //     setChangePass({ ...changePass, phone: phoneNumber });
+  //     const num = `{"to":"${phoneNumber}"}`;
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer your_auth_token",
+  //     };
+  //     // console.log(phoneNumber);
+  //     setLoader(true);
+  //     axios
+  //       .post("api/proxy", JSON.stringify(num), { headers })
+  //       .then((res) => {
+  //         // console.log(res);
+  //         if (res.data.status === "ارسال نشده") {
+  //           toast.error("please try again later");
+  //           setLoader(false);
+  //           return;
+  //         }
+  //         if (res) {
+  //           setOtpCode(res?.data.code);
+  //           setResetPass(true);
+  //           setLoader(false);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         if (error) {
+  //           console.log(error);
+  //           toast.error("Server Error , try again", {
+  //             position: "top-center",
+  //             transition: Flip,
+  //           });
+  //           return;
+  //         }
+  //       });
+  //   } else {
+  //     router.push("/profile");
+  //   }
+  // }, []);
+
+  const otpHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const phoneRegex = /^09\d{9}$/;
+
+    if (!phoneRegex.test(changePass.phone)) {
+      toast.error("Enter the correct phone number", {
+        position: "top-center",
+        transition: Flip,
+      });
+      return;
+    }
+
+    const num = { to: changePass.phone }; // تبدیل به یک آبجکت برای JSON.stringify
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: "Bearer your_auth_token", // هدر Authorization در صورت نیاز
+    };
+
     setLoader(true);
+    try {
+      const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
+        headers,
+      });
+      console.log(proxyRes);
+      if (proxyRes.status === 200) {
+        setOtpCode(proxyRes.data.code);
+        setLoader(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        // خطای سرور
+        if (error.response.status === 409) {
+          toast.error(error.response.data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        } else {
+          toast.error("Server Error, try again", {
+            position: "top-center",
+            transition: Flip,
+          });
+        }
+      } else {
+        // خطای شبکه
+        // console.log(error);
+        toast.error("Network Error, try again", {
+          position: "top-center",
+          transition: Flip,
+        });
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const enterCodeHandler = () => {
     if (otpCode === userOtpCode) {
       setResetModal(true);
     } else {
@@ -73,7 +135,6 @@ const ResetPasspage = () => {
         transition: Flip,
       });
     }
-    setLoader(false);
   };
 
   const passwordHandler = async () => {
@@ -153,15 +214,28 @@ const ResetPasspage = () => {
               />
             </div>
           ) : (
-            <input
-              type="number"
-              id="otpCode"
-              name="otpCode"
-              placeholder="x x x x"
-              value={userOtpCode}
-              onChange={(e) => setUserOtpCode(e.target.value)}
-              className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
-            />
+            <div className="flex flex-col items-center justify-center gap-3">
+              <input
+                type="number"
+                id="user phone"
+                name="user phone"
+                placeholder="Your phone number"
+                value={changePass.phone}
+                onChange={(e) =>
+                  setChangePass({ ...changePass, phone: e.target.value })
+                }
+                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
+              />
+              <input
+                type="number"
+                id="otpCode"
+                name="otpCode"
+                placeholder="Code ... "
+                value={userOtpCode}
+                onChange={(e) => setUserOtpCode(e.target.value)}
+                className={`${otpCode ? "block" : "hidden"} rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700`}
+              />
+            </div>
           )}
           {loader ? (
             <div className="mx-auto w-max">
@@ -174,10 +248,13 @@ const ResetPasspage = () => {
             >
               Change Password
             </button>
+          ) : otpCode ? (
+            <button onClick={(e) => enterCodeHandler()}>leze woow</button>
           ) : (
             <button
               onClick={(e) => otpHandler(e)}
-              className="rounded-lg bg-p-700 px-2 py-1 text-white"
+              className="rounded-lg bg-p-700 px-2 py-1 text-white disabled:cursor-not-allowed disabled:opacity-55"
+              disabled={!changePass.phone}
             >
               Send
             </button>

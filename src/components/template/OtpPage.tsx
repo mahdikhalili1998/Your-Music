@@ -52,7 +52,7 @@ function OtpPage() {
           headers,
         });
 
-        console.log(proxyRes);
+        // console.log(proxyRes);
 
         if (proxyRes.status === 200) {
           setOtpCode(proxyRes.data.code);
@@ -82,7 +82,7 @@ function OtpPage() {
         }
       } else {
         // خطای شبکه
-        console.log(error);
+        // console.log(error);
         toast.error("Network Error, try again", {
           position: "top-center",
           transition: Flip,
