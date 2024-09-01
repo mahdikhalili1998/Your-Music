@@ -249,7 +249,13 @@ const ResetPasspage = () => {
               Change Password
             </button>
           ) : otpCode ? (
-            <button onClick={(e) => enterCodeHandler()}>leze woow</button>
+            <button
+              className="rounded-lg bg-p-700 px-2 py-1 text-white"
+              onClick={(e) => enterCodeHandler()}
+            >
+              {" "}
+              Change Password
+            </button>
           ) : (
             <button
               onClick={(e) => otpHandler(e)}
