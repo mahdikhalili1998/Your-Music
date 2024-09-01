@@ -5,4 +5,4 @@ export function clearLocalStorage() {
   console.log("All localStorage data has been cleared.");
 }
 
-console.log("hiiiiiiiiiii");
+console.log("hiiiiiiiiiii   Aydaaaaaaaaaaaaaa");
