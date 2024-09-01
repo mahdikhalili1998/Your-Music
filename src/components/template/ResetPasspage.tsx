@@ -87,7 +87,7 @@ const ResetPasspage = () => {
       const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
         headers,
       });
-      console.log(proxyRes);
+      // console.log(proxyRes);
       if (proxyRes.status === 200) {
         setOtpCode(proxyRes.data.code);
         setLoader(false);
@@ -171,8 +171,8 @@ const ResetPasspage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-p-500 to-p-200 py-3">
-      <h2 className="text-center font-medium text-p-950">
+    <div className="bg-gradient-to-r from-p-500 to-p-200 px-2 py-3">
+      <h2 className="text-left font-medium text-white">
         {resetModal ? "Create new password" : "Enter the SMS code"}
       </h2>
       <div className="mx-auto flex w-max flex-col items-center justify-center gap-6 rounded-lg p-3 py-5">
@@ -196,7 +196,7 @@ const ResetPasspage = () => {
                 onChange={(e) =>
                   setChangePass({ ...changePass, password: e.target.value })
                 }
-                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
+                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700"
               />
               <input
                 type="password"
@@ -210,7 +210,7 @@ const ResetPasspage = () => {
                     repeatPassword: e.target.value,
                   })
                 }
-                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
+                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700"
               />
             </div>
           ) : (
@@ -224,7 +224,7 @@ const ResetPasspage = () => {
                 onChange={(e) =>
                   setChangePass({ ...changePass, phone: e.target.value })
                 }
-                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
+                className="rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700"
               />
               <input
                 type="number"
@@ -233,7 +233,7 @@ const ResetPasspage = () => {
                 placeholder="Code ... "
                 value={userOtpCode}
                 onChange={(e) => setUserOtpCode(e.target.value)}
-                className={`${otpCode ? "block" : "hidden"} rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700`}
+                className={`${otpCode ? "block" : "hidden"} rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700`}
               />
             </div>
           )}

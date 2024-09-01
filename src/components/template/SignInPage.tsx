@@ -164,6 +164,7 @@ function SignInPage() {
             <div className="ml-5 rounded-bl-full rounded-tl-full bg-white py-8">
               <div className="flex flex-col items-center gap-2 text-sm font-medium text-p-950">
                 <Link href={"/reset-pass"}>_ Forget your password ??</Link>
+                <Link href={"/find-account"}>_ Can't find your account ??</Link>
                 <p>_ help center </p>
               </div>
             </div>
