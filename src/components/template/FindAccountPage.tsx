@@ -37,7 +37,7 @@ function FindAccountPage() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error.message);
+        toast.error(error.message || error.response.data.message);
         setLoader(false);
       });
   };
