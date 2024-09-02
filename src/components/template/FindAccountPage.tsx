@@ -5,6 +5,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { regexInfo } from "@/constant/regex.js";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { FaPhone } from "react-icons/fa6";
 
 function FindAccountPage() {
   const [number, setNumber] = useState<string>("");
@@ -31,18 +32,23 @@ function FindAccountPage() {
         priority
         className="mx-auto w-max"
       />
-      <div className="flex flex-col items-center justify-center gap-4">
-        <input
-          type="number"
-          name="number"
-          id="number"
-          placeholder="Enter your phone number"
-          onChange={(e) => setNumber(e.target.value)}
-          className="rounded-lg border-2 border-solid border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-none"
-        />
+      <div className="-ml-2 flex flex-col items-start justify-center gap-10 rounded-br-full rounded-tr-full bg-white py-5 pl-2 pr-8">
+        <div className="ml-2 flex w-max items-center border-b-2 border-solid border-p-700">
+          <span className="ml-2">
+            <FaPhone className="text-p-700" />
+          </span>
+          <input
+            type="number"
+            name="number"
+            id="number"
+            placeholder=" phone number"
+            onChange={(e) => setNumber(e.target.value)}
+            className="w-[10rem] px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-none"
+          />
+        </div>
         <button
           onClick={(e) => findHandler()}
-          className="flex items-center rounded-md bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-55"
+          className="ml-5 flex w-max items-center rounded-md bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-55"
           disabled={!number}
         >
           Find Account <MdKeyboardArrowRight className="mt-[2px] text-xl" />{" "}
