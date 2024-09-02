@@ -152,8 +152,7 @@ function SignInPage() {
               >
                 {!loading ? (
                   <>
-                    {" "}
-                    Sign in{" "}
+                    Sign in
                     <RiArrowRightSLine className="mt-1 text-xl text-p-700" />
                   </>
                 ) : (
