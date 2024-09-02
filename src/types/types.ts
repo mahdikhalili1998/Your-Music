@@ -49,3 +49,12 @@ export interface ISignupPage {
   isEditing: boolean;
   setIsEditing: Function;
 }
+
+export type UserInfo = {
+  userName: string;
+  profilePicUrl: string;
+};
+
+export interface IAccountFound{
+  
+}
