@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Loader from "./Loader";
+import Link from "next/link";
 
 const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName }) => {
   const [password, setPassword] = useState<string>("");
@@ -59,6 +60,9 @@ const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName }) => {
           placeholder="Password here ..."
           className="rounded-lg px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-none"
         />
+        <Link className="text-blue-800" href={"/reset-pass"}>
+          _ Forget your password ??
+        </Link>
       </div>
       <button
         onClick={(e) => signInHandler()}
