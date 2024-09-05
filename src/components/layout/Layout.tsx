@@ -2,23 +2,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { IoMdCloseCircle } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
-import { IoMdDownload } from "react-icons/io";
-import { IoMdSettings } from "react-icons/io";
-import { FaCircleInfo } from "react-icons/fa6";
+import { IoMdDownload, IoMdSettings } from "react-icons/io";
+import { FaCircle } from "react-icons/fa";
 import Link from "next/link";
-import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
+import {
+  IoIosArrowDropleftCircle,
+  IoIosArrowDroprightCircle,
+} from "react-icons/io";
 import Shortcut from "../module/Shortcut";
+import { useTranslation } from "next-i18next";
+import LanguageSwitcher from "@/components/template/LanguageSwitcher";
+import { FaCircleInfo } from "react-icons/fa6";
+import { appWithTranslation } from "next-i18next";
 
-function Layout({ children }: any) {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+function Layout({ children }: LayoutProps) {
   const [open, setOpen] = useState<boolean>(false);
-  const divRef = useRef(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useTranslation("common");
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (divRef.current && !divRef.current.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     }
@@ -30,8 +39,14 @@ function Layout({ children }: any) {
 
   return (
     <div className="relative overflow-x-hidden">
-      <Header open={open} setOpen={setOpen} header={() => {}} />
-      <div className={`my-[3rem]`}>
+      <Header
+        open={open}
+        setOpen={setOpen}
+        header={function (value: React.SetStateAction<boolean>): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <main className={`my-[3rem]`}>
         <div
           className={`${!open ? null : "pointer-events-none blur-sm"} transition-all duration-300`}
         >
@@ -45,53 +60,64 @@ function Layout({ children }: any) {
             <div className="flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black">
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href="profile"
+                href="/profile"
                 onClick={() => setOpen(false)}
               >
-                <MdAccountCircle className="text-3xl" /> Profile
+                <MdAccountCircle className="text-3xl" /> {t("Profile")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href=""
+                href="/download"
                 onClick={() => setOpen(false)}
               >
-                <IoMdDownload className="text-3xl" />
-                Download
+                <IoMdDownload className="text-3xl" /> {t("Download")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/setting-page"
                 onClick={() => setOpen(false)}
               >
-                <IoMdSettings className="text-3xl" />
-                Settings
+                <IoMdSettings className="text-3xl" /> {t("Setting")}
               </Link>
+              <LanguageSwitcher />
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href=""
+                href="/about"
                 onClick={() => setOpen(false)}
               >
-                <FaCircleInfo className="text-2xl" /> About us
+                <FaCircleInfo className="text-2xl" /> {t("About us")}
               </Link>
             </div>
           </div>
           <span className="z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90">
             {open ? (
               <IoIosArrowDroprightCircle
-                onClick={(e) => setOpen(false)}
+                onClick={() => setOpen(false)}
                 className="text-2xl text-p-950 opacity-100"
               />
             ) : (
               <IoIosArrowDropleftCircle
-                onClick={(e) => setOpen(true)}
+                onClick={() => setOpen(true)}
                 className="text-2xl text-p-950 opacity-100"
               />
             )}
           </span>
         </div>
-      </div>
-      <Shortcut open={open} setOpen={setOpen} header={() => {}} />
-      <Footer open={open} setOpen={setOpen} header={() => {}} />
+      </main>
+      <Shortcut
+        open={open}
+        setOpen={setOpen}
+        header={function (value: React.SetStateAction<boolean>): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <Footer
+        open={open}
+        setOpen={setOpen}
+        header={function (value: React.SetStateAction<boolean>): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </div>
   );
 }

@@ -89,6 +89,7 @@ const LoginInfo: FC<IProfileDetail> = ({
             theme: "light",
             transition: Bounce,
           });
+          router.refresh();
           router.push("/sign-in");
         }
       })
