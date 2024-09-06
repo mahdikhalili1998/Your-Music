@@ -1,5 +1,8 @@
-import HomePage from "@/components/template/HomePage";
+import { redirect } from "next/navigation";
+import React from "react";
 
-export default function Home() {
-  return <HomePage />;
+function RootPage() {
+  redirect("/en");
 }
+
+export default RootPage;

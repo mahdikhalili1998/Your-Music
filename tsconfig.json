@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/api/auth/[...nextauth]/route.js",
-    ".next/types/app/api/auth/[...nextauth]/route.js"
-, "src/constant/image.ts"  ],
+    ".next/types/app/api/auth/[...nextauth]/route.js",
+    "src/constant/image.ts"
+  ],
   "exclude": ["node_modules"]
 }

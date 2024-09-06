@@ -4,17 +4,13 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { MdAccountCircle } from "react-icons/md";
 import { IoMdDownload, IoMdSettings } from "react-icons/io";
-import { FaCircle } from "react-icons/fa";
 import Link from "next/link";
 import {
   IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import Shortcut from "../module/Shortcut";
-import { useTranslation } from "next-i18next";
-import LanguageSwitcher from "@/components/template/LanguageSwitcher";
 import { FaCircleInfo } from "react-icons/fa6";
-import { appWithTranslation } from "next-i18next";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,7 +19,6 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const [open, setOpen] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
-  const { t } = useTranslation("common");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -63,29 +58,28 @@ function Layout({ children }: LayoutProps) {
                 href="/profile"
                 onClick={() => setOpen(false)}
               >
-                <MdAccountCircle className="text-3xl" /> {t("Profile")}
+                <MdAccountCircle className="text-3xl" /> Profile
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/download"
                 onClick={() => setOpen(false)}
               >
-                <IoMdDownload className="text-3xl" /> {t("Download")}
+                <IoMdDownload className="text-3xl" /> Download
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/setting-page"
                 onClick={() => setOpen(false)}
               >
-                <IoMdSettings className="text-3xl" /> {t("Setting")}
+                <IoMdSettings className="text-3xl" /> Setting
               </Link>
-              <LanguageSwitcher />
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/about"
                 onClick={() => setOpen(false)}
               >
-                <FaCircleInfo className="text-2xl" /> {t("About us")}
+                <FaCircleInfo className="text-2xl" /> About us"
               </Link>
             </div>
           </div>

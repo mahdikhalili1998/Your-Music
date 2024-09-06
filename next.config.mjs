@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
-import config from "./next-i18next.config.js"; // Import به صورت default
-
-const { i18n } = config; // استخراج i18n از default export
+import createNextIntlPlugin from "next-intl/plugin";
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   typescript: {
@@ -17,7 +16,6 @@ const nextConfig = {
       },
     ],
   },
-  i18n,
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
