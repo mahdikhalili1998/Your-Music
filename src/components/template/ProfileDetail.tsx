@@ -21,7 +21,7 @@ import { TbCaptureFilled } from "react-icons/tb";
 import { MdKeyboardReturn } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
-const ProfileDetail: FC<IProf> = ({ userData }) => {
+const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
   const [profileOption, setProfileOption] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
@@ -116,7 +116,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
   };
 
   const signOutHandler = () => {
-    signOut({ callbackUrl: "/profile" });
+    signOut({ callbackUrl: `/${locale}/profile` });
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,7 +175,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
             onChange={handleFileChange}
           />
           {profileOption ? (
-            <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] bg-gray-600/55 border-solid border-p-700">
+            <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] border-solid border-p-700 bg-gray-600/55">
               <span onClick={(e) => finallChange()} className="p-1 text-3xl">
                 <TbCaptureFilled className="text-green-500" />
               </span>
@@ -236,6 +236,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
           </button>
           <PersonalInfo
             userData={userData}
+            locale={locale}
             openPersonalModal={openPersonalModal}
             setIsBlur={setIsBlur}
           />
@@ -251,6 +252,7 @@ const ProfileDetail: FC<IProf> = ({ userData }) => {
             )}
           </button>
           <LoginInfo
+            locale={locale}
             userData={userData}
             openPersonalModal={openLoginModal}
             setIsBlur={setIsBlur}

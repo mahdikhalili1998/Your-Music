@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const PersonalInfo: FC<IProfileDetail> = ({
   userData,
+  locale,
   openPersonalModal,
   setIsBlur,
 }) => {
@@ -77,7 +78,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
         // console.log(res);
         if (res.status === 201) {
           toast.success(res.data.message);
-          router.push("/sign-in");
+          router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
@@ -189,7 +190,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
             </button>
           )}
           <Link
-            href="/reset-pass"
+            href={`/${locale}/reset-pass`}
             className="w-max text-sm font-medium text-blue-600"
           >
             Forget Your Password ?

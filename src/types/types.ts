@@ -47,6 +47,7 @@ export interface ISignupPage {
   image: File;
   setImage: Function;
   isEditing: boolean;
+  locale?: string;
   setIsEditing: Function;
 }
 
@@ -55,6 +56,4 @@ export type UserInfo = {
   profilePicUrl: string;
 };
 
-export interface IAccountFound{
-  
-}
+export interface IAccountFound {}

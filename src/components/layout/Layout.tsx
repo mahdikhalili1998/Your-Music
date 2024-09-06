@@ -15,12 +15,14 @@ import { useTranslations } from "next-intl";
 
 interface LayoutProps {
   children: React.ReactNode;
+  locale: string;
 }
 
-function Layout({ children }: LayoutProps) {
+function Layout({ children, locale }: LayoutProps) {
   const [open, setOpen] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations("HomePage");
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (divRef.current && !divRef.current.contains(event.target as Node)) {
@@ -56,31 +58,31 @@ function Layout({ children }: LayoutProps) {
             <div className="flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black">
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href="/profile"
+                href={`/${locale}/profile`}
                 onClick={() => setOpen(false)}
               >
                 <MdAccountCircle className="text-3xl" /> {t("Profile")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href="/download"
+                href={`/${locale}/download`}
                 onClick={() => setOpen(false)}
               >
-                <IoMdDownload className="text-3xl" /> {t('Download')}
+                <IoMdDownload className="text-3xl" /> {t("Download")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href="/setting-page"
+                href={`/${locale}/setting-page`}
                 onClick={() => setOpen(false)}
               >
-                <IoMdSettings className="text-3xl" /> {t('Setting')}
+                <IoMdSettings className="text-3xl" /> {t("Setting")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
-                href="/about"
+                href={`/${locale}/about`}
                 onClick={() => setOpen(false)}
               >
-                <FaCircleInfo className="text-2xl" /> {t('About us')}
+                <FaCircleInfo className="text-2xl" /> {t("About us")}
               </Link>
             </div>
           </div>
@@ -101,13 +103,7 @@ function Layout({ children }: LayoutProps) {
       </main>
       <Shortcut
         open={open}
-        setOpen={setOpen}
-        header={function (value: React.SetStateAction<boolean>): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      <Footer
-        open={open}
+        locale={locale}
         setOpen={setOpen}
         header={function (value: React.SetStateAction<boolean>): void {
           throw new Error("Function not implemented.");

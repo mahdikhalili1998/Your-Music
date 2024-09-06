@@ -5,10 +5,12 @@ import Link from "next/link";
 import ProfileDetail from "./ProfileDetail";
 import ConnectDB from "@/utils/ConnectDB";
 import userInfo from "@/model/userInfo";
+import { FC } from "react";
+import { IProfilePageProps } from "@/types/props";
 
 export const revalidate = 0;
 
-const ProfilePage = async () => {
+const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
   await ConnectDB();
   const session = await getServerSession(authOptions);
 
@@ -30,7 +32,7 @@ const ProfilePage = async () => {
             <div className="flex flex-col items-start gap-2">
               <p className="text-p-950">_ Don&apos;t have an account?</p>
               <Link
-                href="send-otp"
+                href={`/${locale}/send-otp`}
                 className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
               >
                 Sign Up
@@ -39,7 +41,7 @@ const ProfilePage = async () => {
             <div className="flex flex-col items-start gap-2">
               <p className="text-p-950">_ Have an account?</p>
               <Link
-                href="/sign-in"
+                href={`/${locale}/sign-in`}
                 className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
               >
                 Sign In
@@ -54,7 +56,12 @@ const ProfilePage = async () => {
   const user = await userInfo.findOne({ email: session.user.email }).lean();
 
   if (user) {
-    return <ProfileDetail userData={JSON.parse(JSON.stringify(user))} />;
+    return (
+      <ProfileDetail
+        userData={JSON.parse(JSON.stringify(user))}
+        locale={JSON.parse(JSON.stringify(locale))}
+      />
+    );
   } else {
     return (
       <div className="space-y-4">

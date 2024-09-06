@@ -28,7 +28,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>
-            <Layout>{children}</Layout>
+            <Layout locale={locale}>{children}</Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>
       </body>

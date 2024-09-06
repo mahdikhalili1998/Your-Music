@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { use, useState } from "react";
+import React, { FC, use, useState } from "react";
 import BtLight from "../module/BtLight";
 import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,11 +10,12 @@ import axios, { AxiosError } from "axios";
 import Loader from "../module/Loader";
 import { IAxios } from "@/types/axios";
 import Link from "next/link";
+import { ILocale } from "@/types/props";
 
-function OtpPage() {
+function OtpPage({ locale }: ILocale) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpCode, setOtpCode] = useState<string>("");
-  console.log(otpCode);
+
   const [userCode, setUserCode] = useState<string>("");
   const [userGender, setUserGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -101,10 +102,12 @@ function OtpPage() {
         toast.error("Select your gender", { position: "top-center" });
       } else {
         localStorage.setItem("gender", userGender);
-        router.push("/sign-up");
+        router.push(`/${locale}/sign-up`);
       }
+      setLoading(false);
     } else {
       toast.error("Wrong Code", { position: "top-center" });
+      setLoading(false);
     }
   };
 
@@ -203,7 +206,10 @@ function OtpPage() {
             </button>
           )}
         </div>
-        <Link className="text-sm font-medium text-blue-500" href="/sign-in">
+        <Link
+          className="text-sm font-medium text-blue-500"
+          href={`/${locale}/sign-in`}
+        >
           _ Do you have an account ?
         </Link>
         <BtLight nextLevel={nextLevel} />

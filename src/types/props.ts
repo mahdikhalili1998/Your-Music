@@ -9,9 +9,11 @@ export interface IProfileDetail {
   userData: any;
   openPersonalModal: boolean;
   setIsBlur: Function;
+  locale: string;
 }
 export interface IProf {
   userData: any;
+  locale: string;
 }
 
 export interface IUser {
@@ -38,4 +40,18 @@ export interface ISession {
 }
 export interface ISession {
   session: any;
+}
+
+export interface IProfilePageProps {
+  locale: string;
+}
+
+export interface IParams {
+  params: {
+    locale: string;
+  };
+}
+
+export interface ILocale {
+  locale: string;
 }

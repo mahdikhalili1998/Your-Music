@@ -14,6 +14,7 @@ import Link from "next/link";
 const LoginInfo: FC<IProfileDetail> = ({
   openPersonalModal,
   userData,
+  locale,
   setIsBlur,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -90,7 +91,7 @@ const LoginInfo: FC<IProfileDetail> = ({
             transition: Bounce,
           });
           router.refresh();
-          router.push("/sign-in");
+          router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
@@ -203,7 +204,7 @@ const LoginInfo: FC<IProfileDetail> = ({
             </button>
           )}
           <Link
-            href="/reset-pass"
+            href={`/${locale}/reset-pass`}
             className="w-max text-sm font-medium text-blue-600"
           >
             Forget Your Password ?

@@ -7,15 +7,15 @@ import { PiMusicNotesPlusBold } from "react-icons/pi";
 import { IoMdSettings } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 
-const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
+const Shortcut: FC<Iheader> = ({ header, open, setOpen, locale }) => {
   return (
     <div
       className={`fixed bottom-3 z-[49] flex w-full items-center justify-between rounded-lg bg-p-700 p-2 ${!open ? null : "pointer-events-none blur-sm"} `}
     >
-      <Link href="/profile">
+      <Link href={`/${locale}/profile`}>
         <MdAccountCircle className="text-3xl text-white" />
       </Link>
-      <Link href="/profile">
+      <Link href={`/${locale}/profile`}>
         <FiSearch className="mr-5 text-3xl text-white" />
       </Link>
       <div>
@@ -31,7 +31,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen }) => {
       <Link href="/">
         <ImHome className="text-2xl text-white" />
       </Link>
-      <Link href="/setting-page">
+      <Link href={`/${locale}/setting-page`}>
         <IoMdSettings className="text-2xl text-white" />
       </Link>
     </div>

@@ -15,6 +15,7 @@ const SignUpInput: FC<ISignupPage> = ({
   image,
   isEditing,
   setImage,
+  locale,
   setIsEditing,
 }) => {
   const [userInfo, setUserInfo] = useState<IUserInfo>({
@@ -84,11 +85,11 @@ const SignUpInput: FC<ISignupPage> = ({
           transition: Bounce,
         });
         if (res.status === 200) {
-          router.push("/sign-in");
+          router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         toast.error(error.response.data.message, {
           position: "top-center",
           autoClose: 5000,

@@ -15,8 +15,9 @@ import ResetPasspage from "./ResetPasspage";
 import axios from "axios";
 import { IPassword } from "@/types/types";
 import Link from "next/link";
+import { ILocale } from "@/types/props";
 
-function SignInPage() {
+function SignInPage({ locale }: ILocale) {
   const [userInfo, setUserInfo] = useState<ISignIn>({
     userName: "",
     password: "",
@@ -54,42 +55,42 @@ function SignInPage() {
     setLoading(false);
   };
 
-  const sendOtpHandler = async () => {
-    const phoneNumber = localStorage.getItem("phoneNumber");
-    setChangePass({ ...changePass, phone: phoneNumber });
-    const num = `{"to":"${phoneNumber}"}`;
-    const headers = {
-      "Content-Type": "application/json",
-    };
+  // const sendOtpHandler = async () => {
+  //   const phoneNumber = localStorage.getItem("phoneNumber");
+  //   setChangePass({ ...changePass, phone: phoneNumber });
+  //   const num = `{"to":"${phoneNumber}"}`;
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //   };
 
-    setLoader(true);
-    await axios
-      .post("api/proxy", num, { headers })
-      .then((res) => {
-        // console.log(res);
-        if (res.data.status === "ارسال نشده") {
-          toast.error("please try again later");
-          setLoader(false);
-          return;
-        }
-        if (res) {
-          setOtpCode(res?.data.code);
-          setResetPass(true);
-          setLoader(false);
-          // router.push("/reset-pass");
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          console.log(error);
-          toast.error("Server Error , try again", {
-            position: "top-center",
-            transition: Flip,
-          });
-          return;
-        }
-      });
-  };
+  //   setLoader(true);
+  //   await axios
+  //     .post("api/proxy", num, { headers })
+  //     .then((res) => {
+  //       // console.log(res);
+  //       if (res.data.status === "ارسال نشده") {
+  //         toast.error("please try again later");
+  //         setLoader(false);
+  //         return;
+  //       }
+  //       if (res) {
+  //         setOtpCode(res?.data.code);
+  //         setResetPass(true);
+  //         setLoader(false);
+  //         // router.push("/reset-pass");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error) {
+  //         console.log(error);
+  //         toast.error("Server Error , try again", {
+  //           position: "top-center",
+  //           transition: Flip,
+  //         });
+  //         return;
+  //       }
+  //     });
+  // };
 
   return (
     <div className="relative">
@@ -162,8 +163,12 @@ function SignInPage() {
             </div>
             <div className="ml-5 rounded-bl-full rounded-tl-full bg-white py-8">
               <div className="flex flex-col items-center gap-2 text-sm font-medium text-blue-800">
-                <Link href={"/reset-pass"}>_ Forget your password ??</Link>
-                <Link href={"/find-account"}>_ Forget your user name ??</Link>
+                <Link href={`/${locale}/reset-pass`}>
+                  _ Forget your password ??
+                </Link>
+                <Link href={`/${locale}/find-account`}>
+                  _ Forget your user name ??
+                </Link>
                 <p>_ help center </p>
               </div>
             </div>
