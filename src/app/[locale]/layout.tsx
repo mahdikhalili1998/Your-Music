@@ -4,7 +4,8 @@ import "../../font/font.css";
 import "../../font/menu.css";
 import Layout from "@/components/layout/Layout";
 import NextAuthProvider from "@/providers/NextAuthProvider";
-
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Your Music",
@@ -16,17 +17,20 @@ interface LayoutProps {
   params: { locale: string };
 }
 
-const RootLayout: React.FC<LayoutProps> = ({
+const RootLayout: React.FC<LayoutProps> = async ({
   children,
   params: { locale },
 }) => {
+  const messages = await getMessages();
   return (
     <html lang={locale}>
       <link rel="icon" href="/favicon.ico" />
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
-        <NextAuthProvider>
-          <Layout>{children}</Layout>
-        </NextAuthProvider>
+        <NextIntlClientProvider messages={messages}>
+          <NextAuthProvider>
+            <Layout>{children}</Layout>
+          </NextAuthProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

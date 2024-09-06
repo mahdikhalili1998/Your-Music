@@ -11,6 +11,7 @@ import {
 } from "react-icons/io";
 import Shortcut from "../module/Shortcut";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const [open, setOpen] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
-
+  const t = useTranslations("HomePage");
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (divRef.current && !divRef.current.contains(event.target as Node)) {
@@ -58,28 +59,28 @@ function Layout({ children }: LayoutProps) {
                 href="/profile"
                 onClick={() => setOpen(false)}
               >
-                <MdAccountCircle className="text-3xl" /> Profile
+                <MdAccountCircle className="text-3xl" /> {t("Profile")}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/download"
                 onClick={() => setOpen(false)}
               >
-                <IoMdDownload className="text-3xl" /> Download
+                <IoMdDownload className="text-3xl" /> {t('Download')}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/setting-page"
                 onClick={() => setOpen(false)}
               >
-                <IoMdSettings className="text-3xl" /> Setting
+                <IoMdSettings className="text-3xl" /> {t('Setting')}
               </Link>
               <Link
                 className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
                 href="/about"
                 onClick={() => setOpen(false)}
               >
-                <FaCircleInfo className="text-2xl" /> About us"
+                <FaCircleInfo className="text-2xl" /> {t('About us')}
               </Link>
             </div>
           </div>
