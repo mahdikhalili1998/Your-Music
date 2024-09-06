@@ -29,6 +29,7 @@ export interface IResetProps {
 
 export interface IDeleteAccount {
   user: any;
+  locale: string;
   isSure: boolean;
   setIsSure: Function;
   setFinalDeleting: Function;
@@ -37,6 +38,7 @@ export interface IDeleteAccount {
 
 export interface ISession {
   user: any;
+  locale: string;
 }
 export interface ISession {
   session: any;

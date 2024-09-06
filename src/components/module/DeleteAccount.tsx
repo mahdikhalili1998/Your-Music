@@ -12,6 +12,7 @@ import { signOut } from "next-auth/react";
 const DeleteAccount: FC<IDeleteAccount> = ({
   user,
   isSure,
+  locale,
   setIsSure,
   finalDeleting,
   setFinalDeleting,
@@ -40,7 +41,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
           toast.success(res.data.message, { id: toastId });
           setLoading(false);
           clearLocalStorage();
-          signOut({ callbackUrl: "/profile" });
+          signOut({ callbackUrl: `/${locale}/profile` });
           setFinalDeleting(false);
           router.push("/");
         }

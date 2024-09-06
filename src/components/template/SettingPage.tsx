@@ -7,7 +7,7 @@ import { FC, useState } from "react";
 import { ISession } from "@/types/props";
 import Link from "next/link";
 
-const SettingPage: FC<ISession> = ({ user, session }) => {
+const SettingPage: FC<ISession> = ({ user, session, locale }) => {
   const [isSure, setIsSure] = useState<boolean>(false);
   const [finalDeleting, setFinalDeleting] = useState<boolean>(false);
 
@@ -33,13 +33,14 @@ const SettingPage: FC<ISession> = ({ user, session }) => {
           <>
             <DeleteAccount
               user={user}
+              locale={locale}
               isSure={isSure}
               setIsSure={setIsSure}
               finalDeleting={finalDeleting}
               setFinalDeleting={setFinalDeleting}
             />
             <Link
-              href={"/reset-pass"}
+              href={`/${locale}/reset-pass`}
               className={`${isSure ? "pointer-events-none blur-sm" : null} flex items-center text-p-950`}
             >
               Reset Password{" "}

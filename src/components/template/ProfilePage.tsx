@@ -7,6 +7,9 @@ import ConnectDB from "@/utils/ConnectDB";
 import userInfo from "@/model/userInfo";
 import { FC } from "react";
 import { IProfilePageProps } from "@/types/props";
+import { createTranslator } from "next-intl";
+import faMessages from "../../../messages/fa.json";
+import enMessages from "../../../messages/en.json";
 
 export const revalidate = 0;
 
@@ -14,11 +17,18 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
   await ConnectDB();
   const session = await getServerSession(authOptions);
 
+  const messages = locale === "fa" ? faMessages : enMessages;
+  const intlConfig = {
+    locale: locale,
+    messages: messages,
+  };
+  const t = createTranslator(intlConfig);
+
   if (!session || !session.user?.email) {
     return (
       <div className="space-y-4">
         <h2 className="text-center font-medium text-p-950">
-          SignIn / SignUp to achieve more options :
+          {t("SignIn head")}
         </h2>
         <div className="mx-auto flex w-max flex-col items-center gap-4 rounded-lg p-3 py-5 shadow-xl shadow-p-200">
           <Image
@@ -30,21 +40,21 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
           />
           <div className="space-y-4">
             <div className="flex flex-col items-start gap-2">
-              <p className="text-p-950">_ Don&apos;t have an account?</p>
+              <p className="text-p-950">{t(`_ Dont have an account?`)}</p>
               <Link
                 href={`/${locale}/send-otp`}
                 className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
               >
-                Sign Up
+                {t(" Sign Up")}
               </Link>
             </div>
             <div className="flex flex-col items-start gap-2">
-              <p className="text-p-950">_ Have an account?</p>
+              <p className="text-p-950">{t("_ Have an account?")}</p>
               <Link
                 href={`/${locale}/sign-in`}
                 className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
               >
-                Sign In
+                {t(" Sign In")}
               </Link>
             </div>
           </div>
