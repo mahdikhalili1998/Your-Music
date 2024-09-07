@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import Loader from "../module/Loader";
 import axios from "axios";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
+import { MESSSGE } from "@/enums/enum";
+import { ILocale } from "@/types/props";
 
-const ResetPasspage = () => {
+const ResetPasspage: FC<ILocale> = ({ locale }) => {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
   const [resetModal, setResetModal] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -69,10 +69,7 @@ const ResetPasspage = () => {
     const phoneRegex = /^09\d{9}$/;
 
     if (!phoneRegex.test(changePass.phone)) {
-      toast.error("Enter the correct phone number", {
-        position: "top-center",
-        transition: Flip,
-      });
+      toast.error("Enter the correct phone number");
       return;
     }
 
@@ -96,30 +93,14 @@ const ResetPasspage = () => {
       if (error.response) {
         // خطای سرور
         if (error.response.status === 409) {
-          toast.error(error.response.data.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.error(error.response.data.message);
         } else {
-          toast.error("Server Error, try again", {
-            position: "top-center",
-            transition: Flip,
-          });
+          toast.error(MESSSGE.SERVER_ERROR);
         }
       } else {
         // خطای شبکه
         // console.log(error);
-        toast.error("Network Error, try again", {
-          position: "top-center",
-          transition: Flip,
-        });
+        toast.error(MESSSGE.SERVER_ERROR);
       }
     } finally {
       setLoader(false);
@@ -130,10 +111,7 @@ const ResetPasspage = () => {
     if (otpCode === userOtpCode) {
       setResetModal(true);
     } else {
-      toast.warning("The entered value does not match the SMS code", {
-        position: "top-center",
-        transition: Flip,
-      });
+      toast.error("The entered value does not match the SMS code");
     }
   };
 
@@ -145,28 +123,19 @@ const ResetPasspage = () => {
         .then((res) => {
           //   console.log(res);
           if (res.status === 200 || res.data.status === "ارسال موفق بود") {
-            toast.success(res.data.message, {
-              position: "top-center",
-              transition: Flip,
-            });
+            toast.success(res.data.message);
           }
-          router.push("/profile");
+          router.push(`/${locale}/profile`);
         })
         .catch((error) => {
           //   console.log(error);
           if (error) {
-            toast.error(error.response.data.message, {
-              position: "top-center",
-              transition: Flip,
-            });
+            toast.error(error.response.data.message);
           }
         });
       setLoader(false);
     } else {
-      toast.error("Passwords are not the same", {
-        position: "top-center",
-        transition: Flip,
-      });
+      toast.error("Passwords are not the same");
     }
   };
 
@@ -267,7 +236,7 @@ const ResetPasspage = () => {
           )}
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

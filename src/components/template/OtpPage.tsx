@@ -1,16 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { FC, use, useState } from "react";
+import React, { useState } from "react";
 import BtLight from "../module/BtLight";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
-import axios, { AxiosError } from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 import Loader from "../module/Loader";
-import { IAxios } from "@/types/axios";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
+import { MESSSGE } from "@/enums/enum";
 
 function OtpPage({ locale }: ILocale) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -23,19 +21,14 @@ function OtpPage({ locale }: ILocale) {
   const router = useRouter();
 
   const sendNumber = async () => {
-    const num = { to: phoneNumber }; // تبدیل به یک آبجکت برای JSON.stringify
+    const num = { to: phoneNumber };
     const phoneRegex = /^09\d{9}$/;
     const headers = {
       "Content-Type": "application/json",
-      Authorization: "Bearer your_auth_token", // هدر Authorization در صورت نیاز
+      Authorization: "Bearer your_auth_token",
     };
-
-    // بررسی فرمت شماره تلفن
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error("Enter the correct phone number", {
-        position: "top-center",
-        transition: Flip,
-      });
+      toast.error("Enter the number in the correct format");
       return;
     }
 
@@ -62,32 +55,13 @@ function OtpPage({ locale }: ILocale) {
       }
     } catch (error) {
       if (error.response) {
-        // خطای سرور
         if (error.response.status === 409) {
-          toast.error(error.response.data.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.error(error.response.data.message);
         } else {
-          toast.error("Server Error, try again", {
-            position: "top-center",
-            transition: Flip,
-          });
+          toast.error(MESSSGE.SERVER_ERROR);
         }
       } else {
-        // خطای شبکه
-        // console.log(error);
-        toast.error("Network Error, try again", {
-          position: "top-center",
-          transition: Flip,
-        });
+        toast.error(MESSSGE.SERVER_ERROR);
       }
     } finally {
       setLoading(false);
@@ -99,14 +73,14 @@ function OtpPage({ locale }: ILocale) {
     if (otpCode === userCode) {
       localStorage.setItem("phoneNumber", phoneNumber);
       if (!userGender) {
-        toast.error("Select your gender", { position: "top-center" });
+        toast.error("Select your gender");
       } else {
         localStorage.setItem("gender", userGender);
         router.push(`/${locale}/sign-up`);
       }
       setLoading(false);
     } else {
-      toast.error("Wrong Code", { position: "top-center" });
+      toast.error("Wrong Code");
       setLoading(false);
     }
   };
@@ -214,7 +188,7 @@ function OtpPage({ locale }: ILocale) {
         </Link>
         <BtLight nextLevel={nextLevel} />
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

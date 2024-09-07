@@ -13,9 +13,7 @@ import { IImgProfile } from "@/types/types";
 import AvatarEditor from "react-avatar-editor";
 import { supabase } from "../../../supabase";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+import toast, { Toaster } from "react-hot-toast";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { TbCaptureFilled } from "react-icons/tb";
 import { MdKeyboardReturn } from "react-icons/md";
@@ -265,7 +263,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
           Sign Out <RiLogoutCircleRLine className="text-2xl font-medium" />
         </button>
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 };

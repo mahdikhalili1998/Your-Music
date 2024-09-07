@@ -13,6 +13,7 @@ export enum MESSSGE {
   DUPLICATE_INFORMATION = "You have not made any changes",
   DELETE = "Delete succsessfully",
   DELETE_ACCOUNT = "Delete Account succsessfully",
+  
 }
 
 export enum STATUS {

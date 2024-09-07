@@ -6,13 +6,10 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { ISignIn } from "@/types/signIn";
 import Loader from "../module/Loader";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+import toast, { Toaster } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import ResetPasspage from "./ResetPasspage";
-import axios from "axios";
 import { IPassword } from "@/types/types";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
@@ -48,7 +45,7 @@ function SignInPage({ locale }: ILocale) {
       redirect: false,
     });
     if (res?.error) {
-      toast.error(res.error, { position: "top-center", transition: Flip });
+      toast.error(res.error);
     } else {
       router.push("/");
     }
@@ -103,7 +100,7 @@ function SignInPage({ locale }: ILocale) {
         className={`${loader ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
       >
         {resetPass ? (
-          <ResetPasspage />
+          <ResetPasspage locale={locale} />
         ) : (
           <div className="flex flex-col gap-7 bg-gradient-to-r from-p-500 to-p-200 pb-8">
             <h2 className="py-3 pl-2 font-medium text-white">
@@ -175,7 +172,7 @@ function SignInPage({ locale }: ILocale) {
           </div>
         )}
 
-        <ToastContainer />
+        <Toaster />
       </div>
     </div>
   );

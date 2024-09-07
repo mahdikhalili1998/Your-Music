@@ -4,9 +4,7 @@ import { ISignupPage, IUserInfo } from "@/types/types";
 import axios from "axios";
 import { regexInfo } from "@/constant/regex";
 import { FC, useEffect, useState } from "react";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import { useRouter } from "next/navigation";
 import ProfilePic from "./ProfilePic";
@@ -55,17 +53,7 @@ const SignUpInput: FC<ISignupPage> = ({
       !regexInfo.password.test(password) ||
       !regexInfo.lastName.test(lastName)
     ) {
-      toast("Please enter correct information", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      toast("Please enter correct information");
       return;
     }
 
@@ -73,34 +61,14 @@ const SignUpInput: FC<ISignupPage> = ({
     await axios
       .post("/api/auth/sign-up", { userInfo })
       .then((res) => {
-        toast.success(res.data.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        toast.success(res.data.message);
         if (res.status === 200) {
           router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
         // console.log(error);
-        toast.error(error.response.data.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        toast.error(error.response.data.message);
         return;
       });
     setLoading(false);
@@ -148,8 +116,7 @@ const SignUpInput: FC<ISignupPage> = ({
             send
           </button>
         )}
-
-        <ToastContainer />
+        <Toaster />
       </div>
     </>
   );

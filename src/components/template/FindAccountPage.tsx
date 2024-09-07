@@ -9,6 +9,7 @@ import { UserInfo } from "@/types/types";
 import Loader from "../module/Loader";
 import AccountFound from "../module/AccountFound";
 import Image from "next/image";
+import { MESSSGE } from "@/enums/enum";
 
 function FindAccountPage() {
   const [number, setNumber] = useState<string>("");
@@ -25,7 +26,7 @@ function FindAccountPage() {
     }
     setLoader(true);
     await axios
-      .get("/api/find-account/", { params: { number } })
+      .get("/api/find-accouno/", { params: { number } })
       .then((res) => {
         if (res.status === 200) {
           setUserInfo({
@@ -37,7 +38,10 @@ function FindAccountPage() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error.message || error.response.data.message);
+        if (error.response.status === 404) {
+          toast.error(MESSSGE.SERVER_ERROR || error.response.data.message);
+        }
+
         setLoader(false);
       });
   };

@@ -5,9 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Bounce, Flip, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
+import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import Link from "next/link";
 
@@ -79,17 +77,7 @@ const LoginInfo: FC<IProfileDetail> = ({
       .then((res) => {
         // console.log(res);
         if (res.status === 201) {
-          toast.success("The operation was successful", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.success("The operation was successful");
           router.refresh();
           router.push(`/${locale}/sign-in`);
         }
@@ -97,17 +85,7 @@ const LoginInfo: FC<IProfileDetail> = ({
       .catch((error) => {
         // console.log(error);
         if (error) {
-          toast.error(error.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.error(error.response.data.message);
           setPassLevel(false);
           router.refresh();
         }
@@ -211,7 +189,7 @@ const LoginInfo: FC<IProfileDetail> = ({
           </Link>
         </div>
       ) : null}
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };
