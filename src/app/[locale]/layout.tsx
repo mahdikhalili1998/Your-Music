@@ -24,7 +24,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
 }) => {
   const messages = await getMessages();
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
       <link rel="icon" href="/favicon.ico" />
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
         <NextIntlClientProvider messages={messages}>

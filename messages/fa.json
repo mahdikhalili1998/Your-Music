@@ -5,9 +5,16 @@
     "Setting": "تنظیمات",
     "About us": "درباره ما"
   },
+  "Setting": {
+    "Setting": "تنظیمات",
+    "Languages": " زبان",
+    " Theme": " تم",
+    "Delete Account": "حذف اکانت",
+    "Reset Password": "تغیر رمز "
+  },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
-  "_ Dont have an account?": "آیا حسابی ندارید ؟ _",
+  "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",
-  "_ Have an account?": "حساب دارید ؟ _",
+  "_ Have an account?": "حساب دارید ؟ ",
   " Sign In": "ورود به حساب"
 }

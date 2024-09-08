@@ -10,7 +10,7 @@ import { FiSearch } from "react-icons/fi";
 const Shortcut: FC<Iheader> = ({ header, open, setOpen, locale }) => {
   return (
     <div
-      className={`fixed bottom-3 z-[49] flex w-full items-center justify-between rounded-lg bg-p-700 p-2 ${!open ? null : "pointer-events-none blur-sm"} `}
+      className={`${locale === "fa" ? "directon-ltr" : null} fixed bottom-3 z-[49] flex w-full items-center justify-between rounded-lg bg-p-700 p-2 ${!open ? null : "pointer-events-none blur-sm"} `}
     >
       <Link href={`/${locale}/profile`}>
         <MdAccountCircle className="text-3xl text-white" />

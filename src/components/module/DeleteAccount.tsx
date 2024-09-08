@@ -4,10 +4,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import { clearLocalStorage } from "@/helper/function.js";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const DeleteAccount: FC<IDeleteAccount> = ({
   user,
@@ -20,6 +22,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [deleter, setDeleter] = useState<string>("");
   const router = useRouter();
+  const t = useTranslations("Setting");
 
   const deleteHandler = () => {
     if (user.userName === deleter) {
@@ -60,8 +63,12 @@ const DeleteAccount: FC<IDeleteAccount> = ({
         onClick={(e) => setIsSure(true)}
         className={`${isSure ? "pointer-events-none blur-sm" : null} flex items-center font-medium text-red-600`}
       >
-        Delete Account{" "}
-        <MdOutlineKeyboardArrowRight className="mt-[2px] text-2xl" />
+        {t("Delete Account")}
+        {locale === "fa" ? (
+          <MdOutlineKeyboardArrowLeft className={"mt-[2px] text-2xl"} />
+        ) : (
+          <MdOutlineKeyboardArrowRight className={"mt-[2px] text-2xl"} />
+        )}
       </button>
       {isSure ? (
         <div className={` `}>

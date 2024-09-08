@@ -5,6 +5,13 @@
     "Setting": "Setting",
     "About us": "About us"
   },
+  "Setting": {
+    "Setting": "Setting",
+    " Languages": "Languages",
+    " Theme": " Theme",
+    "Delete Account": "Delete Account",
+    "Reset Password": "Reset Password"
+  },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": " Sign Up",

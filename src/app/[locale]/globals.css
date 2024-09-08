@@ -53,3 +53,10 @@
 .custom-divider {
   width: 800%;
 }
+
+.directon-ltr {
+  direction: ltr;
+}
+.directon-rtl {
+  direction: rtl;
+}

@@ -40,6 +40,7 @@ function Layout({ children, locale }: LayoutProps) {
       <Header
         open={open}
         setOpen={setOpen}
+        locale={locale}
         header={function (value: React.SetStateAction<boolean>): void {
           throw new Error("Function not implemented.");
         }}
@@ -52,12 +53,14 @@ function Layout({ children, locale }: LayoutProps) {
         </div>
         <div
           ref={divRef}
-          className={`fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
+          className={`${locale === "fa" ? "directon-ltr" : null} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
         >
-          <div className="mt-10 flex justify-start">
-            <div className="flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black">
+          <div className={`mt-10 flex justify-start`}>
+            <div
+              className={`flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black`}
+            >
               <Link
-                className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
+                className={`custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
                 href={`/${locale}/profile`}
                 onClick={() => setOpen(false)}
               >
@@ -86,7 +89,9 @@ function Layout({ children, locale }: LayoutProps) {
               </Link>
             </div>
           </div>
-          <span className="z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90">
+          <span
+            className={`z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90`}
+          >
             {open ? (
               <IoIosArrowDroprightCircle
                 onClick={() => setOpen(false)}

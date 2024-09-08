@@ -26,7 +26,7 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
 
   if (!session || !session.user?.email) {
     return (
-      <div className="space-y-4">
+      <div className={`space-y-4 ${locale === "fa" ? "font-iransans" : null}`}>
         <h2 className="text-center font-medium text-p-950">
           {t("SignIn head")}
         </h2>
@@ -40,10 +40,10 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
           />
           <div className="space-y-4">
             <div className="flex flex-col items-start gap-2">
-              <p className="font-iransans text-p-950">سلام عزیزم </p>
+              <p className="text-p-950">{t(`_ Dont have an account?`)}</p>
               <Link
                 href={`/${locale}/send-otp`}
-                className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
+                className={`rounded-lg bg-p-700 px-2 py-1 ${locale === "en" ? "tracking-[2px]" : null} text-white`}
               >
                 {t(" Sign Up")}
               </Link>
@@ -52,7 +52,7 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
               <p className="text-p-950">{t("_ Have an account?")}</p>
               <Link
                 href={`/${locale}/sign-in`}
-                className="rounded-lg bg-p-700 px-2 py-1 tracking-[2px] text-white"
+                className={`rounded-lg bg-p-700 px-2 py-1 ${locale === "en" ? "tracking-[2px]" : null} text-white`}
               >
                 {t(" Sign In")}
               </Link>
