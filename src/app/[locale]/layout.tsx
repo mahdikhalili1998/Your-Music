@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "../../font/font.css";
-import "../../font/menu.css";
+import "@/font/font.css";
+import "@/font/menu.css";
+import "@/font/fontFace.css";
 import Layout from "@/components/layout/Layout";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";

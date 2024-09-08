@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* styles.css */
 
 @keyframes moveDown {
@@ -53,4 +52,3 @@
 .custom-divider {
   width: 800%;
 }
-

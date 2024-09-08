@@ -13,7 +13,6 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
   const [resetModal, setResetModal] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
-  const [resetPass, setResetPass] = useState<boolean>(false);
   const router = useRouter();
   const [otpCode, setOtpCode] = useState<string>("");
   const [changePass, setChangePass] = useState<IPassword>({
@@ -125,7 +124,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
           if (res.status === 200 || res.data.status === "ارسال موفق بود") {
             toast.success(res.data.message);
           }
-          router.push(`/${locale}/profile`);
+          router.push(`/${locale}/sign-in`);
         })
         .catch((error) => {
           //   console.log(error);

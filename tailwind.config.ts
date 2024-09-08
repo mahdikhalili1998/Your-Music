@@ -11,6 +11,8 @@ const config: Config = {
       fontFamily: {
         shantell: ["Sirin Stencil", "sans-serif"],
         Roboto: ["Roboto Slab", "sans-serif"],
+        iransans: ["IRANSansXFaNum", "sans-serif"],
+        yekan: ["Yekan", "sans-serif"],
       },
       colors: {
         "p-200": "#e9d5ff",
