@@ -5,16 +5,44 @@
     "Setting": "تنظیمات",
     "About us": "درباره ما"
   },
-  "Setting": {
+  "SettingPage": {
     "Setting": "تنظیمات",
     "Languages": " زبان",
-    " Theme": " تم",
+    "Theme": " تم",
     "Delete Account": "حذف اکانت",
     "Reset Password": "تغیر رمز "
+  },
+  "profileDetailPage": {
+    "Save": "ذخیره",
+    "Personal Info": "اطلاعات شخصی",
+    "Login Info": "اطلاعات اکانت",
+    "Sign Out": "خروج از حساب"
+  },
+  "personalInfo": {
+    "Name": "نام",
+    "Phone Number": "تلفن تماس",
+    "Membership type": "نوع عضویت",
+    "Date of sign in": "تاریخ عضویت",
+    "Save": "ذخیره",
+    "Enter your password to continue": "برای ادامه رمز را وارد کنید",
+    "Forget Your Password ?": "رمز خود را فراموش کردید ؟",
+    "Succsess": "موفقیت آمیز",
+    "You have not made any changes": "شما تغیری ایجاد نکردید",
+    "wrong password": "رمز اشتباه است",
+    "Please insert correct Info": "اطلاعات با فرمت صحیح وارد کنید",
+    "user not found": "کاربر یافت نشد",
+    "server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید"
+  },
+  "loginInfo": {
+    "Email": "ایمیل",
+    "userName": "آیدی",
+    "Last Update Date": "تاریخ آخرین تغیر",
+    "Save": "ذخیره"
   },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",
   "_ Have an account?": "حساب دارید ؟ ",
-  " Sign In": "ورود به حساب"
+  " Sign In": "ورود به حساب",
+  "User not found, please sign in again": "کاربر پیدا نشد ، لطفا دوباره وارد شوید !!"
 }

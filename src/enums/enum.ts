@@ -1,3 +1,4 @@
+
 export enum MESSSGE {
   SERVER_ERROR = "server error , try again later",
   WELCOME = "Welcome {name} 🖐️ ",
@@ -13,7 +14,6 @@ export enum MESSSGE {
   DUPLICATE_INFORMATION = "You have not made any changes",
   DELETE = "Delete succsessfully",
   DELETE_ACCOUNT = "Delete Account succsessfully",
-  
 }
 
 export enum STATUS {
@@ -24,4 +24,5 @@ export enum STATUS {
   EXSITED_INFO = 409,
   EDIT_INFO = 201,
   NOT_FOUND = 404,
+  WRONG_PASS=401
 }

@@ -5,16 +5,44 @@
     "Setting": "Setting",
     "About us": "About us"
   },
-  "Setting": {
-    "Setting": "Setting",
-    " Languages": "Languages",
-    " Theme": " Theme",
+  "SettingPage": {
+    "Theme": "Theme",
+    "Languages": "Languages",
     "Delete Account": "Delete Account",
-    "Reset Password": "Reset Password"
+    "Reset Password": "Reset Password",
+    "Setting": "Setting"
+  },
+  "profileDetailPage": {
+    "Save": "Save",
+    "Personal Info": "Personal Info",
+    "Login Info": "Login Info",
+    "Sign Out": "Sign Out"
+  },
+  "personalInfo": {
+    "Name": "Name",
+    "Phone Number": "Phone Number",
+    "Membership type": "Membership type",
+    "Date of sign in": "Date of sign in",
+    "Save": "Save",
+    "Enter your password to continue": "Enter your password to continue",
+    "Forget Your Password ?": "Forget Your Password ?",
+    "Succsess": "Succsess",
+    "You have not made any changes": "You have not made any changes",
+    "wrong password": "wrong password",
+    "Please insert correct Info": "Please insert correct Info",
+    "user not found": "user not found",
+    "server error , try again later": "server error , try again later"
+  },
+  "loginInfo": {
+    "Email": "Email",
+    "userName": "userName",
+    "Last Update Date": "Last Update Date",
+    "Save": "Save"
   },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
-  " Sign Up": " Sign Up",
+  " Sign Up": "Sign Up",
   "_ Have an account?": "_ Have an account?",
-  " Sign In": " Sign In"
+  " Sign In": "Sign In",
+  "User not found, please sign in again": "User not found, please sign in again"
 }

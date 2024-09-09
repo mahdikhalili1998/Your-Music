@@ -22,7 +22,7 @@ export async function PATCH(req: NextRequest) {
         {
           message: MESSSGE.INCORRECT_PASSWORD,
         },
-        { status: STATUS.INCORRECT_INFO },
+        { status: STATUS.WRONG_PASS },
       );
     }
 

@@ -22,7 +22,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [deleter, setDeleter] = useState<string>("");
   const router = useRouter();
-  const t = useTranslations("Setting");
+  const t = useTranslations("SettingPage");
 
   const deleteHandler = () => {
     if (user.userName === deleter) {

@@ -76,7 +76,7 @@ const ProfilePage: FC<IProfilePageProps> = async ({ locale }) => {
     return (
       <div className="space-y-4">
         <h2 className="text-center font-medium text-p-950">
-          User not found, please sign in again.
+          {t("User not found, please sign in again")}
         </h2>
       </div>
     );

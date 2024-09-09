@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 const SettingPage: FC<ISession> = ({ user, session, locale }) => {
   const [isSure, setIsSure] = useState<boolean>(false);
   const [finalDeleting, setFinalDeleting] = useState<boolean>(false);
-  const t = useTranslations("Setting");
+  const t = useTranslations("SettingPage");
   return (
     <div
       className={`${locale === "fa" ? "font-iransans" : null} space-y-8 bg-gradient-to-r from-p-500 to-p-200 p-2`}
@@ -66,7 +66,7 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
           {t("Languages")}
         </p>
         <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
-          {t(" Theme")}
+          {t("Theme")}
         </p>
       </div>
     </div>

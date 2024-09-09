@@ -8,6 +8,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const LoginInfo: FC<IProfileDetail> = ({
   openPersonalModal,
@@ -26,6 +27,7 @@ const LoginInfo: FC<IProfileDetail> = ({
   });
   const [changingOption, setChangingOption] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const t = useTranslations("loginInfo");
 
   const router = useRouter();
   const inputRef = useRef(null);
@@ -103,7 +105,7 @@ const LoginInfo: FC<IProfileDetail> = ({
         <li onClick={(e) => editInfohandler("email")}>
           {changingOption === "email" && edit ? (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">Email : </span>{" "}
+              <span className="font-medium text-rose-800">{t("Email")} : </span>{" "}
               <input
                 className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
                 ref={inputRef}
@@ -115,7 +117,7 @@ const LoginInfo: FC<IProfileDetail> = ({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">Email : </span>
+              <span className="font-medium text-rose-800">{t("Email")} : </span>
               <span>{edit ? editedInfo.email : userData.email}</span>
             </div>
           )}
@@ -123,7 +125,9 @@ const LoginInfo: FC<IProfileDetail> = ({
         <li onClick={(e) => editInfohandler("userName")}>
           {changingOption === "userName" && edit ? (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">userName : </span>{" "}
+              <span className="font-medium text-rose-800">
+                {t("userName")} :{" "}
+              </span>{" "}
               <input
                 className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
                 ref={inputRef}
@@ -135,13 +139,19 @@ const LoginInfo: FC<IProfileDetail> = ({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">UserName : </span>
+              <span className="font-medium text-rose-800">
+                {" "}
+                {t("userName")} :{" "}
+              </span>
               <span>{edit ? editedInfo.userName : userData.userName}</span>
             </div>
           )}
         </li>
         <li className="flex flex-col items-center justify-center">
-          <span className="font-medium text-rose-800"> Last Update Date: </span>
+          <span className="font-medium text-rose-800">
+            {" "}
+            {t("Last Update Date")}:{" "}
+          </span>
           <span>{moment(userData.updatedAt).format("YYYY/MM/DD")}</span>
         </li>
         {edit ? (
@@ -149,7 +159,7 @@ const LoginInfo: FC<IProfileDetail> = ({
             onClick={(e) => saveHandler()}
             className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500"
           >
-            Save
+            {t("Save")}
           </button>
         ) : null}
       </ul>

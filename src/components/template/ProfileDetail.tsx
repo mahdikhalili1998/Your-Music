@@ -18,6 +18,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { TbCaptureFilled } from "react-icons/tb";
 import { MdKeyboardReturn } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
@@ -37,6 +38,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const editorRef = useRef<AvatarEditor | null>(null);
   const [scale, setScale] = useState(1.2); // مقدار زوم اولیه
   const router = useRouter();
+  const t = useTranslations("profileDetailPage");
 
   const handleSave = async () => {
     if (editorRef.current && image) {
@@ -152,7 +154,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   return (
     <>
       <div
-        className={`flex flex-col items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3`}
+        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : null} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3`}
       >
         <div className="relative">
           <div onClick={(e) => changeProfHandler()}>
@@ -215,7 +217,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
                 onClick={handleSave}
                 className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
               >
-                Save
+                {t("Save")}
               </button>
             </div>
           </div>
@@ -225,7 +227,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
             onClick={(e) => personalHandler()}
             className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
           >
-            Personal Info
+            {t("Personal Info")}
             {openPersonalModal ? (
               <RiArrowUpWideFill className="mt-1 text-2xl font-medium text-p-950" />
             ) : (
@@ -242,7 +244,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
             onClick={(e) => loginHandler()}
             className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300`}
           >
-            Login Info
+            {t("Login Info")}
             {openLoginModal ? (
               <RiArrowUpWideFill className="mt-1 text-2xl font-medium text-p-950" />
             ) : (
@@ -260,7 +262,8 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
           onClick={(e) => signOutHandler()}
           className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white`}
         >
-          Sign Out <RiLogoutCircleRLine className="text-2xl font-medium" />
+          {t("Sign Out")}
+          <RiLogoutCircleRLine className="text-2xl font-medium" />
         </button>
       </div>
       <Toaster />
