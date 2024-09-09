@@ -9,6 +9,8 @@ import { useTranslations } from "next-intl";
 import Loader from "./Loader";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
+import momentJalaali from "moment-jalaali";
+import { p2e } from "@/helper/replaceNumber.js";
 
 const PersonalInfo: FC<IProfileDetail> = ({
   userData,
@@ -30,6 +32,8 @@ const PersonalInfo: FC<IProfileDetail> = ({
   const router = useRouter();
   const inputRef = useRef(null);
   const divRef = useRef(null);
+  momentJalaali.loadPersian({ usePersianDigits: true });
+  const jalaliDate = momentJalaali(userData.updatedAt).format("jYYYY/jMM/jDD");
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -78,11 +82,12 @@ const PersonalInfo: FC<IProfileDetail> = ({
         // console.log(res);
         if (res.status === 201) {
           toast.success(t("Succsess"));
+          router.refresh();
           router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         if (error.response.status === 409) {
           toast.error(t("You have not made any changes"));
           setPassLevel(false);
@@ -176,7 +181,12 @@ const PersonalInfo: FC<IProfileDetail> = ({
             {" "}
             ِ{t("Date of sign in")} :{" "}
           </span>
-          <span>{moment(userData.updatedAt).format("YYYY/MM/DD")}</span>
+          <span>
+            {" "}
+            {locale === "fa"
+              ? jalaliDate
+              : p2e(moment(userData.updatedAt).format("YYYY/MM/DD"))}
+          </span>
         </li>
         {edit ? (
           <button

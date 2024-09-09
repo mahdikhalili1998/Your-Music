@@ -37,7 +37,15 @@
     "Email": "ایمیل",
     "userName": "آیدی",
     "Last Update Date": "تاریخ آخرین تغیر",
-    "Save": "ذخیره"
+    "Save": "ذخیره",
+    "Enter your password to continue": "برای ادامه رمز را وارد کنید",
+    "Forget Your Password ?": "رمز خود را فراموش کردید ؟",
+    "Succsess": "موفقیت آمیز",
+    "You have not made any changes": "شما تغیری ایجاد نکردید",
+    "wrong password": "رمز اشتباه است",
+    "Please insert correct Info": "اطلاعات با فرمت صحیح وارد کنید",
+    "user not found": "کاربر یافت نشد",
+    "server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید"
   },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",

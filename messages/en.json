@@ -37,7 +37,15 @@
     "Email": "Email",
     "userName": "userName",
     "Last Update Date": "Last Update Date",
-    "Save": "Save"
+    "Save": "Save",
+    "Enter your password to continue": "Enter your password to continue",
+    "Forget Your Password ?": "Forget Your Password ?",
+    "Succsess": "Succsess",
+    "You have not made any changes": "You have not made any changes",
+    "wrong password": "wrong password",
+    "Please insert correct Info": "Please insert correct Info",
+    "user not found": "user not found",
+    "server error , try again later": "server error , try again later"
   },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",

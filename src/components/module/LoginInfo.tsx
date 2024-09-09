@@ -9,7 +9,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-
+import momentJalaali from "moment-jalaali";
+import { p2e } from "@/helper/replaceNumber.js";
 const LoginInfo: FC<IProfileDetail> = ({
   openPersonalModal,
   userData,
@@ -28,7 +29,8 @@ const LoginInfo: FC<IProfileDetail> = ({
   const [changingOption, setChangingOption] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const t = useTranslations("loginInfo");
-
+  momentJalaali.loadPersian({ usePersianDigits: true });
+  const jalaliDate = momentJalaali(userData.updatedAt).format("jYYYY/jMM/jDD");
   const router = useRouter();
   const inputRef = useRef(null);
   const divRef = useRef(null);
@@ -79,15 +81,31 @@ const LoginInfo: FC<IProfileDetail> = ({
       .then((res) => {
         // console.log(res);
         if (res.status === 201) {
-          toast.success("The operation was successful");
+          toast.success(t("Succsess"));
           router.refresh();
           router.push(`/${locale}/sign-in`);
         }
       })
       .catch((error) => {
         // console.log(error);
-        if (error) {
-          toast.error(error.response.data.message);
+        if (error.response.status === 409) {
+          toast.error(t("You have not made any changes"));
+          setPassLevel(false);
+          router.refresh();
+        } else if (error.response.status === 401) {
+          toast.error(t("wrong password"));
+          setPassLevel(false);
+          router.refresh();
+        } else if (error.response.status === 422) {
+          toast.error(t("Please insert correct Info"));
+          setPassLevel(false);
+          router.refresh();
+        } else if (error.response.status === 404) {
+          toast.error(t("user not found"));
+          setPassLevel(false);
+          router.refresh();
+        } else if (error.response.status === 500) {
+          toast.error(t("server error , try again later"));
           setPassLevel(false);
           router.refresh();
         }
@@ -152,7 +170,11 @@ const LoginInfo: FC<IProfileDetail> = ({
             {" "}
             {t("Last Update Date")}:{" "}
           </span>
-          <span>{moment(userData.updatedAt).format("YYYY/MM/DD")}</span>
+          <span>
+            {locale === "fa"
+              ? jalaliDate
+              : p2e(moment(userData.updatedAt).format("YYYY/MM/DD"))}
+          </span>
         </li>
         {edit ? (
           <button
@@ -169,7 +191,7 @@ const LoginInfo: FC<IProfileDetail> = ({
           className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
         >
           <h2 className="text-center text-sm font-medium">
-            Enter your password to continue :
+            {t("Enter your password to continue")} :
           </h2>
           <input
             value={password}
@@ -188,14 +210,14 @@ const LoginInfo: FC<IProfileDetail> = ({
               disabled={!password}
               className="rounded-lg border-2 border-solid border-white bg-green-500 px-2 py-1 font-medium text-white outline outline-[3px] outline-green-500 disabled:opacity-55"
             >
-              Save
+              {t("Save")}
             </button>
           )}
           <Link
             href={`/${locale}/reset-pass`}
             className="w-max text-sm font-medium text-blue-600"
           >
-            Forget Your Password ?
+            {t("Forget Your Password ?")}
           </Link>
         </div>
       ) : null}
