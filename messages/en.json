@@ -20,6 +20,7 @@
   },
   "personalInfo": {
     "Name": "Name",
+    "lastName": "lastName",
     "Phone Number": "Phone Number",
     "Membership type": "Membership type",
     "Date of sign in": "Date of sign in",

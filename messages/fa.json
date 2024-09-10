@@ -20,6 +20,7 @@
   },
   "personalInfo": {
     "Name": "نام",
+    "lastName": "نام خانوادگی",
     "Phone Number": "تلفن تماس",
     "Membership type": "نوع عضویت",
     "Date of sign in": "تاریخ عضویت",

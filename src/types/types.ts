@@ -23,6 +23,7 @@ export interface IPassword {
 
 export interface IPersonalInfo {
   name: string;
+  lastName: string;
   phoneNumber: string;
   _id: string;
 }

@@ -24,6 +24,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
   const t = useTranslations("personalInfo");
   const [editedInfo, setEditedInfo] = useState<IPersonalInfo>({
     name: userData.name,
+    lastName: "",
     phoneNumber: userData.phoneNumber,
     _id: userData._id,
   });
@@ -132,6 +133,31 @@ const PersonalInfo: FC<IProfileDetail> = ({
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("Name")} : </span>
               <span>{edit ? editedInfo.name : userData.name}</span>
+            </div>
+          )}
+        </li>
+
+        <li onClick={(e) => editInfohandler("lastName")}>
+          {changingOption === "lastName" && edit ? (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">
+                {t("lastName")} :{" "}
+              </span>{" "}
+              <input
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                ref={inputRef}
+                type="text"
+                name="lastName"
+                value={edit ? editedInfo.lastName : userData.lastName}
+                onChange={(e) => changeHandler(e)}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">
+                {t("lastName")} :{" "}
+              </span>
+              <span>{edit ? editedInfo.lastName : userData.lastName}</span>
             </div>
           )}
         </li>
