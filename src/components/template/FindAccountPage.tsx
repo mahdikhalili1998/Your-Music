@@ -26,7 +26,7 @@ function FindAccountPage() {
     }
     setLoader(true);
     await axios
-      .get("/api/find-accouno/", { params: { number } })
+      .get("/api/find-account/", { params: { number } })
       .then((res) => {
         if (res.status === 200) {
           setUserInfo({
@@ -39,7 +39,7 @@ function FindAccountPage() {
       .catch((error) => {
         console.log(error);
         if (error.response.status === 404) {
-          toast.error(MESSSGE.SERVER_ERROR || error.response.data.message);
+          toast.error("can not find user");
         }
 
         setLoader(false);

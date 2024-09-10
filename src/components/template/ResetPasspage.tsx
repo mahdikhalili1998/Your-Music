@@ -79,31 +79,36 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
     };
 
     setLoader(true);
-    try {
-      const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
-        headers,
-      });
-      // console.log(proxyRes);
-      if (proxyRes.status === 200) {
-        setOtpCode(proxyRes.data.code);
-        setLoader(false);
-      }
-    } catch (error) {
-      if (error.response) {
-        // خطای سرور
-        if (error.response.status === 409) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error(MESSSGE.SERVER_ERROR);
+    await axios
+      .post("/api/auth/exsitedPhoneNumber", {
+        data: changePass.phone,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .post("/api/proxy", JSON.stringify(num), {
+              headers,
+            })
+            .then((res) => {
+              if (res.status === 200) {
+                setOtpCode(res.data.code);
+                setLoader(false);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("error in proxy");
+            });
         }
-      } else {
-        // خطای شبکه
-        // console.log(error);
-        toast.error(MESSSGE.SERVER_ERROR);
-      }
-    } finally {
-      setLoader(false);
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 404) {
+          toast.error("There is no account with this phone number");
+          setLoader(false);
+          setChangePass({ ...changePass, phone: "" });
+        }
+      });
   };
 
   const enterCodeHandler = () => {

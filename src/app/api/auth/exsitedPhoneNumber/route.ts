@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
     }
     if (!existedPhoneNumber) {
       return NextResponse.json(
-        { message: MESSSGE.SUCCSESS },
-        { status: STATUS.SUCCSESS },
+        { message: MESSSGE.USER_NOT_FOUND },
+        { status: STATUS.NOT_FOUND },
       );
     }
   } catch (error) {

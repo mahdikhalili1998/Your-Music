@@ -6,11 +6,8 @@ import userInfo from "@/model/userInfo";
 export async function GET(req: NextRequest) {
   try {
     await ConnectDB();
-
-    // دریافت پارامتر جستجو از URL
     const number = req.nextUrl.searchParams.get("number");
     // console.log(number);
-
     if (!number) {
       return NextResponse.json(
         { message: MESSSGE.INCORRECT_INFO },
