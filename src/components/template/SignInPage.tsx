@@ -2,6 +2,7 @@
 import { IoPersonSharp } from "react-icons/io5";
 import { FaLock } from "react-icons/fa";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { RiArrowLeftSLine } from "react-icons/ri";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { ISignIn } from "@/types/signIn";
@@ -13,6 +14,7 @@ import ResetPasspage from "./ResetPasspage";
 import { IPassword } from "@/types/types";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
+import { useTranslations } from "next-intl";
 
 function SignInPage({ locale }: ILocale) {
   const [userInfo, setUserInfo] = useState<ISignIn>({
@@ -29,13 +31,13 @@ function SignInPage({ locale }: ILocale) {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
-
   const router = useRouter();
-
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
+  const t = useTranslations("SignInPage");
+  const E = useTranslations("enum");
 
   const signInHandler = async () => {
     setLoading(true);
@@ -44,8 +46,14 @@ function SignInPage({ locale }: ILocale) {
       password,
       redirect: false,
     });
-    if (res?.error) {
-      toast.error(res.error);
+    if (res?.error === "422") {
+      toast.error(E("Please insert correct Info"));
+    } else if (res?.error === "404") {
+      toast.error(E("Can Not Find User"));
+    } else if (res?.error === "401") {
+      toast.error(E("Wrong password"));
+    } else if (res?.error === "500") {
+      toast.error(E("Server error , try again later"));
     } else {
       router.push("/");
     }
@@ -90,7 +98,7 @@ function SignInPage({ locale }: ILocale) {
   // };
 
   return (
-    <div className="relative">
+    <div className={`${locale === "fa" ? "font-iransans" : null} relative`}>
       {loader ? (
         <div className="absolute left-[5rem] top-[17rem] z-10 blur-none">
           <Loader height={70} width={110} />{" "}
@@ -103,8 +111,10 @@ function SignInPage({ locale }: ILocale) {
           <ResetPasspage locale={locale} />
         ) : (
           <div className="flex flex-col gap-7 bg-gradient-to-r from-p-500 to-p-200 pb-8">
-            <h2 className="py-3 pl-2 font-medium text-white">
-              <span className="tracking-[1px]"> SignIn</span> your account :
+            <h2
+              className={`${locale === "fa" ? "text-p-950" : "text-white"} px-2 py-3 pl-2 font-medium`}
+            >
+              {t("Sign in your account")} :
             </h2>
             <Image
               src="/image/signUp.png"
@@ -114,15 +124,22 @@ function SignInPage({ locale }: ILocale) {
               className=""
               priority
             />
-            <div className="mr-7 flex flex-col gap-10 rounded-ee-full rounded-se-full bg-white pb-5">
-              <div className="ml-2 mt-2 flex flex-col items-start gap-6">
+            <div
+              className={`${locale === "fa" ? "ml-7" : "mr-7"} flex flex-col gap-10 rounded-ee-full rounded-se-full bg-white pb-5`}
+            >
+              <div
+                className={`${locale === "fa" ? "mr-8" : "ml-2"} mt-2 flex flex-col items-start gap-6`}
+              >
                 <div className="flex w-[9rem] items-center border-b-2 border-solid border-p-700">
-                  <label htmlFor="person " className="-mr-5">
+                  <label
+                    htmlFor="person "
+                    className={`${locale === "fa" ? "mr-1" : "-mr-5"}`}
+                  >
                     <IoPersonSharp className="text-lg text-p-700" />
                   </label>
                   <input
                     id="person"
-                    placeholder="userName "
+                    placeholder={locale === "fa" ? "نام کاربری" : "userName"}
                     onChange={(e) => changeHandler(e)}
                     name="userName"
                     value={userInfo.userName}
@@ -130,12 +147,15 @@ function SignInPage({ locale }: ILocale) {
                   />
                 </div>
                 <div className="flex w-[9rem] items-center border-b-2 border-solid border-p-700">
-                  <label htmlFor="lock" className="-mr-5">
+                  <label
+                    htmlFor="lock"
+                    className={`${locale === "fa" ? "mr-1" : "-mr-5"}`}
+                  >
                     <FaLock className="text-lg text-p-700" />
                   </label>
                   <input
                     id="lock"
-                    placeholder="password"
+                    placeholder={locale === "fa" ? "رمز عبور" : "password"}
                     onChange={(e) => changeHandler(e)}
                     name="password"
                     value={userInfo.password}
@@ -146,27 +166,33 @@ function SignInPage({ locale }: ILocale) {
 
               <button
                 onClick={(e) => signInHandler()}
-                className={`ml-auto flex w-max items-center justify-between gap-8 rounded-md bg-white px-4 py-1 font-medium text-p-700 shadow-md shadow-p-400 transition-opacity duration-500`}
+                className={`${locale === "fa" ? "mr-auto" : "ml-auto"} flex w-max items-center justify-between gap-8 rounded-md bg-white px-4 py-1 font-medium text-p-700 shadow-md shadow-p-400 transition-opacity duration-500`}
               >
                 {!loading ? (
                   <>
-                    Sign in
-                    <RiArrowRightSLine className="mt-1 text-xl text-p-700" />
+                    {t("Sign in")}
+                    {locale === "fa" ? (
+                      <RiArrowLeftSLine className="mt-1 text-xl text-p-700" />
+                    ) : (
+                      <RiArrowRightSLine className="mt-1 text-xl text-p-700" />
+                    )}
                   </>
                 ) : (
                   <Loader height={24} width={106} />
                 )}
               </button>
             </div>
-            <div className="ml-5 rounded-bl-full rounded-tl-full bg-white py-8">
+            <div
+              className={`${locale === "fa" ? "mr-5 rounded-br-full rounded-tr-full" : "ml-5 rounded-bl-full rounded-tl-full"} bg-white py-8`}
+            >
               <div className="flex flex-col items-center gap-2 text-sm font-medium text-blue-800">
                 <Link href={`/${locale}/reset-pass`}>
-                  _ Forget your password ??
+                  {t("_ Forget your password ??")}
                 </Link>
                 <Link href={`/${locale}/find-account`}>
-                  _ Forget your user name ??
+                  {t("_ Forget your user name ??")}
                 </Link>
-                <p>_ help center </p>
+                <p>{t("_ help center")} </p>
               </div>
             </div>
           </div>

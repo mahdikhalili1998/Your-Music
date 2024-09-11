@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import ConnectDB from "@/utils/ConnectDB";
 import userInfo from "@/model/userInfo";
 import { verifyPassword } from "@/utils/nextPass";
-import { MESSSGE } from "@/enums/enum";
+// اینجا برای هندل کردن  توست چند زبونه به جای پیام کد استاتوس برگردوندم
 
 export const authOptions = {
   session: { strategy: "jwt" },
@@ -15,51 +15,45 @@ export const authOptions = {
         try {
           await ConnectDB();
         } catch (error) {
-          throw new Error(MESSSGE.SERVER_ERROR);
+          throw new Error("500"); //خطای سرور 
         }
 
         if (!userName || !password) {
-          throw new Error(MESSSGE.INCORRECT_INFO);
+          throw new Error("422"); // اطالاعات را وارد کنید
         }
 
         const user = await userInfo.findOne({ userName });
         if (!user) {
-          throw new Error(MESSSGE.CREATE_ACCOUNT);
+          throw new Error("404"); // کاربر یافت نشد
         }
 
         const isValid = await verifyPassword(password, user.password);
         if (!isValid) {
-          throw new Error(MESSSGE.INCORRECT_USERNAME_PASSWORD);
+          throw new Error("401"); // رمز اشتباه
         }
 
-        // ایمیل کاربر را برگردانید
+    
         return { email: user.email, id: user._id };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // اگر کاربر جدید وارد شد، ایمیل و آی‌دی را در توکن ذخیره کنید
+
       if (user) {
         token.email = user.email;
-        token.sub = user.id; // ذخیره ID کاربر
+        token.sub = user.id; 
       }
 
-      // اتصال به MongoDB
+
       await ConnectDB();
-
-      // بررسی ایمیل جدید از پایگاه داده
       const updatedUser = await userInfo.findById(token.sub);
-
       if (updatedUser && updatedUser.email !== token.email) {
-        // به‌روزرسانی ایمیل در توکن
         token.email = updatedUser.email;
       }
-
       return token;
     },
     async session({ session, token }) {
-      // ایمیل به‌روز شده را در session ذخیره کنید
       session.user.email = token.email;
       return session;
     },

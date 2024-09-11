@@ -48,6 +48,19 @@
     "user not found": "user not found",
     "server error , try again later": "server error , try again later"
   },
+  "SignInPage": {
+    "Sign in your account": "Sign in your account",
+    "Sign in": "Sign in",
+    "_ Forget your password ??": "_ Forget your password ??",
+    "_ Forget your user name ??": "_ Forget your user name ??",
+    "_ help center": "_ help center"
+  },
+  "enum": {
+    "Please insert correct Info": "Please insert correct Info",
+    "Can Not Find User": "Can Not Find User",
+    "Wrong password": "Wrong password",
+    "Server error , try again later": "Server error , try again later"
+  },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": "Sign Up",

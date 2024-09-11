@@ -13,10 +13,10 @@ const Header: FC<Iheader> = ({ open, setOpen, locale }) => {
 
   return (
     <div
-      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300`}
+      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300 `}
     >
       <div
-        className={`flex ${locale === "fa" ? "flex-row-reverse" : null} justify-between bg-gradient-to-r from-p-500 to-p-200 py-3 font-shantell`}
+        className={`flex ${locale === "fa" ? "flex-row-reverse" : null} justify-between bg-gradient-to-r from-p-500 to-p-200 py-3 font-shantell px-2`}
       >
         <h2
           className={`relative ml-2 mt-5 flex ${locale === "fa" ? "flex-row-reverse" : null} items-center p-2 text-3xl text-p-200`}

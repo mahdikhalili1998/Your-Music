@@ -36,7 +36,7 @@ function Layout({ children, locale }: LayoutProps) {
   }, []);
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className={`relative overflow-x-hidden`}>
       <Header
         open={open}
         setOpen={setOpen}

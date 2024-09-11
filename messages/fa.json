@@ -48,6 +48,19 @@
     "user not found": "کاربر یافت نشد",
     "server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید"
   },
+  "SignInPage": {
+    "Sign in your account": "وارد اکانت خود شوید",
+    "Sign in": "ورود به حساب",
+    "_ Forget your password ??": "رمز عبور خود را فراموش کردید ؟؟",
+    "_ Forget your user name ??": "نام کاربری خود را به خاطر نمیاورید ؟؟",
+    "_ help center": "مرکز کمک رسانی"
+  },
+  "enum": {
+    "Please insert correct Info": "اطلاعات با فرمت صحیح وارد کنید",
+    "Can Not Find User": "کاربر یافت نشد",
+    "Wrong password": "رمز عبور اشتباه است",
+    "Server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید"
+  },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",
