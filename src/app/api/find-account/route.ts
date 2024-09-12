@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { message: MESSSGE.USER_NOT_FOUND },
-        { status: STATUS.NOT_FOUND },
+        { status: STATUS.NOT_FOUND2 },
       );
     }
 

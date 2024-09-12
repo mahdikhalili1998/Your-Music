@@ -55,6 +55,7 @@ export interface ISignupPage {
 export type UserInfo = {
   userName: string;
   profilePicUrl: string;
+  locale?: string;
 };
 
 export interface IAccountFound {}

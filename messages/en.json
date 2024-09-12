@@ -72,6 +72,16 @@
     "Enter the correct phone number": "Enter the correct phone number",
     "The entered value does not match the SMS code": "The entered value does not match the SMS code"
   },
+  "findAccountPage": {
+    "Finding your account": "Finding your account",
+    "Find Account": "Find Account"
+  },
+  "foundAccountModule": {
+    "Is this your account ?": "Is this your account ?",
+    "Enter your password to sign in": "Enter your password to sign in",
+    "_ Forget your password ??": "_ Forget your password ??",
+    "Sign in": "Sign in"
+  },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": "Sign Up",

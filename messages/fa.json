@@ -72,6 +72,16 @@
     "Enter the correct phone number": "شماره تلفن با فرمت صحیح وارد کنید",
     "The entered value does not match the SMS code": "کد پیامکی با کد وارد شده یکسان نیست"
   },
+  "findAccountPage": {
+    "Finding your account": "پیدا کردن اکانت شما ",
+    "Find Account": "جست و جو"
+  },
+  "foundAccountModule": {
+    "Is this your account ?": "آیا این حساب شما است ؟؟",
+    "Enter your password to sign in": "برای ورود رمز خود را وارد کنید",
+    "_ Forget your password ??": "رمز خود را فراموش کردید ؟؟",
+    "Sign in": "ورود"
+  },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",
