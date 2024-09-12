@@ -59,7 +59,18 @@
     "Please insert correct Info": "Please insert correct Info",
     "Can Not Find User": "Can Not Find User",
     "Wrong password": "Wrong password",
-    "Server error , try again later": "Server error , try again later"
+    "Server error , try again later": "Server error , try again later",
+    "Error in sending request": "Error in sending request",
+    "Passwords are not the same": "Passwords are not the same",
+    "Changing Password succsessfully": "Changing Password succsessfully"
+  },
+  "ResetPassPage": {
+    "Create new password": "Create new password",
+    "Enter your phone number": "Enter your phone number",
+    "Change Password": "Change Password",
+    "Send": "Send",
+    "Enter the correct phone number": "Enter the correct phone number",
+    "The entered value does not match the SMS code": "The entered value does not match the SMS code"
   },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",

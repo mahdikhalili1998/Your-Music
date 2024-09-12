@@ -59,7 +59,18 @@
     "Please insert correct Info": "اطلاعات با فرمت صحیح وارد کنید",
     "Can Not Find User": "کاربر یافت نشد",
     "Wrong password": "رمز عبور اشتباه است",
-    "Server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید"
+    "Server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید",
+    "Error in sending request": "خطا در ارسال درخواست",
+    "Passwords are not the same": "رمز وارد شده و تکرار آن یکسان نیست",
+    "Changing Password succsessfully": "تغیر رمز موفقیت آمیز بود"
+  },
+  "ResetPassPage": {
+    "Create new password": "رمز عبور جدید ",
+    "Enter your phone number": "شماره تلفن  خود را وارد کنید ",
+    "Change Password": "تغیر رمز",
+    "Send": "ارسال",
+    "Enter the correct phone number": "شماره تلفن با فرمت صحیح وارد کنید",
+    "The entered value does not match the SMS code": "کد پیامکی با کد وارد شده یکسان نیست"
   },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",

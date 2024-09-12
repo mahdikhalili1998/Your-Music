@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest) {
     const { password, phone } = changePass;
 
     const user = await userInfo.findOne({ phoneNumber: changePass.phone });
-    // console.log(user);
+    console.log(user);
     if (!password || !phone) {
       return NextResponse.json(
         { message: MESSSGE.INCORRECT_INFO },

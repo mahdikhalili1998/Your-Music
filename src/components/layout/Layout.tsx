@@ -36,7 +36,9 @@ function Layout({ children, locale }: LayoutProps) {
   }, []);
 
   return (
-    <div className={`relative overflow-x-hidden`}>
+    <div
+      className={`relative overflow-x-hidden ${locale === "fa" ? "font-iransans" : null}`}
+    >
       <Header
         open={open}
         setOpen={setOpen}
@@ -53,35 +55,35 @@ function Layout({ children, locale }: LayoutProps) {
         </div>
         <div
           ref={divRef}
-          className={`${locale === "fa" ? "directon-ltr" : null} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
+          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
         >
           <div className={`mt-10 flex justify-start`}>
             <div
               className={`flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black`}
             >
               <Link
-                className={`custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
+                className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
                 href={`/${locale}/profile`}
                 onClick={() => setOpen(false)}
               >
                 <MdAccountCircle className="text-3xl" /> {t("Profile")}
               </Link>
               <Link
-                className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
+                className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
                 href={`/${locale}/download`}
                 onClick={() => setOpen(false)}
               >
                 <IoMdDownload className="text-3xl" /> {t("Download")}
               </Link>
               <Link
-                className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
+                className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
                 href={`/${locale}/setting-page`}
                 onClick={() => setOpen(false)}
               >
                 <IoMdSettings className="text-3xl" /> {t("Setting")}
               </Link>
               <Link
-                className="custom-divider flex items-center gap-2 px-3 py-2 text-p-950"
+                className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
                 href={`/${locale}/about`}
                 onClick={() => setOpen(false)}
               >

@@ -6,8 +6,9 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IPassword } from "@/types/types";
-import { MESSSGE } from "@/enums/enum";
+import { p2e } from "@/helper/replaceNumber.js";
 import { ILocale } from "@/types/props";
+import { useTranslations } from "next-intl";
 
 const ResetPasspage: FC<ILocale> = ({ locale }) => {
   const [userOtpCode, setUserOtpCode] = useState<string>("");
@@ -15,13 +16,16 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
   const [loader, setLoader] = useState<boolean>(false);
   const router = useRouter();
   const [otpCode, setOtpCode] = useState<string>("");
+
   const [changePass, setChangePass] = useState<IPassword>({
     password: "",
     repeatPassword: "",
     phone: "",
   });
+  const t = useTranslations("ResetPassPage");
+  const E = useTranslations("enum");
 
-  // console.log(otpCode);
+  // console.log(changePass.phone);
   // useEffect(() => {
   //   const phoneNumber = localStorage.getItem("phoneNumber");
   //   if (phoneNumber) {
@@ -68,22 +72,23 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
     const phoneRegex = /^09\d{9}$/;
 
     if (!phoneRegex.test(changePass.phone)) {
-      toast.error("Enter the correct phone number");
+      toast.error(t("Enter the correct phone number"));
       return;
     }
 
-    const num = { to: changePass.phone }; // تبدیل به یک آبجکت برای JSON.stringify
+    const num = { to: p2e(changePass.phone) }; // تبدیل به یک آبجکت برای JSON.stringify
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer your_auth_token", // هدر Authorization در صورت نیاز
     };
-
+    // console.log(changePass.phone);
     setLoader(true);
     await axios
       .post("/api/auth/exsitedPhoneNumber", {
-        data: changePass.phone,
+        data: p2e(changePass.phone),
       })
       .then((res) => {
+        // console.log(res);
         if (res.status === 200) {
           axios
             .post("/api/proxy", JSON.stringify(num), {
@@ -91,7 +96,9 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
             })
             .then((res) => {
               if (res.status === 200) {
+                // console.log(res);
                 setOtpCode(res.data.code);
+                console.log(otpCode);
                 setLoader(false);
               }
             })
@@ -104,7 +111,11 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
       .catch((error) => {
         console.log(error);
         if (error.response.status === 404) {
-          toast.error("There is no account with this phone number");
+          toast.error(E("Can Not Find User"));
+          setLoader(false);
+          setChangePass({ ...changePass, phone: "" });
+        } else if (error.response.status === 500) {
+          toast.error(E("Server error , try again later"));
           setLoader(false);
           setChangePass({ ...changePass, phone: "" });
         }
@@ -115,7 +126,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
     if (otpCode === userOtpCode) {
       setResetModal(true);
     } else {
-      toast.error("The entered value does not match the SMS code");
+      toast.error(t("The entered value does not match the SMS code"));
     }
   };
 
@@ -125,28 +136,38 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
       await axios
         .patch("/api/reset-pass", { changePass })
         .then((res) => {
-          //   console.log(res);
-          if (res.status === 200 || res.data.status === "ارسال موفق بود") {
-            toast.success(res.data.message);
+          console.log(res);
+          if (res.status === 201 || res.data.status === "ارسال موفق بود") {
+            toast.success(E("Changing Password succsessfully"));
           }
           router.push(`/${locale}/sign-in`);
         })
         .catch((error) => {
-          //   console.log(error);
-          if (error) {
-            toast.error(error.response.data.message);
+          console.log(error);
+          if (error.response.status === 404) {
+            toast.error(E("Error in sending request"));
+            setLoader(false);
+          } else if (error.response.status === 422) {
+            toast.error(E("Please insert correct Info"));
+            setLoader(false);
+          } else if (error.response.status === 500) {
+            toast.error(E("Please insert correct Info"));
+            setLoader(false);
           }
         });
-      setLoader(false);
     } else {
-      toast.error("Passwords are not the same");
+      toast.error(E("Passwords are not the same"));
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-p-500 to-p-200 px-2 py-3">
-      <h2 className="text-left font-medium text-white">
-        {resetModal ? "Create new password" : "Enter the SMS code"}
+    <div
+      className={`${locale === "fa" ? "directon-rtl font-iransans" : ""} bg-gradient-to-r from-p-500 to-p-200 px-2 py-3`}
+    >
+      <h2
+        className={`${locale === "fa" ? "text-right text-p-950" : "text-left text-white"} font-medium`}
+      >
+        {resetModal ? t("Create new password") : t("Enter your phone number")}
       </h2>
       <div className="mx-auto flex w-max flex-col items-center justify-center gap-6 rounded-lg p-3 py-5">
         <Image
@@ -164,10 +185,13 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
                 type="password"
                 id="resetPass"
                 name="resetPass"
-                placeholder="new password"
+                placeholder={locale === "fa" ? "رمز جدید" : "new password"}
                 value={changePass.password}
                 onChange={(e) =>
-                  setChangePass({ ...changePass, password: e.target.value })
+                  setChangePass({
+                    ...changePass,
+                    password: e.target.value,
+                  })
                 }
                 className="rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700"
               />
@@ -175,7 +199,11 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
                 type="password"
                 id="repeatPassword"
                 name="repeatPassword"
-                placeholder="Re-enter the password"
+                placeholder={
+                  locale === "fa"
+                    ? "رمز را مجددا وارد کنید"
+                    : "Re-enter the password"
+                }
                 value={changePass.repeatPassword}
                 onChange={(e) =>
                   setChangePass({
@@ -192,10 +220,12 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
                 type="number"
                 id="user phone"
                 name="user phone"
-                placeholder="Your phone number"
+                placeholder={
+                  locale === "fa" ? "شماره تلفن " : "Your phone number"
+                }
                 value={changePass.phone}
                 onChange={(e) =>
-                  setChangePass({ ...changePass, phone: e.target.value })
+                  setChangePass({ ...changePass, phone: p2e(e.target.value) })
                 }
                 className="rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700"
               />
@@ -203,9 +233,9 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
                 type="number"
                 id="otpCode"
                 name="otpCode"
-                placeholder="Code ... "
+                placeholder={locale === "fa" ? "کد پیامک شده" : "Code ... "}
                 value={userOtpCode}
-                onChange={(e) => setUserOtpCode(e.target.value)}
+                onChange={(e) => setUserOtpCode(p2e(e.target.value))}
                 className={`${otpCode ? "block" : "hidden"} rounded-lg border-2 border-p-700 px-2 py-1 text-center text-p-950 placeholder:text-center focus:outline-p-700`}
               />
             </div>
@@ -219,7 +249,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
               onClick={(e) => passwordHandler()}
               className="rounded-lg bg-p-700 px-2 py-1 text-white"
             >
-              Change Password
+              {t("Change Password")}
             </button>
           ) : otpCode ? (
             <button
@@ -227,7 +257,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
               onClick={(e) => enterCodeHandler()}
             >
               {" "}
-              Change Password
+              {t("Change Password")}
             </button>
           ) : (
             <button
@@ -235,7 +265,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
               className="rounded-lg bg-p-700 px-2 py-1 text-white disabled:cursor-not-allowed disabled:opacity-55"
               disabled={!changePass.phone}
             >
-              Send
+              {t("Send")}
             </button>
           )}
         </div>
