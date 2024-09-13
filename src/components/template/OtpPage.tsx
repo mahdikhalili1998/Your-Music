@@ -9,16 +9,19 @@ import Loader from "../module/Loader";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
 import { MESSSGE } from "@/enums/enum";
+import { useTranslations } from "next-intl";
+import { p2e } from "@/helper/replaceNumber.js";
 
 function OtpPage({ locale }: ILocale) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otpCode, setOtpCode] = useState<string>("");
-
   const [userCode, setUserCode] = useState<string>("");
   const [userGender, setUserGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [nextLevel, setNextLevel] = useState<boolean>(false);
   const router = useRouter();
+  const t = useTranslations("sendOtpPage");
+  const E = useTranslations("enum");
 
   const sendNumber = async () => {
     const num = { to: phoneNumber };
@@ -28,43 +31,41 @@ function OtpPage({ locale }: ILocale) {
       Authorization: "Bearer your_auth_token",
     };
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error("Enter the number in the correct format");
+      toast.error(E("Please insert correct Info"));
       return;
     }
-
     setLoading(true);
-
     try {
-      // اولین درخواست به سرور برای بررسی شماره
       const res = await axios.post("/api/auth/exsitedPhoneNumber", {
-        phoneNumber,
+        data: p2e(phoneNumber),
       });
-
       if (res.status === 200) {
-        // دومین درخواست به پروکسی API
         const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
           headers,
         });
-
-        // console.log(proxyRes);
-
         if (proxyRes.status === 200) {
           setOtpCode(proxyRes.data.code);
+          setLoading(false);
           setNextLevel(true);
         }
       }
     } catch (error) {
+      console.log(error);
       if (error.response) {
-        if (error.response.status === 409) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error(MESSSGE.SERVER_ERROR);
+        if (error.response.status === 404) {
+          toast.error(E("Error in sending request"));
+          setLoading(false);
+        } else if (error.response.status === 500) {
+          toast.error(E("Server error , try again later"));
+          setLoading(false);
+        } else if (error.response.status === 403) {
+          toast.error(E("Can Not Find User"));
+          setLoading(false);
+        } else if (error.response.status === 409) {
+          toast.error(E("There is an account with this phone number"));
+          setLoading(false);
         }
-      } else {
-        toast.error(MESSSGE.SERVER_ERROR);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -73,14 +74,14 @@ function OtpPage({ locale }: ILocale) {
     if (otpCode === userCode) {
       localStorage.setItem("phoneNumber", phoneNumber);
       if (!userGender) {
-        toast.error("Select your gender");
+        toast.error(t("Select your gender"));
       } else {
         localStorage.setItem("gender", userGender);
         router.push(`/${locale}/sign-up`);
       }
       setLoading(false);
     } else {
-      toast.error("Wrong Code");
+      toast.error(t("Wrong Code"));
       setLoading(false);
     }
   };
@@ -90,9 +91,9 @@ function OtpPage({ locale }: ILocale) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className={`${locale === "fa" ? "font-iransans" : null} space-y-4`}>
       <h2 className="text-center font-medium text-p-950">
-        {nextLevel ? "Enter your code :" : "Enter your phone number :"}
+        {nextLevel ? t("Enter your code :") : t("Enter your phone number :")}
       </h2>
       <div className="mx-auto flex w-max flex-col items-center gap-6 rounded-lg p-3 py-5 shadow-xl shadow-p-200">
         {nextLevel ? (
@@ -124,23 +125,22 @@ function OtpPage({ locale }: ILocale) {
             value={nextLevel ? userCode : phoneNumber}
             onChange={(e) => {
               nextLevel
-                ? setUserCode(e.target.value)
-                : setPhoneNumber(e.target.value);
+                ? setUserCode(p2e(e.target.value))
+                : setPhoneNumber(p2e(e.target.value));
             }}
             className="rounded-lg border-2 border-p-700 px-2 py-1 text-center placeholder:text-center focus:outline-p-700"
           />
           {nextLevel ? (
             <div className="mx-auto my-2">
-              {/* <label htmlFor="fruit-select">یک میوه انتخاب کنید:</label> */}
               <select
                 id="fruit-select"
                 className="border-b-2 border-solid border-p-700 text-p-950 focus:outline-none"
                 onChange={(e) => setUserGender(e.target.value)}
               >
-                <option value="">Gender</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="other">Other</option>
+                <option value="">{t("Gender")}</option>
+                <option value="men">{t("Men")}</option>
+                <option value="women">{t("Women")}</option>
+                <option value="other">{t("Other")}</option>
               </select>
             </div>
           ) : null}
@@ -156,13 +156,13 @@ function OtpPage({ locale }: ILocale) {
                   className="rounded-lg bg-p-700 px-2 py-1 text-white disabled:opacity-55"
                   disabled={!userGender && !userCode}
                 >
-                  Send
+                  {t("Send")}
                 </button>
                 <button
                   onClick={(e) => editHandler()}
                   className="rounded-lg bg-p-700 px-2 py-1 text-white"
                 >
-                  Edit number
+                  {t("Edit number")}
                 </button>
               </div>
             )
@@ -176,7 +176,7 @@ function OtpPage({ locale }: ILocale) {
               className="rounded-lg bg-p-700 px-1 py-1 text-white disabled:cursor-not-allowed disabled:opacity-35"
               disabled={!phoneNumber}
             >
-              Receive Code
+              {t("Receive Code")}
             </button>
           )}
         </div>
@@ -184,9 +184,9 @@ function OtpPage({ locale }: ILocale) {
           className="text-sm font-medium text-blue-500"
           href={`/${locale}/sign-in`}
         >
-          _ Do you have an account ?
+          {t("_ Do you have an account ?")}
         </Link>
-        <BtLight nextLevel={nextLevel} />
+        <BtLight nextLevel={nextLevel} locale={locale} />
       </div>
       <Toaster />
     </div>

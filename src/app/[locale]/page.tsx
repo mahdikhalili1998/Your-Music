@@ -5,9 +5,9 @@ export default function Home() {
   const t = useTranslations("HomePage");
 
   return (
-    <>
+    <div className="px-2">
       <p>{t("Profile")}</p>
       <HomePage />
-    </>
+    </div>
   );
 }

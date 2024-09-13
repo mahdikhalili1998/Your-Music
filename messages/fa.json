@@ -62,7 +62,22 @@
     "Server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید",
     "Error in sending request": "خطا در ارسال درخواست",
     "Passwords are not the same": "رمز وارد شده و تکرار آن یکسان نیست",
-    "Changing Password succsessfully": "تغیر رمز موفقیت آمیز بود"
+    "Changing Password succsessfully": "تغیر رمز موفقیت آمیز بود",
+    "There is an account with this phone number": "کاربر با این شماره وجود دارد"
+  },
+  "sendOtpPage": {
+    "Enter your phone number :": "شماره تلفن خود را وارد کنید :",
+    "Enter your code :": "کد پیامک شده را وارد کنید ",
+    "Gender": "جنسیت",
+    "Men": "مذکر",
+    "Women": "مونث",
+    "Other": "نامعلوم",
+    "Send": "ارسال",
+    "Edit number": "تغیر شماره",
+    "Receive Code": "دریافت کد",
+    "_ Do you have an account ?": "آیا حساب دارید ؟؟",
+    "Select your gender": "جنسیت خود را مشخص کنید",
+    "Wrong Code": "کد وارد شده با کد دریافتی یکسان نیست"
   },
   "ResetPassPage": {
     "Create new password": "رمز عبور جدید ",

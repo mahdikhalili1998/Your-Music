@@ -10,20 +10,21 @@ export async function POST(req: NextRequest) {
     const { data } = await req.json();
     // console.log(data);
     const existedPhoneNumber = await userInfo.findOne({ phoneNumber: data });
-    // console.log(existedPhoneNumber);
-    if (!existedPhoneNumber) {
+
+    if (existedPhoneNumber) {
       return NextResponse.json(
-        { message: MESSSGE.USER_NOT_FOUND },
-        { status: STATUS.NOT_FOUND },
+        { message: MESSSGE.EXSITED_USER.replace("email", "phone number") },
+        { status: STATUS.EXSITED_USER },
       );
     }
-
-    return NextResponse.json(
-      {
-        message: MESSSGE.SUCCSESS,
-      },
-      { status: STATUS.SUCCSESS },
-    );
+    if (!existedPhoneNumber) {
+      return NextResponse.json(
+        {
+          message: MESSSGE.SUCCSESS,
+        },
+        { status: STATUS.SUCCSESS },
+      );
+    }
   } catch (error) {
     console.log(error);
     return NextResponse.json(

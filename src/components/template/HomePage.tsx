@@ -20,8 +20,6 @@ async function HomePage() {
       return null;
     }
   }
-
-  // console.log(user);
   return (
     <div>
       HomePage

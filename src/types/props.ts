@@ -3,6 +3,7 @@ import { IPassword } from "./types";
 
 export interface IPropsBtLight {
   nextLevel: boolean;
+  locale: string;
 }
 
 export interface IProfileDetail {

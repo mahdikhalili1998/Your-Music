@@ -62,7 +62,22 @@
     "Server error , try again later": "Server error , try again later",
     "Error in sending request": "Error in sending request",
     "Passwords are not the same": "Passwords are not the same",
-    "Changing Password succsessfully": "Changing Password succsessfully"
+    "Changing Password succsessfully": "Changing Password succsessfully",
+    "There is an account with this phone number": "There is an account with this phone number"
+  },
+  "sendOtpPage": {
+    "Enter your phone number :": "Enter your phone number :",
+    "Enter your code :": "Enter your code :",
+    "Gender": "Gender",
+    "Men": "Men",
+    "Women": "Women",
+    "Other": "Other",
+    "Send": "Send",
+    "Edit number": "Edit number",
+    "Receive Code": "Receive Code",
+    "_ Do you have an account ?": "_ Do you have an account ?",
+    "Select your gender": "Select your gender",
+    "Wrong Code": "Wrong Code"
   },
   "ResetPassPage": {
     "Create new password": "Create new password",
