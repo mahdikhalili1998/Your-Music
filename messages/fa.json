@@ -10,7 +10,9 @@
     "Languages": " زبان",
     "Theme": " تم",
     "Delete Account": "حذف اکانت",
-    "Reset Password": "تغیر رمز "
+    "Reset Password": "تغیر رمز ",
+    "Persian": "فارسی",
+    "English": "انگیلیسی"
   },
   "profileDetailPage": {
     "Save": "ذخیره",

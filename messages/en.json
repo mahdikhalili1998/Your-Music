@@ -10,7 +10,9 @@
     "Languages": "Languages",
     "Delete Account": "Delete Account",
     "Reset Password": "Reset Password",
-    "Setting": "Setting"
+    "Setting": "Setting",
+    "Persian": "Persian",
+    "English": "English"
   },
   "profileDetailPage": {
     "Save": "Save",
