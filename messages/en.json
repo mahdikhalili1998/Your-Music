@@ -63,7 +63,15 @@
     "Error in sending request": "Error in sending request",
     "Passwords are not the same": "Passwords are not the same",
     "Changing Password succsessfully": "Changing Password succsessfully",
-    "There is an account with this phone number": "There is an account with this phone number"
+    "There is an account with this phone number": "There is an account with this phone number",
+    "There is an account with this email & phone number": "There is an account with this email & phone number",
+    "There is an account with this user name": "There is an account with this user name",
+    "There is an account with this email": "There is an account with this email"
+  },
+  "signUpPage": {
+    "Create Account :": "Create Account :",
+    "Send": "Send",
+    "Save": "Save"
   },
   "sendOtpPage": {
     "Enter your phone number :": "Enter your phone number :",

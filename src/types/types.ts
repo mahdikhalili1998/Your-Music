@@ -35,6 +35,7 @@ export interface IProfilePicProps {
   setImage: Function;
   isEditing: boolean;
   setIsEditing: Function;
+  locale: string;
 }
 
 export interface IImgProfile {

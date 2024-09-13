@@ -61,13 +61,13 @@ export async function POST(req: NextRequest) {
     if (exsitedUserName) {
       return NextResponse.json(
         { message: MESSSGE.EXISTED_USER_NAME },
-        { status: STATUS.EXSITED_USER },
+        { status: STATUS.EXSITED_USERNAME },
       );
     }
     if (exsitedEmail) {
       return NextResponse.json(
         { message: MESSSGE.EXSITED_USER },
-        { status: STATUS.EXSITED_USER },
+        { status: STATUS.EXSITED_EMAIL },
       );
     }
 

@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import { useRouter } from "next/navigation";
 import ProfilePic from "./ProfilePic";
+import { useTranslations } from "next-intl";
 
 const SignUpInput: FC<ISignupPage> = ({
   image,
@@ -28,13 +29,12 @@ const SignUpInput: FC<ISignupPage> = ({
     profilePicUrl: "",
     creditCardNumber: "",
   });
-  // console.log(userInfo);
-
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { name, userName, email, password, lastName, profilePicUrl, gender } =
     userInfo;
-
+  const t = useTranslations("signUpPage");
+  const E = useTranslations("enum");
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
     const userGender = localStorage.getItem("gender");
@@ -53,7 +53,7 @@ const SignUpInput: FC<ISignupPage> = ({
       !regexInfo.password.test(password) ||
       !regexInfo.lastName.test(lastName)
     ) {
-      toast("Please enter correct information");
+      toast(E("Please insert correct Info"));
       return;
     }
 
@@ -68,7 +68,17 @@ const SignUpInput: FC<ISignupPage> = ({
       })
       .catch((error) => {
         // console.log(error);
-        toast.error(error.response.data.message);
+        if (error.response.status === 422) {
+          toast.error(E("Please insert correct Info"));
+        } else if (error.response.status === 409) {
+          toast.error(E("There is an account with this email & phone number"));
+        } else if (error.response.status === 410) {
+          toast.error(E("There is an account with this user name"));
+        } else if (error.response.status === 411) {
+          toast.error(E("There is an account with this email"));
+        } else if (error.response.status === 500) {
+          toast.error("Server error , try again later");
+        }
         return;
       });
     setLoading(false);
@@ -87,9 +97,10 @@ const SignUpInput: FC<ISignupPage> = ({
         setImage={setImage}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        locale={locale}
       />
       <div
-        className={`${isEditing && image ? "blur-sm" : null} flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-5 pr-28`}
+        className={`${locale === "fa" ? "font-iransans" : null} ${isEditing && image ? "blur-sm" : null} flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-6 pr-28`}
       >
         {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
           <input
@@ -113,7 +124,7 @@ const SignUpInput: FC<ISignupPage> = ({
             className="rounded-lg bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-35"
             disabled={!name || !userName || !email || !password}
           >
-            send
+            {t("Send")}
           </button>
         )}
         <Toaster />

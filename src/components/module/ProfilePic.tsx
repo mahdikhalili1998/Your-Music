@@ -23,7 +23,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
-  const [scale, setScale] = useState(1.2); // مقدار زوم اولیه
+  const [scale, setScale] = useState(0); // مقدار زوم اولیه
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -141,7 +141,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
               onClick={handleSave}
               className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
             >
-              Save
+              {t("Save")}
             </button>
           </div>
         </div>

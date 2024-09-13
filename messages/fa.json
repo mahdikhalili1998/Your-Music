@@ -63,7 +63,15 @@
     "Error in sending request": "خطا در ارسال درخواست",
     "Passwords are not the same": "رمز وارد شده و تکرار آن یکسان نیست",
     "Changing Password succsessfully": "تغیر رمز موفقیت آمیز بود",
-    "There is an account with this phone number": "کاربر با این شماره وجود دارد"
+    "There is an account with this phone number": "کاربر با این شماره وجود دارد",
+    "There is an account with this email & phone number": "با این آدرس ایمیل و نام کاربری حسابی از قبل وجود دارد",
+    "There is an account with this user name": "این نام کاربری توسط شخص دیگری ثبت شده است",
+    "There is an account with this email": "این ایمیل توسط شخص دیگری ثبت شده است"
+  },
+  "signUpPage": {
+    "Create Account :": "ساخت حساب",
+    "Send": "ارسال",
+    "Save": "ذخیره"
   },
   "sendOtpPage": {
     "Enter your phone number :": "شماره تلفن خود را وارد کنید :",

@@ -8,7 +8,6 @@ import axios from "axios";
 import Loader from "../module/Loader";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
-import { MESSSGE } from "@/enums/enum";
 import { useTranslations } from "next-intl";
 import { p2e } from "@/helper/replaceNumber.js";
 
