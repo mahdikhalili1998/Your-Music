@@ -12,7 +12,13 @@
     "Delete Account": "حذف اکانت",
     "Reset Password": "تغیر رمز ",
     "Persian": "فارسی",
-    "English": "انگیلیسی"
+    "English": "انگیلیسی",
+    "Yes": "بله ",
+    "No": "خیر",
+    "Type": "تایپ کنید",
+    "to continue": "برای ادامه",
+    "Delete": "حذف",
+    "Cancle": "لغو"
   },
   "profileDetailPage": {
     "Save": "ذخیره",

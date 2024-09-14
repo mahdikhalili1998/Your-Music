@@ -22,7 +22,8 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [deleter, setDeleter] = useState<string>("");
   const router = useRouter();
-  const t = useTranslations("SettingPage");
+  // const t = useTranslations("deleteAccountModule");
+  const s = useTranslations("SettingPage");
 
   const deleteHandler = () => {
     if (user.userName === deleter) {
@@ -58,12 +59,12 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${locale === "fa" ? "font-iransans" : null}`}>
       <button
         onClick={(e) => setIsSure(true)}
         className={`${isSure ? "pointer-events-none blur-sm" : null} flex items-center font-medium text-red-600`}
       >
-        {t("Delete Account")}
+        {s("Delete Account")}
         {locale === "fa" ? (
           <MdOutlineKeyboardArrowLeft className={"mt-[2px] text-2xl"} />
         ) : (
@@ -85,7 +86,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
                     onClick={(e) => yesHandler()}
                     className="rounded-lg bg-red-500 px-2 py-1 text-sm font-medium text-white"
                   >
-                    Yes ...
+                    {s(" Yes ...")}
                   </button>
                   <button
                     onClick={(e) => {
@@ -94,7 +95,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
                     }}
                     className="rounded-lg bg-green-500 px-2 py-1 text-sm font-medium text-white"
                   >
-                    No !
+                    {s("No !")}
                   </button>
                 </div>
               )}
@@ -102,27 +103,39 @@ const DeleteAccount: FC<IDeleteAccount> = ({
           ) : (
             <div className="absolute flex w-max -translate-y-16 translate-x-0 flex-col items-center justify-center gap-4 rounded-md bg-gradient-to-r from-p-700 to-p-300 p-4">
               <h3 className="text-sm font-medium leading-7 tracking-[1px] text-white">
-                Type{" "}
-                <span className="rounded-lg bg-red-500 p-1 text-white">
+                {s("Type")}
+                <span className="mx-1 rounded-lg bg-red-500 p-1 text-white">
                   {user.userName}
                 </span>{" "}
                 <br></br>
-                to continue ...
+                {s("to continue")}
               </h3>
               <input
                 type="text"
                 value={deleter}
-                placeholder="Type the requested phrase ..."
+                placeholder={
+                  locale === "fa"
+                    ? "مقدار خواسته شده را تایپ کنید"
+                    : "Type the requested phrase ..."
+                }
                 onChange={(e) => setDeleter(e.target.value)}
                 className="rounded-lg text-center text-p-950 placeholder:text-xs focus:outline-none"
               />
-              <button
-                className="rounded-lg bg-red-500 px-4 py-1 text-white disabled:cursor-not-allowed disabled:opacity-55"
-                onClick={(e) => deleteHandler()}
-                disabled={!deleter}
-              >
-                Delete
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  className="rounded-lg bg-red-500 px-4 py-1 text-white disabled:cursor-not-allowed disabled:opacity-55"
+                  onClick={(e) => deleteHandler()}
+                  disabled={!deleter}
+                >
+                  {s("Delete")}
+                </button>
+                <button
+                  className="rounded-lg bg-green-600 px-4 py-1 text-white"
+                  onClick={(e) => setIsSure(false)}
+                >
+                  {s("Cancle")}
+                </button>
+              </div>
             </div>
           )}
         </div>

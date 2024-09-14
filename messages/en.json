@@ -12,7 +12,13 @@
     "Reset Password": "Reset Password",
     "Setting": "Setting",
     "Persian": "Persian",
-    "English": "English"
+    "English": "English",
+    "Yes": " Yes ...",
+    "No": "No !",
+    "Type": "Type",
+    "to continue": "to continue ...",
+    "Delete": "Delete",
+    "Cancle": "Cancle"
   },
   "profileDetailPage": {
     "Save": "Save",
