@@ -32,10 +32,9 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     await ConnectDB();
-
     const [result] = await req.json();
     const { _id, gender } = result;
-    console.log({ _id, gender });
+    // console.log({ _id, gender });
     const user = await userInfo.findOne({ _id }); //main account
     if (gender === "men") {
       user.profilePicUrl = profileImages.men;

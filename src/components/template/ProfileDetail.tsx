@@ -25,7 +25,6 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const [profileOption, setProfileOption] = useState<boolean>(false);
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
-  // console.log(userData);
   const [image, setImage] = useState<File | null>(null); //مربوط به انتخاب عکس
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -39,7 +38,8 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const [scale, setScale] = useState(1.2); // مقدار زوم اولیه
   const router = useRouter();
   const t = useTranslations("profileDetailPage");
-
+  const E = useTranslations("enum");
+  // console.log(userData.profilePicUrl === profileImages.women);
   const handleSave = async () => {
     if (editorRef.current && image) {
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
@@ -50,6 +50,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
       handleUpload(file);
     }
   };
+
   const handleUpload = async (file: File) => {
     try {
       const fileExt = file.name.split(".").pop();
@@ -61,7 +62,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
         .upload(filePath, file);
 
       if (error) {
-        console.error("Error uploading image:", error.message);
+        console.error(error.message);
         return;
       }
 
@@ -82,9 +83,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
             // console.log(res);
             if (res.status === 201) {
               setProfileOption(false);
-              toast.success("Your profile picture changed", {
-                position: "top-center",
-              });
+              toast.success(E("Your profile picture changed"));
             }
           })
           .catch((error) => {
@@ -145,7 +144,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
         if (res.status === 201) {
           router.refresh();
           setProfileOption(false);
-          toast.success(res.data.message);
+          toast.success(E("The operation was successful"));
         }
       })
       .catch((error) => console.log(error));
@@ -179,9 +178,12 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               <span onClick={(e) => finallChange()} className="p-1 text-3xl">
                 <TbCaptureFilled className="text-green-500" />
               </span>
-              <span onClick={(e) => deleteProfile()} className="p-1 text-3xl">
-                <RiDeleteBin5Line className="text-red-600" />
-              </span>
+              {userData.profilePicUrl === profileImages.men ||
+              userData.profilePicUrl === profileImages.women ? null : (
+                <span onClick={(e) => deleteProfile()} className="p-1 text-3xl">
+                  <RiDeleteBin5Line className="text-red-600" />
+                </span>
+              )}
               <span
                 onClick={(e) => setProfileOption(false)}
                 className="p-1 text-3xl"

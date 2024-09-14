@@ -18,7 +18,9 @@
     "Type": "Type",
     "to continue": "to continue ...",
     "Delete": "Delete",
-    "Cancle": "Cancle"
+    "Cancle": "Cancle",
+    "The values ​​are not the same": "The values ​​are not the same",
+    "Waiting": "Waiting..."
   },
   "profileDetailPage": {
     "Save": "Save",
@@ -74,13 +76,16 @@
     "There is an account with this phone number": "There is an account with this phone number",
     "There is an account with this email & phone number": "There is an account with this email & phone number",
     "There is an account with this user name": "There is an account with this user name",
-    "There is an account with this email": "There is an account with this email"
+    "There is an account with this email": "There is an account with this email",
+    "The operation was successful": "The operation was successful",
+    "Your profile picture changed": "Your profile picture changed"
   },
   "signUpPage": {
     "Create Account :": "Create Account :",
     "Send": "Send",
     "Save": "Save"
   },
+  "welcomeMdoule": { "Welcome": "Welcome" },
   "sendOtpPage": {
     "Enter your phone number :": "Enter your phone number :",
     "Enter your code :": "Enter your code :",

@@ -1,13 +1,10 @@
 import HomePage from "@/components/template/HomePage";
-import { useTranslations } from "next-intl";
+import { IParams } from "@/types/props";
 
-export default function Home() {
-  const t = useTranslations("HomePage");
-
+export default function Home({ params: { locale } }: IParams) {
   return (
     <div className="px-2">
-      <p>{t("Profile")}</p>
-      <HomePage />
+      <HomePage locale={locale} />
     </div>
   );
 }

@@ -24,25 +24,26 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   const router = useRouter();
   // const t = useTranslations("deleteAccountModule");
   const s = useTranslations("SettingPage");
+  const E = useTranslations("enum");
 
   const deleteHandler = () => {
     if (user.userName === deleter) {
       setFinalDeleting(true);
     } else {
-      toast.error("The values ​​are not the same");
+      toast.error(s("The values ​​are not the same"));
     }
   };
 
   const yesHandler = async () => {
     const jsonData = JSON.stringify(user.email); // تبدیل به JSON صحیح
     setLoading(true);
-    const toastId = toast.loading("Waiting...");
+    const toastId = toast.loading(s("Waiting"));
     await axios
       .delete("/api/delete-account", { data: jsonData })
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
-          toast.success(res.data.message, { id: toastId });
+          toast.success(E("The operation was successful"), { id: toastId });
           setLoading(false);
           clearLocalStorage();
           signOut({ callbackUrl: `/${locale}/profile` });
@@ -52,7 +53,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
       })
       .catch((error) => {
         // console.log(error);
-        toast.error(error.message, { id: toastId });
+        toast.error(E("Server error , try again later"), { id: toastId });
         setLoading(false);
         setFinalDeleting(false);
       });
