@@ -1,10 +1,10 @@
 import { MESSSGE, STATUS } from "@/enums/enum";
-import { IUserInfo } from "@/types/types";
 import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/utils/ConnectDB";
 import { hashPassword } from "@/utils/nextPass";
 import userInfo from "@/model/userInfo";
 import { profileImages } from "@/constant/image";
+import { IUserInfo } from "@/types/model";
 
 export async function POST(req: NextRequest) {
   try {

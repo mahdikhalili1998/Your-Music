@@ -21,7 +21,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen, locale }) => {
       <div>
         {" "}
         <Link
-          href="/"
+          href={`/${locale}/add-post`}
           className="absolute -top-[5px] right-[37%] rounded-full bg-gradient-to-r from-p-500 to-p-200 p-4 270:right-[40%] 350:right-[42%]"
         >
           <PiMusicNotesPlusBold className="text-2xl text-white" />

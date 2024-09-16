@@ -1,6 +1,6 @@
 import { IUserPostModel } from "@/types/model";
 import { model, models, Schema } from "mongoose";
-import { userInfo } from "@/model/userInfo";
+import  userInfo  from "@/model/userInfo";
 
 const userPostSchema = new Schema<IUserPostModel>(
   {
