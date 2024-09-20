@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import WaveSurfer from "wavesurfer.js";
-import { supabase } from "../../../supabase.js"; // ایمپورت کلاینت Supabase
+import { supabase } from "../../../supabase.js";
 
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
@@ -25,7 +25,6 @@ const AudioUploader: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
-  console.log(cutAudioUrl);
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
 
@@ -99,27 +98,114 @@ const AudioUploader: React.FC = () => {
     if (!audioFile) return;
 
     try {
-      const fileExt = audioFile.name.split(".").pop();
+      const startInSeconds = parseTime(cutStart);
+      const endInSeconds = parseTime(cutEnd);
+      const duration = endInSeconds - startInSeconds;
+
+      const audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
+      const arrayBuffer = await audioFile.arrayBuffer();
+      const audioData = await audioContext.decodeAudioData(arrayBuffer);
+
+      // Create a new audio buffer for the cut audio
+      const cutBuffer = audioContext.createBuffer(
+        audioData.numberOfChannels,
+        duration * audioData.sampleRate,
+        audioData.sampleRate,
+      );
+      for (let i = 0; i < audioData.numberOfChannels; i++) {
+        cutBuffer.copyToChannel(
+          audioData
+            .getChannelData(i)
+            .slice(
+              startInSeconds * audioData.sampleRate,
+              endInSeconds * audioData.sampleRate,
+            ),
+          i,
+        );
+      }
+
+      // Convert audio buffer to WAV
+      const wavData = audioBufferToWav(cutBuffer);
+      const blob = new Blob([wavData], { type: "audio/wav" });
+
+      const fileExt = "wav";
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `music/${fileName}`;
 
-      let { error, data } = await supabase.storage
-        .from("music") // نام bucket که قبلاً ایجاد شده
-        .upload(filePath, audioFile);
+      let { error } = await supabase.storage
+        .from("music")
+        .upload(filePath, blob);
 
       if (error) {
         throw error;
       }
 
-      // دریافت لینک عمومی برای فایل آپلود شده
       const { publicUrl } = supabase.storage
         .from("music")
         .getPublicUrl(filePath).data;
 
-      setCutAudioUrl(publicUrl); // تنظیم لینک برش خورده
+      setCutAudioUrl(publicUrl);
     } catch (error) {
       console.error("Error uploading audio:", error);
     }
+  };
+
+  const audioBufferToWav = (buffer: AudioBuffer) => {
+    const numChannels = buffer.numberOfChannels;
+    const sampleRate = buffer.sampleRate;
+    const format = 1; // PCM
+    const bitDepth = 16;
+
+    const bytesPerSample = bitDepth / 8;
+    const byteLength = buffer.length * numChannels * bytesPerSample;
+    const bufferLength = byteLength + 44; // Add WAV header length
+    const wav = new Uint8Array(bufferLength);
+
+    // Write WAV header
+    const dataView = new DataView(wav.buffer);
+    let offset = 0;
+
+    const setString = (str: string) => {
+      for (let i = 0; i < str.length; i++) {
+        dataView.setUint8(offset + i, str.charCodeAt(i));
+      }
+      offset += str.length;
+    };
+
+    setString("RIFF");
+    dataView.setUint32(offset, bufferLength - 8, true);
+    offset += 4;
+    setString("WAVE");
+    setString("fmt ");
+    dataView.setUint32(offset, 16, true);
+    offset += 4; // Subchunk1Size
+    dataView.setUint16(offset, format, true);
+    offset += 2; // AudioFormat
+    dataView.setUint16(offset, numChannels, true);
+    offset += 2; // NumChannels
+    dataView.setUint32(offset, sampleRate, true);
+    offset += 4; // SampleRate
+    dataView.setUint32(offset, sampleRate * numChannels * bytesPerSample, true);
+    offset += 4; // ByteRate
+    dataView.setUint16(offset, numChannels * bytesPerSample, true);
+    offset += 2; // BlockAlign
+    dataView.setUint16(offset, bitDepth, true);
+    offset += 2; // BitsPerSample
+    setString("data");
+    dataView.setUint32(offset, byteLength, true);
+    offset += 4;
+
+    // Write PCM samples
+    for (let i = 0; i < buffer.length; i++) {
+      for (let channel = 0; channel < numChannels; channel++) {
+        const sample = buffer.getChannelData(channel)[i] * 0x7fff; // Convert to 16-bit PCM
+        dataView.setInt16(offset, sample < 0 ? sample | 0x8000 : sample, true);
+        offset += 2;
+      }
+    }
+
+    return wav;
   };
 
   return (
@@ -182,7 +268,7 @@ const AudioUploader: React.FC = () => {
         <div className="mt-6">
           <h3>Processed Audio:</h3>
           <audio controls>
-            <source src={cutAudioUrl} type="audio/mpeg" />
+            <source src={cutAudioUrl} type="audio/wav" />
             Your browser does not support the audio tag.
           </audio>
         </div>
