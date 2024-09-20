@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, FC } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { supabase } from "../../../supabase.js";
+import { IAudioUploader } from "@/types/props.js";
 
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
@@ -17,14 +18,17 @@ const parseTime = (timeString: string) => {
   return minutes * 60 + seconds;
 };
 
-const AudioUploader: React.FC = () => {
+const AudioUploader: FC<IAudioUploader> = ({
+  cutAudioUrl,
+  setCutAudioUrl,
+  locale,
+}) => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number>(0);
   const [cutStart, setCutStart] = useState<string>("0:00");
   const [cutEnd, setCutEnd] = useState<string>("0:00");
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
 
@@ -263,7 +267,14 @@ const AudioUploader: React.FC = () => {
           </button>
         </div>
       )}
+    </div>
+  );
+};
 
+export default AudioUploader;
+
+{
+  /* 
       {cutAudioUrl && (
         <div className="mt-6">
           <h3>Processed Audio:</h3>
@@ -272,9 +283,5 @@ const AudioUploader: React.FC = () => {
             Your browser does not support the audio tag.
           </audio>
         </div>
-      )}
-    </div>
-  );
-};
-
-export default AudioUploader;
+      )} */
+}

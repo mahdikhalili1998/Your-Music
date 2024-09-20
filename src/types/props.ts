@@ -62,3 +62,9 @@ export interface ILocale {
 export interface IMainPart {
   locale: string;
 }
+
+export interface IAudioUploader {
+  locale: string;
+  setCutAudioUrl: Function;
+  cutAudioUrl: string;
+}
