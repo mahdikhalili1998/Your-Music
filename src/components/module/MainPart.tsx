@@ -1,53 +1,37 @@
 "use client";
+import React, { useEffect, useState } from "react";
 
-import { IMainPart } from "@/types/props";
-import axios from "axios";
-import Image from "next/image";
-import { FC, ReactNode, useEffect, useState } from "react";
-import Loader from "./Loader";
+interface FileDisplayProps {
+  filePath: string; // URL فایل صوتی
+}
 
-const MainPart: FC<IMainPart> = ({ locale }) => {
-  const [allUser, setAllUser] = useState<any>([]);
-  const [loader, setLoader] = useState<boolean>(false);
-  // console.log(allUser);
+const FileDisplay: React.FC<FileDisplayProps> = ({
+  filePath = "",
+}) => {
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+
   useEffect(() => {
-    const getAllUser = async () => {
-      setLoader(true);
-      await axios
-        .get("/api/homePage")
-        .then((res) => {
-          if (res.status === 200) {
-            setAllUser(res.data.data);
-            setLoader(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoader(false);
-        });
-    };
-    getAllUser();
-  }, []);
+    // استفاده از URL دریافتی از دیتابیس
+    if (filePath) {
+      setFileUrl(filePath);
+    }
+  }, [filePath]);
+
   return (
     <div>
-      {loader ? (
-        <div className="mx-auto w-max">
-          <Loader width={100} height={60} />
+      {fileUrl ? (
+        <div>
+          <p>Audio file:</p>
+          <audio controls>
+            <source src={fileUrl} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
         </div>
       ) : (
-        allUser.map((item) => (
-          <Image
-            src={item.profilePicUrl}
-            width={300}
-            height={300}
-            alt="prof"
-            priority
-            className="size-24 rounded-[100%]"
-          />
-        ))
+        <p>No audio file available.</p>
       )}
     </div>
   );
 };
 
-export default MainPart;
+export default FileDisplay;

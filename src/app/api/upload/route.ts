@@ -1,18 +1,15 @@
 import { NextResponse } from "next/server";
 import multer from "multer";
 import path from "path";
-import fs from "fs";
-import { promises as fsPromises } from "fs";
-import { FormData } from "formdata-node";
-
+import { promises as fsPromises, existsSync } from "fs";
+import ConnectDB from "@/utils/ConnectDB";
 // تنظیمات multer برای آپلود فایل
 const upload = multer({
   storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadDir = "public/uploads";
-      fsPromises.mkdir(uploadDir, { recursive: true }).then(() => {
-        cb(null, uploadDir);
-      });
+    destination: async (req, file, cb) => {
+      const uploadDir = path.join(process.cwd(), "public/uploads");
+      await fsPromises.mkdir(uploadDir, { recursive: true });
+      cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
       cb(null, Date.now() + path.extname(file.originalname));
@@ -20,7 +17,8 @@ const upload = multer({
   }),
 });
 
-export async function POST(req: Request) {
+export async function POST(req) {
+  await ConnectDB();
   return new Promise((resolve) => {
     upload.single("audio")(req as any, {} as any, async (err) => {
       if (err) {
@@ -30,36 +28,17 @@ export async function POST(req: Request) {
       }
 
       const formData = await req.formData();
-      const file = formData.get("audio") as File;
-      const start = parseFloat(formData.get("start") as string);
-      const end = parseFloat(formData.get("end") as string);
-
-      if (!file) {
-        return resolve(
-          NextResponse.json({ error: "No file uploaded" }, { status: 400 }),
-        );
-      }
-
-      if (isNaN(start) || isNaN(end) || start >= end) {
-        return resolve(
-          NextResponse.json(
-            { error: "Invalid start or end time" },
-            { status: 400 },
-          ),
-        );
-      }
-
-      // مسیر فایل آپلود شده
+      const file = formData.get("audio");
       const uploadedFilePath = path.join("public/uploads", file.name);
+      const fileUrl = `/uploads/${file.name}`; // URL فایل
 
-      // فرض کنید برش را انجام داده‌ایم و فایل برش داده شده را در اینجا ذخیره کرده‌ایم
-      const cutFilePath = path.join("public/uploads", "cut_" + file.name);
+      console.log(fileUrl);
+      // ذخیره URL در پایگاه داده
 
-      // برگشت پاسخ به کلاینت
       return resolve(
         NextResponse.json({
           message: "File uploaded and processed successfully",
-          file: cutFilePath,
+          file: fileUrl,
         }),
       );
     });

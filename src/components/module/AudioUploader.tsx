@@ -2,15 +2,14 @@
 
 import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import WaveSurfer from "wavesurfer.js";
+import { supabase } from "../../../supabase.js"; // ایمپورت کلاینت Supabase
 
-// تابع فرمت کردن زمان به دقیقه و ثانیه
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-// تابع تبدیل فرمت دقیقه:ثانیه به ثانیه
 const parseTime = (timeString: string) => {
   const parts = timeString.split(":");
   const minutes = parseInt(parts[0], 10) || 0;
@@ -21,14 +20,15 @@ const parseTime = (timeString: string) => {
 const AudioUploader: React.FC = () => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number>(0);
-  const [cutStart, setCutStart] = useState<string>("0:00"); // تغییر به رشته
-  const [cutEnd, setCutEnd] = useState<string>("0:00"); // تغییر به رشته
+  const [cutStart, setCutStart] = useState<string>("0:00");
+  const [cutEnd, setCutEnd] = useState<string>("0:00");
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
+  console.log(cutAudioUrl);
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
 
-  // مدیریت آپلود فایل صوتی
   const handleAudioUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -37,13 +37,10 @@ const AudioUploader: React.FC = () => {
     }
   };
 
-  // مقداردهی Wavesurfer با فایل صوتی آپلود شده
   const initWaveSurfer = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const audioUrl = e.target?.result as string;
-
-      // ایجاد Wavesurfer instance
       wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current!,
         waveColor: "#ddd",
@@ -52,42 +49,31 @@ const AudioUploader: React.FC = () => {
         barWidth: 2,
         height: 100,
       });
-
-      // بارگذاری فایل صوتی
       wavesurferRef.current.load(audioUrl);
-
-      // تنظیم طول فایل صوتی
       wavesurferRef.current.on("ready", () => {
         const duration = wavesurferRef.current?.getDuration() || 0;
         setAudioDuration(duration);
-        setCutEnd(formatTime(duration)); // مقداردهی به صورت دقیقه:ثانیه
+        setCutEnd(formatTime(duration));
       });
-
-      // بروز رسانی زمان فعلی موسیقی
       wavesurferRef.current.on("audioprocess", () => {
         const current = wavesurferRef.current?.getCurrentTime() || 0;
         setCurrentTime(current);
       });
     };
-
     reader.readAsDataURL(file);
   };
 
-  // مدیریت تغییر زمان شروع برش
   const handleCutStartChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCutStart(e.target.value);
     const startInSeconds = parseTime(e.target.value);
-    // تبدیل زمان به درصد و استفاده از seekTo
     const seekPercentage = startInSeconds / audioDuration;
     wavesurferRef.current?.seekTo(seekPercentage);
   };
 
-  // مدیریت تغییر زمان پایان برش
   const handleCutEndChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCutEnd(e.target.value);
   };
 
-  // کنترل پخش/توقف موسیقی
   const togglePlayPause = () => {
     if (!wavesurferRef.current) return;
 
@@ -100,8 +86,6 @@ const AudioUploader: React.FC = () => {
     } else {
       wavesurferRef.current.play(startInSeconds, endInSeconds);
       setIsPlaying(true);
-
-      // توقف موسیقی به محض رسیدن به زمان پایان
       wavesurferRef.current.on("finish", () => {
         wavesurferRef.current?.pause();
         const seekPercentage = startInSeconds / audioDuration;
@@ -111,25 +95,31 @@ const AudioUploader: React.FC = () => {
     }
   };
 
-  // ارسال فایل برش خورده به سرور
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!audioFile) return;
-    const formData = new FormData();
-    formData.append("audio", audioFile);
-    formData.append("start", parseTime(cutStart).toString()); // تبدیل زمان به ثانیه
-    formData.append("end", parseTime(cutEnd).toString()); // تبدیل زمان به ثانیه
 
-    fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Audio uploaded:", data);
-      })
-      .catch((error) => {
-        console.error("Error uploading audio:", error);
-      });
+    try {
+      const fileExt = audioFile.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `music/${fileName}`;
+
+      let { error, data } = await supabase.storage
+        .from("music") // نام bucket که قبلاً ایجاد شده
+        .upload(filePath, audioFile);
+
+      if (error) {
+        throw error;
+      }
+
+      // دریافت لینک عمومی برای فایل آپلود شده
+      const { publicUrl } = supabase.storage
+        .from("music")
+        .getPublicUrl(filePath).data;
+
+      setCutAudioUrl(publicUrl); // تنظیم لینک برش خورده
+    } catch (error) {
+      console.error("Error uploading audio:", error);
+    }
   };
 
   return (
@@ -145,7 +135,6 @@ const AudioUploader: React.FC = () => {
       {audioFile && (
         <div className="mt-4 w-full">
           <div className="flex justify-between">
-            {/* نمایش زمان فعلی و زمان کل موسیقی */}
             <span>Current Time: {formatTime(currentTime)}</span>
             <span>Total Time: {formatTime(audioDuration)}</span>
           </div>
@@ -173,7 +162,6 @@ const AudioUploader: React.FC = () => {
             </label>
           </div>
 
-          {/* دکمه‌های پخش و توقف */}
           <button
             onClick={togglePlayPause}
             className="mt-4 rounded bg-indigo-600 px-4 py-2 text-white"
@@ -187,6 +175,16 @@ const AudioUploader: React.FC = () => {
           >
             Submit Cut Audio
           </button>
+        </div>
+      )}
+
+      {cutAudioUrl && (
+        <div className="mt-6">
+          <h3>Processed Audio:</h3>
+          <audio controls>
+            <source src={cutAudioUrl} type="audio/mpeg" />
+            Your browser does not support the audio tag.
+          </audio>
         </div>
       )}
     </div>

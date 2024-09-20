@@ -56,7 +56,7 @@ export interface IParams {
 }
 
 export interface ILocale {
-  locale: string;
+  locale?: string;
 }
 
 export interface IMainPart {
