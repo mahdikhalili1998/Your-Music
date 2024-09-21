@@ -16,7 +16,7 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className="bg-gradient-to-r from-p-500 to-p-200 px-1 py-3">
+    <div className="bg-gradient-to-r from-p-500 to-p-200 px-2 py-3">
       <div>
         <h2 className="text-lg font-medium text-white">Create post</h2>
         <Image
@@ -34,16 +34,22 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
         />
       </div>
       <div>
-        <h3>description</h3>
-        <input
-          type="text"
+        <textarea
+          rows={8}
           value={description}
           placeholder="type your description"
           onChange={(e) => setDescription(e.target.value)}
-          className="mx-auto border-2 border-p-700"
+          className="mx-auto w-full rounded-lg p-2 placeholder:pt-2 placeholder:text-center focus:outline-none"
         />
       </div>
-      <button onClick={(e) => sendHandler()}>Send</button>
+      <div className="flex items-center justify-center my-5 mb-8">
+        <button
+          className="rounded-[100%] bg-gradient-to-r from-p-300 to-p-700 p-5 font-medium text-white"
+          onClick={(e) => sendHandler()}
+        >
+          Post
+        </button>
+      </div>
     </div>
   );
 };

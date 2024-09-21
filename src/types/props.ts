@@ -68,3 +68,8 @@ export interface IAudioUploader {
   setCutAudioUrl: Function;
   cutAudioUrl: string;
 }
+
+export interface IShowPost {
+info: any[];
+post:any[]
+}

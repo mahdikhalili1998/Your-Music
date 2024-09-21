@@ -31,8 +31,9 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
       toast.error(E("Please insert correct Info"));
     }
     setLoader(true);
+    // console.log(number);
     await axios
-      .get("/api/find-account/", { params: { number } })
+      .get("/api/find-account/", { params:{ number} })
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {

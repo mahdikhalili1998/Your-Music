@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     await ConnectDB();
     const number = req.nextUrl.searchParams.get("number");
+    // const {data}=await req.json()
     // console.log(number);
     if (!number) {
       return NextResponse.json(

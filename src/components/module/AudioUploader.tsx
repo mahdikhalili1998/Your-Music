@@ -276,7 +276,7 @@ const AudioUploader: FC<IAudioUploader> = ({
           </div>
           <div className="flex justify-between">
             <div className="flex flex-col items-start justify-center gap-2">
-              <label className="font-medium text-p-950" htmlFor="start">
+              <label className="ml-2 font-medium text-p-950" htmlFor="start">
                 Start :{" "}
               </label>
               <input
@@ -289,7 +289,7 @@ const AudioUploader: FC<IAudioUploader> = ({
               />
             </div>
             <div className="flex flex-col items-start justify-center gap-2">
-              <label className="font-medium text-p-950" htmlFor="end">
+              <label className="ml-2 font-medium text-p-950" htmlFor="end">
                 End :{" "}
               </label>
               <input
@@ -307,6 +307,10 @@ const AudioUploader: FC<IAudioUploader> = ({
               <div>
                 <Loader width={80} height={20} color="#fff" />
               </div>
+            ) : cutAudioUrl ? (
+              <button className="text-center" >
+               It was confirmed
+              </button>
             ) : (
               <button className="text-center" onClick={handleSubmit}>
                 Save music

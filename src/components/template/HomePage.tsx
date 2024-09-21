@@ -4,11 +4,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import userInfo from "@/model/userInfo";
 import ConnectDB from "@/utils/ConnectDB";
-import MainPart from "../module/MainPart";
 import { createTranslator } from "next-intl";
 import faMessages from "../../../messages/fa.json";
 import enMessages from "../../../messages/en.json";
 import { ILocale } from "@/types/props";
+import userPost from "@/model/userPost";
+import ShowPost from "../module/ShowPost";
 
 const HomePage: FC<ILocale> = async ({ locale }) => {
   await ConnectDB();
@@ -25,6 +26,19 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
       return null;
     }
   }
+
+  // گرفتن پست‌ها
+  const post = await userPost.find();
+  let info = null;
+  if (post) {
+    info = await Promise.all(
+      post.map(async (item) => {
+        const userInfoes = await userInfo.findOne({ _id: item.userId });
+        return userInfoes;
+      }),
+    );
+  }
+
   const messages = locale === "fa" ? faMessages : enMessages;
   const intlConfig = {
     locale: locale,
@@ -34,8 +48,13 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
 
   return (
     <div>
-      <MainPart locale={locale} />
       {user ? <Welcome user={{ ...user }} /> : null}
+      <div>
+        <ShowPost
+          post={JSON.parse(JSON.stringify(post))}
+          info={JSON.parse(JSON.stringify(info))}
+        />
+      </div>
     </div>
   );
 };
