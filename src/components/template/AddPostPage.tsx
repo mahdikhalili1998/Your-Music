@@ -3,6 +3,7 @@ import { ILocale } from "@/types/props";
 import axios from "axios";
 import React, { FC, useState } from "react";
 import AudioUploader from "../module/AudioUploader";
+import Image from "next/image";
 
 const AddPostPage: FC<ILocale> = ({ locale }) => {
   const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
@@ -15,9 +16,17 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className="px-1">
+    <div className="bg-gradient-to-r from-p-500 to-p-200 px-1 py-3">
       <div>
-        <p>Upload Your Music</p>
+        <h2 className="text-lg font-medium text-white">Create post</h2>
+        <Image
+          width={300}
+          height={300}
+          priority
+          alt="logo"
+          src={"/image/post.png"}
+          className="mx-auto w-max"
+        />
         <AudioUploader
           locale={locale}
           cutAudioUrl={cutAudioUrl}

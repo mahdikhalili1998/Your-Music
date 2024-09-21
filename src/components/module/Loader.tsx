@@ -2,13 +2,17 @@ import { ILoader } from "@/types/signIn";
 import { FC } from "react";
 import { Bars } from "react-loader-spinner";
 
-const Loader: FC<ILoader> = ({ height = 40, width = 80 }) => {
+const Loader: FC<ILoader> = ({
+  height = 40,
+  width = 80,
+  color = "#7e22ce",
+}) => {
   return (
     <div>
       <Bars
         height={height}
         width={width}
-        color="#7e22ce"
+        color={color}
         ariaLabel="bars-loading"
         wrapperStyle={{}}
         wrapperClass=""
@@ -19,3 +23,5 @@ const Loader: FC<ILoader> = ({ height = 40, width = 80 }) => {
 };
 
 export default Loader;
+
+// #7e22ce

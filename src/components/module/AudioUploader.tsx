@@ -4,7 +4,9 @@ import React, { useState, useRef, ChangeEvent, FC } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { supabase } from "../../../supabase.js";
 import { IAudioUploader } from "@/types/props.js";
-
+import { FaPlay } from "react-icons/fa";
+import { FaPause } from "react-icons/fa6";
+import Loader from "../module/Loader";
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -31,13 +33,26 @@ const AudioUploader: FC<IAudioUploader> = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
-
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // مرجع برای ورودی فایل
+  const [loader, setLoader] = useState<boolean>(false);
   const handleAudioUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setAudioFile(file);
       initWaveSurfer(file);
     }
+  };
+
+  const cancleHandler = () => {
+    if (wavesurferRef.current) {
+      wavesurferRef.current.destroy(); // تخریب موج‌ساز برای از بین بردن اکولایزر
+      wavesurferRef.current = null; // تنظیم مرجع موج‌ساز به null
+    }
+    setAudioFile(null); // حذف فایل صوتی
+    setCurrentTime(0); // بازنشانی زمان جاری
+    setAudioDuration(0); // بازنشانی مدت زمان صوت
+    setCutStart("0:00"); // بازنشانی زمان شروع
+    setCutEnd("0:00"); // بازنشانی زمان پایان
   };
 
   const initWaveSurfer = (file: File) => {
@@ -100,7 +115,7 @@ const AudioUploader: FC<IAudioUploader> = ({
 
   const handleSubmit = async () => {
     if (!audioFile) return;
-
+    setLoader(true);
     try {
       const startInSeconds = parseTime(cutStart);
       const endInSeconds = parseTime(cutEnd);
@@ -153,6 +168,7 @@ const AudioUploader: FC<IAudioUploader> = ({
     } catch (error) {
       console.error("Error uploading audio:", error);
     }
+    setLoader(false);
   };
 
   const audioBufferToWav = (buffer: AudioBuffer) => {
@@ -212,76 +228,95 @@ const AudioUploader: FC<IAudioUploader> = ({
     return wav;
   };
 
+  const handleButtonClick = () => {
+    fileInputRef.current?.click(); // Click on the hidden input
+  };
+
   return (
     <div className="flex flex-col items-center justify-center p-6">
       <input
         type="file"
         accept="audio/*"
         onChange={handleAudioUpload}
-        className="mb-4"
+        className="hidden"
+        ref={fileInputRef} // مرجع به ورودی فایل
       />
+      {audioFile ? (
+        <button
+          className="mb-4 rounded-xl bg-gradient-to-r from-p-500 to-p-700 px-4 py-2 font-medium text-white"
+          onClick={(e) => cancleHandler()}
+        >
+          Cancle
+        </button>
+      ) : (
+        <button
+          onClick={handleButtonClick}
+          className="mb-4 rounded-xl bg-gradient-to-r from-p-500 to-p-700 px-4 py-2 font-medium text-white"
+        >
+          select music
+        </button>
+      )}
+
       <div ref={waveformRef} className="w-full"></div>
-
-      {audioFile && (
-        <div className="mt-4 w-full">
-          <div className="flex justify-between">
-            <span>Current Time: {formatTime(currentTime)}</span>
-            <span>Total Time: {formatTime(audioDuration)}</span>
+      {audioFile ? (
+        <div className="flex flex-col gap-4">
+          <h3 className="my-2 text-center text-xl font-medium text-p-950">
+            {audioFile.name}
+          </h3>
+          <div className="flex items-center justify-between">
+            <span className="w-max rounded-xl bg-blue-600 px-3 py-1 text-white">
+              {formatTime(currentTime)} / {formatTime(audioDuration)}
+            </span>
+            <button
+              onClick={togglePlayPause}
+              className="w-max rounded-xl bg-blue-600 px-4 py-2 text-white"
+            >
+              {isPlaying ? <FaPause /> : <FaPlay />}
+            </button>
           </div>
-
-          <div className="mt-2 flex justify-between">
-            <label>
-              Start Time:
+          <div className="flex justify-between">
+            <div className="flex flex-col items-start justify-center gap-2">
+              <label className="font-medium text-p-950" htmlFor="start">
+                Start :{" "}
+              </label>
               <input
                 type="text"
+                id="start"
                 value={cutStart}
                 placeholder="0:00"
                 onChange={handleCutStartChange}
-                className="ml-2 rounded border p-1"
+                className="w-16 rounded-xl px-2 py-2 text-center"
               />
-            </label>
-            <label>
-              End Time:
+            </div>
+            <div className="flex flex-col items-start justify-center gap-2">
+              <label className="font-medium text-p-950" htmlFor="end">
+                End :{" "}
+              </label>
               <input
                 type="text"
+                id="end"
                 value={cutEnd}
                 placeholder="0:00"
                 onChange={handleCutEndChange}
-                className="ml-2 rounded border p-1"
+                className="w-16 rounded-xl px-2 py-2 text-center"
               />
-            </label>
+            </div>
           </div>
-
-          <button
-            onClick={togglePlayPause}
-            className="mt-4 rounded bg-indigo-600 px-4 py-2 text-white"
-          >
-            {isPlaying ? "Pause" : "Play Selected"}
-          </button>
-
-          <button
-            onClick={handleSubmit}
-            className="mt-4 rounded bg-green-600 px-4 py-2 text-white"
-          >
-            Submit Cut Audio
-          </button>
+          <div className="mt-2 flex w-full items-center justify-center rounded-xl bg-green-500 px-4 py-2 font-medium text-white">
+            {loader ? (
+              <div>
+                <Loader width={80} height={20} color="#fff" />
+              </div>
+            ) : (
+              <button className="text-center" onClick={handleSubmit}>
+                Save music
+              </button>
+            )}
+          </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
 
 export default AudioUploader;
-
-{
-  /* 
-      {cutAudioUrl && (
-        <div className="mt-6">
-          <h3>Processed Audio:</h3>
-          <audio controls>
-            <source src={cutAudioUrl} type="audio/wav" />
-            Your browser does not support the audio tag.
-          </audio>
-        </div>
-      )} */
-}

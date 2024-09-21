@@ -8,6 +8,7 @@ export interface ISignIn {
 export interface ILoader {
   height: number;
   width: number;
+  color:string
 }
 
 export interface ICredentionals {
