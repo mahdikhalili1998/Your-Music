@@ -42,10 +42,11 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
           className="mx-auto w-full rounded-lg p-2 placeholder:pt-2 placeholder:text-center focus:outline-none"
         />
       </div>
-      <div className="flex items-center justify-center my-5 mb-8">
+      <div className="my-5 mb-8 flex items-center justify-center">
         <button
-          className="rounded-[100%] bg-gradient-to-r from-p-300 to-p-700 p-5 font-medium text-white"
+          className="rounded-[100%] border-2 border-solid border-green-800 bg-gradient-to-r from-green-300 to-green-700 p-5 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
           onClick={(e) => sendHandler()}
+          disabled={!cutAudioUrl || !description}
         >
           Post
         </button>

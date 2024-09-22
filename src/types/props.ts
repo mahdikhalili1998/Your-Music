@@ -70,6 +70,6 @@ export interface IAudioUploader {
 }
 
 export interface IShowPost {
-info: any[];
+
 post:any[]
 }

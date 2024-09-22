@@ -12,9 +12,23 @@ export async function POST(req: NextRequest) {
     const {
       data: { cutAudioUrl, description },
     } = await req.json();
+    if (!cutAudioUrl || !description) {
+      return NextResponse.json(
+        { message: MESSSGE.INCORRECT_INFO },
+        { status: STATUS.INCORRECT_INFO },
+      );
+    }
     const session = await getServerSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { message: MESSSGE.USER_NOT_FOUND },
+        { status: STATUS.NOT_FOUND2 },
+      );
+    }
     const user = await userInfo.findOne({ email: session?.user.email });
     const result = await userPost.create({
+      profilePicUrl: user.profilePicUrl,
+      userName: user.userName,
       description,
       musicUrl: cutAudioUrl,
       userId: new Types.ObjectId(user._id),

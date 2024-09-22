@@ -15,4 +15,6 @@ export interface IUserPostModel {
   userId: any;
   musicUrl: string;
   description: string;
+  userName: string;
+  profilePicUrl: string;
 }
