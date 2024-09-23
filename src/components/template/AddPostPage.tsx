@@ -4,15 +4,22 @@ import axios from "axios";
 import React, { FC, useState } from "react";
 import AudioUploader from "../module/AudioUploader";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const AddPostPage: FC<ILocale> = ({ locale }) => {
   const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("");
+  const router = useRouter();
 
   const sendHandler = async () => {
     await axios
       .post("/api/upload", { data: { cutAudioUrl, description } })
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.status === 200) {
+          router.refresh();
+          router.push("/");
+        }
+      })
       .catch((error) => console.log(error));
   };
   return (
