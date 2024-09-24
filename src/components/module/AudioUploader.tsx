@@ -7,6 +7,9 @@ import { IAudioUploader } from "@/types/props.js";
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import Loader from "../module/Loader";
+import { useTranslations } from "next-intl";
+import { p2e } from "@/helper/replaceNumber";
+
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -35,6 +38,9 @@ const AudioUploader: FC<IAudioUploader> = ({
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null); // مرجع برای ورودی فایل
   const [loader, setLoader] = useState<boolean>(false);
+  const t = useTranslations("addPostPage");
+  const E = useTranslations("enum");
+
   const handleAudioUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -246,14 +252,14 @@ const AudioUploader: FC<IAudioUploader> = ({
           className="mb-4 rounded-xl bg-gradient-to-r from-p-500 to-p-700 px-4 py-2 font-medium text-white"
           onClick={(e) => cancleHandler()}
         >
-          Cancle
+          {t("Cancle")}
         </button>
       ) : (
         <button
           onClick={handleButtonClick}
           className="mb-4 rounded-xl bg-gradient-to-r from-p-500 to-p-700 px-4 py-2 font-medium text-white"
         >
-          select music
+          {t("select music")}
         </button>
       )}
 
@@ -265,7 +271,9 @@ const AudioUploader: FC<IAudioUploader> = ({
           </h3>
           <div className="flex items-center justify-between">
             <span className="w-max rounded-xl bg-blue-600 px-3 py-1 text-white">
-              {formatTime(currentTime)} / {formatTime(audioDuration)}
+              {locale === "fa"
+                ? `${p2e(formatTime(audioDuration))} / ${p2e(formatTime(currentTime))}  `
+                : `${formatTime(currentTime)} / ${formatTime(audioDuration)}`}
             </span>
             <button
               onClick={togglePlayPause}
@@ -277,7 +285,7 @@ const AudioUploader: FC<IAudioUploader> = ({
           <div className="flex justify-between">
             <div className="flex flex-col items-start justify-center gap-2">
               <label className="ml-2 font-medium text-p-950" htmlFor="start">
-                Start :{" "}
+                {t("Start")} :
               </label>
               <input
                 type="text"
@@ -290,7 +298,7 @@ const AudioUploader: FC<IAudioUploader> = ({
             </div>
             <div className="flex flex-col items-start justify-center gap-2">
               <label className="ml-2 font-medium text-p-950" htmlFor="end">
-                End :{" "}
+                {t("End")} :{" "}
               </label>
               <input
                 type="text"
@@ -308,12 +316,10 @@ const AudioUploader: FC<IAudioUploader> = ({
                 <Loader width={80} height={20} color="#fff" />
               </div>
             ) : cutAudioUrl ? (
-              <button className="text-center" >
-               It was confirmed
-              </button>
+              <button className="text-center">{t("It was confirmed")}</button>
             ) : (
               <button className="text-center" onClick={handleSubmit}>
-                Save music
+                {t("Save music")}
               </button>
             )}
           </div>

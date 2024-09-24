@@ -68,6 +68,7 @@
   "enum": {
     "Please insert correct Info": "Please insert correct Info",
     "Can Not Find User": "Can Not Find User",
+    "unathourised": "sign up / login first",
     "Wrong password": "Wrong password",
     "Server error , try again later": "Server error , try again later",
     "Error in sending request": "Error in sending request",
@@ -118,6 +119,17 @@
     "_ Forget your password ??": "_ Forget your password ??",
     "Sign in": "Sign in"
   },
+  "addPostPage": {
+    "Create post": "Create post",
+    "Post": "Post",
+    "Cancle": "Cancle",
+    "select music": "select music",
+    "Start": "Start",
+    "End": "End",
+    "It was confirmed": "It was confirmed",
+    "Save music": "Save music"
+  },
+  "showPostPage": { "delete": "delete", "download": "download" },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": "Sign Up",

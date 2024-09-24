@@ -21,8 +21,8 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(req);
     if (!session) {
       return NextResponse.json(
-        { message: MESSSGE.USER_NOT_FOUND },
-        { status: STATUS.NOT_FOUND2 },
+        { message: MESSSGE.UNATHOURISED},
+        { status: STATUS.WRONG_PASS },
       );
     }
     const user = await userInfo.findOne({ email: session?.user.email });
@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest) {
   try {
     await ConnectDB();
     const { data } = await req.json();
-    const [likeCount, likeState] = data;
+    const [likeCount, likeState, _id] = data;
     const session = await getServerSession(req);
     if (!session) {
       return NextResponse.json(
@@ -58,9 +58,9 @@ export async function PATCH(req: NextRequest) {
         { status: STATUS.WRONG_PASS },
       );
     }
-    const user = await userInfo.findOne({ email: session.user.email });
-    const userPosted = await userPost.findOne({ userId: user._id });
-    // console.log(userPosted);
+
+    const userPosted = await userPost.findOne({ _id });
+    console.log(userPosted);
     if (!userPosted) {
       return NextResponse.json(
         { message: MESSSGE.NOT_POST_FOUNDED },

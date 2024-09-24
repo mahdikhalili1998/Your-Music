@@ -68,6 +68,7 @@
   "enum": {
     "Please insert correct Info": "اطلاعات با فرمت صحیح وارد کنید",
     "Can Not Find User": "کاربر یافت نشد",
+    "unathourised": "ابتدا وارد حساب خود شوید",
     "Wrong password": "رمز عبور اشتباه است",
     "Server error , try again later": "خطای سرور ، لحظاتی دیگر امتحان کنید",
     "Error in sending request": "خطا در ارسال درخواست",
@@ -118,6 +119,17 @@
     "_ Forget your password ??": "رمز خود را فراموش کردید ؟؟",
     "Sign in": "ورود"
   },
+  "addPostPage": {
+    "Create post": "ایجاد پست",
+    "Post": "پست",
+    "Cancle": "لغو",
+    "select music": "انتخاب آهنگ",
+    "Start": "شروع",
+    "End": "پایان",
+    "It was confirmed": "تایید شد",
+    "Save music": "ذخیره آهنگ"
+  },
+  "showPostPage": { "delete": "حذف", "download": "دانلود" },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",

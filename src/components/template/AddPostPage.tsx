@@ -5,10 +5,15 @@ import React, { FC, useState } from "react";
 import AudioUploader from "../module/AudioUploader";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddPostPage: FC<ILocale> = ({ locale }) => {
   const [cutAudioUrl, setCutAudioUrl] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("");
+  const t = useTranslations("addPostPage");
+  const E = useTranslations("enum");
+
   const router = useRouter();
 
   const sendHandler = async () => {
@@ -20,12 +25,30 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
           router.push("/");
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        if (error.response.state === 422) {
+          toast.error(E("Please insert correct Info"));
+        } else if (error.response.state === 401) {
+          toast.error(E("unathourised"));
+        } else if (error.response.state === 500) {
+          toast.error(E("Server error , try again later"));
+        } else if (error.response.state === 404) {
+          toast.error(E("Error in sending request"));
+        }
+      });
   };
+
   return (
-    <div className="bg-gradient-to-r from-p-500 to-p-200 px-2 py-3">
+    <div
+      className={`${locale === "fa" ? "font-iransans" : null} bg-gradient-to-r from-p-500 to-p-200 px-2 py-3`}
+    >
       <div>
-        <h2 className="text-lg font-medium text-white">Create post</h2>
+        <h2
+          className={`${locale === "fa" ? "text-p-950" : "text-white"} text-lg font-medium`}
+        >
+          {t("Create post")}
+        </h2>
         <Image
           width={300}
           height={300}
@@ -44,7 +67,11 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
         <textarea
           rows={8}
           value={description}
-          placeholder="type your description"
+          placeholder={
+            locale === "fa"
+              ? "توضیحات را اینجا تایپ کنید"
+              : "type your description"
+          }
           onChange={(e) => setDescription(e.target.value)}
           className="mx-auto w-full rounded-lg p-2 placeholder:pt-2 placeholder:text-center focus:outline-none"
         />
@@ -55,9 +82,10 @@ const AddPostPage: FC<ILocale> = ({ locale }) => {
           onClick={(e) => sendHandler()}
           disabled={!cutAudioUrl || !description}
         >
-          Post
+          {t("Post")}
         </button>
       </div>
+      <Toaster />
     </div>
   );
 };

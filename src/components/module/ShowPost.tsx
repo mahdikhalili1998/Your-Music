@@ -10,17 +10,23 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import axios from "axios";
+import { useTranslations } from "next-intl";
+import momentJalaali from "moment-jalaali";
+import { p2e } from "@/helper/replaceNumber";
+import { AiFillDelete } from "react-icons/ai";
+import { LuDownload } from "react-icons/lu";
 
 const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
-  // console.log(post);
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [likeState, setLikeState] = useState<boolean>(null);
   const [likeCount, setLikeCount] = useState<number>(null);
-
-  // console.log({ likeCount, likeState });
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
+  const t = useTranslations("showPostPage");
+  const E = useTranslations("enum");
+  momentJalaali.loadPersian({ usePersianDigits: true });
+  const jalaliDate = momentJalaali(post.createAt).format("jYYYY/jMM/jDD");
 
   useEffect(() => {
     const result = post.map((item) => {
@@ -46,12 +52,12 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
     };
   }, [activePostId]);
 
-  const likeHandler = async () => {
+  const likeHandler = async (_id: string) => {
     setLikeState((likeState2) => {
       const likeState = !likeState2;
 
       axios
-        .patch("/api/upload", { data: [likeCount, likeState] })
+        .patch("/api/upload", { data: [likeCount, likeState, _id] })
         .then((res) => {
           if (res.status === 201) {
             router.refresh();
@@ -63,14 +69,12 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
     });
   };
 
- 
-
   return (
     <div>
       {reversedPost.map((item) => (
         <div
           key={item._id}
-          className={`${locale === "fa" ? "font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4`}
+          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start gap-3">
@@ -95,12 +99,19 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
                 ref={(el) => (refs.current[item._id] = el)}
                 className={`${
                   activePostId !== item._id ? "hidden" : "absolute right-1"
-                } z-10 flex flex-col items-start justify-center rounded-lg bg-gray-300 p-2 font-medium`}
+                } ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
               >
                 {!user ? null : user.userName === item.userName ? (
-                  <span className="text-red-600">delete</span>
+                  <span className="flex items-center gap-2 text-red-600">
+                    <AiFillDelete /> {t("delete")}
+                  </span>
                 ) : null}
-                <span className="w-max">download music</span>
+                <a
+                  href={item.musicUrl}
+                  className="flex w-max items-center gap-2"
+                >
+                  <LuDownload /> {t("download")}
+                </a>
               </div>
             </div>
           </div>
@@ -109,10 +120,10 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
           </audio>
           <div className="flex items-center gap-4">
             <span
-              onClick={(e) => likeHandler()}
+              onClick={(e) => likeHandler(item._id)}
               className="flex items-center gap-2"
             >
-              {likeState ? (
+              {item.likeSituation ? (
                 <FaHeart className="text-xl text-red-600" />
               ) : (
                 <FaRegHeart className="text-xl" />
@@ -125,7 +136,9 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
           </div>
           <p className="font-medium text-p-950">{item.description}</p>
           <p className="-mt-4 text-xs font-medium text-gray-600">
-            {moment(item.createdAt).format("YYYY/MM/DD")}
+            {locale === "fa"
+              ? jalaliDate
+              : p2e(moment(post.createAt).format("YYYY/MM/DD"))}
           </p>
         </div>
       ))}

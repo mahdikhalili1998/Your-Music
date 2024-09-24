@@ -202,7 +202,7 @@ const LoginInfo: FC<IProfileDetail> = ({
           />
           {loader ? (
             <div>
-              <Loader height={40} width={80} />
+              <Loader color="#7e22ce" height={40} width={80} />
             </div>
           ) : (
             <button
