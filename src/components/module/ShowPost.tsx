@@ -15,6 +15,7 @@ import momentJalaali from "moment-jalaali";
 import { p2e } from "@/helper/replaceNumber";
 import { AiFillDelete } from "react-icons/ai";
 import { LuDownload } from "react-icons/lu";
+import isPersian from "@/helper/LanguageRecognizer";
 
 const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -69,6 +70,18 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
     });
   };
 
+  const deleteHandler = async (id: string) => {
+    await axios
+      .delete("/api/upload", { data: { id: id } })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          router.refresh();
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       {reversedPost.map((item) => (
@@ -102,7 +115,10 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
                 } ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
               >
                 {!user ? null : user.userName === item.userName ? (
-                  <span className="flex items-center gap-2 text-red-600">
+                  <span
+                    onClick={(e) => deleteHandler(item._id)}
+                    className="flex items-center gap-2 text-red-600"
+                  >
                     <AiFillDelete /> {t("delete")}
                   </span>
                 ) : null}
@@ -134,7 +150,11 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
               <FaRegComment className="text-xl" />
             </span>
           </div>
-          <p className="font-medium text-p-950">{item.description}</p>
+          <p
+            className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
+          >
+            {item.description}
+          </p>
           <p className="-mt-4 text-xs font-medium text-gray-600">
             {locale === "fa"
               ? jalaliDate

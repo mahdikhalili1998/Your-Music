@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(req);
     if (!session) {
       return NextResponse.json(
-        { message: MESSSGE.UNATHOURISED},
+        { message: MESSSGE.UNATHOURISED },
         { status: STATUS.WRONG_PASS },
       );
     }
@@ -81,6 +81,25 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(
       { message: MESSSGE.INFO_CHANGE, data: userPosted },
       { status: STATUS.EDIT_INFO },
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: MESSSGE.SERVER_ERROR },
+      { status: STATUS.ERROR },
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await ConnectDB();
+    const result = await req.json();
+    const userPosted = await userPost.deleteOne({ _id: result.id });
+    // console.log(userPosted);
+    return NextResponse.json(
+      { message: MESSSGE.SUCCSESS },
+      { status: STATUS.SUCCSESS },
     );
   } catch (error) {
     console.log(error);
