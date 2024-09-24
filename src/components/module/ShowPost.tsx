@@ -16,6 +16,8 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [likeState, setLikeState] = useState<boolean>(null);
   const [likeCount, setLikeCount] = useState<number>(null);
+  const [lastTap, setLastTap] = useState(0); // برای تشخیص دابل تپ
+
   // console.log({ likeCount, likeState });
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -62,11 +64,25 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
     });
   };
 
+  const handleDoubleTap = (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+
+    if (tapLength < 300 && tapLength > 0) {
+      // اگر دابل تپ شناسایی شد
+      likeHandler();
+    }
+
+    setLastTap(currentTime);
+  };
+
   return (
     <div>
       {reversedPost.map((item) => (
         <div
           key={item._id}
+          onDoubleClick={likeHandler} // برای دابل کلیک روی دسکتاپ
+          onTouchStart={handleDoubleTap} // برای دابل تپ روی موبایل
           className={`${locale === "fa" ? "font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4`}
         >
           <div className="flex items-center justify-between">
