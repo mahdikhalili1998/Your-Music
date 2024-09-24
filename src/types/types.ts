@@ -1,5 +1,3 @@
-
-
 export type OmitWithTag<T, K extends keyof T> = Omit<T, K> & {
   [key: string]: unknown;
 };
@@ -47,5 +45,10 @@ export type UserInfo = {
   profilePicUrl: string;
   locale?: string;
 };
+
+export interface ILike_cm {
+  like: boolean;
+  comment: string;
+}
 
 export interface IAccountFound {}

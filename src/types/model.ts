@@ -17,4 +17,6 @@ export interface IUserPostModel {
   description: string;
   userName: string;
   profilePicUrl: string;
+  likeCount: number;
+  likeSituation: boolean;
 }

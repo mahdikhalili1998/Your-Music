@@ -5,30 +5,69 @@ import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import { SlOptionsVertical } from "react-icons/sl";
 import moment from "moment";
+import { useRouter } from "next/navigation";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+import axios from "axios";
 
-const ShowPost: FC<IShowPost> = ({ post }) => {
+const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
+  // console.log(post);
   const [activePostId, setActivePostId] = useState<string | null>(null);
+  const [likeState, setLikeState] = useState<boolean>(null);
+  const [likeCount, setLikeCount] = useState<number>(null);
+  // console.log({ likeCount, likeState });
   const reversedPost = post.toReversed();
-  const optionsRef = useRef(null);
+  const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const router = useRouter();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
-        setActivePostId(null); // اگر کلیک بیرون از منو بود، منوی همه پست‌ها بسته شود
+    const result = post.map((item) => {
+      setLikeCount(item.likeCount);
+      setLikeState(item.likeSituation);
+    });
+  }, []);
+
+  useEffect(() => {
+    router.refresh();
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        activePostId &&
+        refs.current[activePostId] &&
+        !refs.current[activePostId]?.contains(event.target as Node)
+      ) {
+        setActivePostId(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [optionsRef]);
+  }, [activePostId]);
+
+  const likeHandler = async () => {
+    setLikeState((likeState2) => {
+      const likeState = !likeState2;
+
+      axios
+        .patch("/api/upload", { data: [likeCount, likeState] })
+        .then((res) => {
+          if (res.status === 201) {
+            router.refresh();
+          }
+        })
+        .catch((error) => console.log(error));
+
+      return likeState;
+    });
+  };
 
   return (
     <div>
       {reversedPost.map((item) => (
         <div
           key={item._id}
-          className="mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 font-iransans"
+          className={`${locale === "fa" ? "font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start gap-3">
@@ -42,29 +81,45 @@ const ShowPost: FC<IShowPost> = ({ post }) => {
               />
               <span className="font-medium text-p-950">{item.userName}</span>
             </div>
-
-            {/* دکمه منو برای هر پست */}
-            <div className="relative" ref={optionsRef}>
+            <div className="relative">
               <SlOptionsVertical
                 className="-mt-1"
-                onClick={(e) => {
-                  setActivePostId(activePostId === item._id ? null : item._id);
-                }}
+                onClick={() =>
+                  setActivePostId(activePostId === item._id ? null : item._id)
+                }
               />
               <div
+                ref={(el) => (refs.current[item._id] = el)}
                 className={`${
                   activePostId !== item._id ? "hidden" : "absolute right-1"
                 } z-10 flex flex-col items-start justify-center rounded-lg bg-gray-300 p-2 font-medium`}
               >
-                <span className="text-red-600">delete</span>
+                {!user ? null : user.userName === item.userName ? (
+                  <span className="text-red-600">delete</span>
+                ) : null}
                 <span className="w-max">download music</span>
               </div>
             </div>
           </div>
-
           <audio controls className="mx-2 mb-4 w-full max-w-lg">
             <source src={item.musicUrl} type="audio/mp3" />
           </audio>
+          <div className="flex items-center gap-4">
+            <span
+              onClick={(e) => likeHandler()}
+              className="flex items-center gap-2"
+            >
+              {likeState ? (
+                <FaHeart className="text-xl text-red-600" />
+              ) : (
+                <FaRegHeart className="text-xl" />
+              )}
+              {item.likeCount}
+            </span>
+            <span>
+              <FaRegComment className="text-xl" />
+            </span>
+          </div>
           <p className="font-medium text-p-950">{item.description}</p>
           <p className="-mt-4 text-xs font-medium text-gray-600">
             {moment(item.createdAt).format("YYYY/MM/DD")}

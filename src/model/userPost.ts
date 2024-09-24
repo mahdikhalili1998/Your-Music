@@ -9,6 +9,8 @@ const userPostSchema = new Schema<IUserPostModel>(
     musicUrl: { type: String, required: true },
     profilePicUrl: { type: String, required: true },
     userName: { type: String, required: true },
+    likeCount: { type: Number, default: 0 },
+    likeSituation:{type:Boolean,default:false}
   },
   { timestamps: true },
 );

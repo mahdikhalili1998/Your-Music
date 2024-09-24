@@ -20,6 +20,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
     if (dbUser) {
       user = {
         name: dbUser.name,
+        userName: dbUser.userName,
         profilePicUrl: dbUser.profilePicUrl,
       };
     } else {
@@ -50,7 +51,11 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
     <div>
       {user ? <Welcome user={{ ...user }} /> : null}
       <div>
-        <ShowPost post={JSON.parse(JSON.stringify(post))} />
+        <ShowPost
+          post={JSON.parse(JSON.stringify(post))}
+          user={JSON.parse(JSON.stringify(user))}
+          locale={locale}
+        />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ export enum MESSSGE {
   WELCOME = "Welcome {name} 🖐️ ",
   INCORRECT_INFO = "Please insert correct Info",
   EXSITED_USER = "There is an account with this email",
+  INFO_CHANGE = "change succsessfully",
   USER_NOT_FOUND = "Can Not Find User",
   SUCCSESS = "succsess",
   EXISTED_USER_NAME = "This username already taken",
@@ -14,6 +15,8 @@ export enum MESSSGE {
   DELETE = "Delete succsessfully",
   DELETE_ACCOUNT = "Delete Account succsessfully",
   NO_ACCOUNT_PHONE = "There is no account with this phone number",
+  UNATHOURISED = "unathuristion",
+  NOT_POST_FOUNDED = " not post founded",
 }
 
 export enum STATUS {
