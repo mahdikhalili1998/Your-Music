@@ -88,6 +88,7 @@ export async function POST(req: NextRequest) {
       { status: STATUS.SUCCSESS },
     );
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
       { message: MESSSGE.SERVER_ERROR },
       { status: STATUS.ERROR },

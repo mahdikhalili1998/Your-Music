@@ -20,6 +20,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
     if (dbUser) {
       user = {
         name: dbUser.name,
+        id: dbUser._id,
         userName: dbUser.userName,
         profilePicUrl: dbUser.profilePicUrl,
       };
@@ -39,7 +40,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
       }),
     );
   }
-
+  // console.log(info);
   const messages = locale === "fa" ? faMessages : enMessages;
   const intlConfig = {
     locale: locale,
@@ -53,6 +54,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
       <div>
         <ShowPost
           post={JSON.parse(JSON.stringify(post))}
+          info={JSON.parse(JSON.stringify(info))}
           user={JSON.parse(JSON.stringify(user))}
           locale={locale}
         />

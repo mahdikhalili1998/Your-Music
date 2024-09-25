@@ -151,7 +151,9 @@ const SignUpInput: FC<ISignupPage> = ({
             placeholder={locale === "fa" ? " آیدی" : "User Name"}
             onChange={(e) => changeHandler(e)}
           />
-          <ul className={`${locale === "fa" ? "mr-8" : "ml-7"} text-sm mt-5 list-disc`}>
+          <ul
+            className={`${locale === "fa" ? "mr-8" : "ml-7"} mt-5 list-disc text-sm`}
+          >
             <li
               className={`${isEnglishOnly(userName) ? "text-green-600" : "text-gray-400"}`}
             >
@@ -194,7 +196,9 @@ const SignUpInput: FC<ISignupPage> = ({
               locale={locale}
             />
           </div>
-          <ul className={`${locale === "fa" ? "mr-9" : "ml-8"} space-y-2 text-sm mt-5 list-disc`}>
+          <ul
+            className={`${locale === "fa" ? "mr-9" : "ml-8"} mt-5 list-disc space-y-2 text-sm`}
+          >
             <li
               className={`${isLengthValid(password) ? "text-green-600" : "text-gray-400"}`}
             >
@@ -225,8 +229,8 @@ const SignUpInput: FC<ISignupPage> = ({
           name="creditCardNumber"
           placeholder={
             locale === "fa"
-              ? "  شماره کارت (احتیاری) "
-              : "Credit Card (optional)"
+              ? "  شماره کارت (الزامی) "
+              : "Credit Card (Mandatory)"
           }
           onChange={(e) => changeHandler(e)}
         />

@@ -19,5 +19,5 @@ export function hasSpecialCharacter(str) {
 }
 
 export function isEnglishOnly(str) {
-  return /^[A-Za-z]+$/.test(str);
+  return /^[A-Za-z._]+$/.test(str);
 }

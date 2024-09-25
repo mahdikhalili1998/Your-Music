@@ -17,10 +17,13 @@ import { AiFillDelete } from "react-icons/ai";
 import { LuDownload } from "react-icons/lu";
 import isPersian from "@/helper/LanguageRecognizer";
 
-const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
+const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
+  // console.log(info);
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [likeState, setLikeState] = useState<boolean>(null);
   const [likeCount, setLikeCount] = useState<number>(null);
+  const [profPic, setProfPic] = useState<string>("");
+  console.log(info);
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
@@ -33,6 +36,13 @@ const ShowPost: FC<IShowPost> = ({ post, user, locale }) => {
     const result = post.map((item) => {
       setLikeCount(item.likeCount);
       setLikeState(item.likeSituation);
+    });
+    const prof = info.map((infoo) => {
+      post.map((item) => {
+        if (infoo._id === item.userId) {
+          setProfPic(infoo.profilePicUrl);
+        }
+      });
     });
   }, []);
 

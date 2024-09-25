@@ -89,7 +89,7 @@
     "8 characters": "حداقل هشت کارکتر باشد",
     "Contains uppercase English letter": "یک حرف بزرگ انگلیسی",
     "Contains number": "شامل اعداد باشد",
-    "Contains special character": "شامل یک کارکتر خاص باشد",
+    "Contains special character": "یک کارکتر خاص",
     "Must be English": "باید انگیلیسی باشد"
   },
   "sendOtpPage": {

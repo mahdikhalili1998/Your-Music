@@ -70,6 +70,7 @@ export interface IAudioUploader {
 }
 
 export interface IShowPost {
+  info: any;
   user: any;
   post: any;
   locale: string;
