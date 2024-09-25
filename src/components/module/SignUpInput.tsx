@@ -10,7 +10,12 @@ import { useRouter } from "next/navigation";
 import ProfilePic from "./ProfilePic";
 import { useTranslations } from "next-intl";
 import ShowPass from "../element/ShowPass";
-import { isLengthValid } from "@/helper/function";
+import {
+  isLengthValid,
+  hasUpperCase,
+  hasNumber,
+  hasSpecialCharacter,
+} from "@/helper/function";
 
 const SignUpInput: FC<ISignupPage> = ({
   image,
@@ -60,47 +65,44 @@ const SignUpInput: FC<ISignupPage> = ({
     });
   }, []);
 
-  const sendHandler = () => {
-    console.log(userInfo);
-  };
-  // const sendHandler = async () => {
-  //   if (
-  //     !regexInfo.name.test(name) ||
-  //     !regexInfo.email.test(email) ||
-  //     !regexInfo.userName.test(userName) ||
-  //     !regexInfo.password.test(password) ||
-  //     !regexInfo.lastName.test(lastName)
-  //   ) {
-  //     toast(E("Please insert correct Info"));
-  //     return;
-  //   }
+  const sendHandler = async () => {
+    if (
+      !regexInfo.name.test(name) ||
+      !regexInfo.email.test(email) ||
+      !regexInfo.userName.test(userName) ||
+      !regexInfo.password.test(password) ||
+      !regexInfo.lastName.test(lastName)
+    ) {
+      toast(E("Please insert correct Info"));
+      return;
+    }
 
-  //   setLoading(true);
-  //   await axios
-  //     .post("/api/auth/sign-up", { userInfo })
-  //     .then((res) => {
-  //       toast.success(res.data.message);
-  //       if (res.status === 200) {
-  //         router.push(`/${locale}/sign-in`);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // console.log(error);
-  //       if (error.response.status === 422) {
-  //         toast.error(E("Please insert correct Info"));
-  //       } else if (error.response.status === 409) {
-  //         toast.error(E("There is an account with this email & phone number"));
-  //       } else if (error.response.status === 410) {
-  //         toast.error(E("There is an account with this user name"));
-  //       } else if (error.response.status === 411) {
-  //         toast.error(E("There is an account with this email"));
-  //       } else if (error.response.status === 500) {
-  //         toast.error("Server error , try again later");
-  //       }
-  //       return;
-  //     });
-  //   setLoading(false);
-  // };
+    setLoading(true);
+    await axios
+      .post("/api/auth/sign-up", { userInfo })
+      .then((res) => {
+        toast.success(res.data.message);
+        if (res.status === 200) {
+          router.push(`/${locale}/sign-in`);
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+        if (error.response.status === 422) {
+          toast.error(E("Please insert correct Info"));
+        } else if (error.response.status === 409) {
+          toast.error(E("There is an account with this email & phone number"));
+        } else if (error.response.status === 410) {
+          toast.error(E("There is an account with this user name"));
+        } else if (error.response.status === 411) {
+          toast.error(E("There is an account with this email"));
+        } else if (error.response.status === 500) {
+          toast.error("Server error , try again later");
+        }
+        return;
+      });
+    setLoading(false);
+  };
 
   const changeHandler = (e: any) => {
     const { name, value } = e.target;
@@ -163,7 +165,7 @@ const SignUpInput: FC<ISignupPage> = ({
           readOnly
         />
 
-        <div className="ml-5">
+        <div className="ml-6">
           <div className="ml-2 flex items-center">
             <input
               className={`${classNames} ${regexInfo.password.test(password) ? "focus:border-green-500" : "focus:border-red-700"}`}
@@ -179,15 +181,27 @@ const SignUpInput: FC<ISignupPage> = ({
               locale={locale}
             />
           </div>
-          <ul className="ml-6 mt-3 list-disc">
+          <ul className="ml-7 mt-5 list-disc">
             <li
               className={`${isLengthValid(password) ? "text-green-600" : "text-gray-400"}`}
             >
               {t("8 characters")}
             </li>
-            <li className="w-max">{t("Contains uppercase English letter")}</li>
-            <li>{t("Contains number")}</li>
-            <li>{t("Contains special character")}</li>
+            <li
+              className={`${hasUpperCase(password) ? "text-green-600" : "text-gray-400"} w-max`}
+            >
+              {t("Contains uppercase English letter")}
+            </li>
+            <li
+              className={`${hasNumber(password) ? "text-green-600" : "text-gray-400"}`}
+            >
+              {t("Contains number")}
+            </li>
+            <li
+              className={`${hasSpecialCharacter(password) ? "text-green-600" : "text-gray-400"}`}
+            >
+              {t("Contains special character")}
+            </li>
           </ul>
         </div>
 
