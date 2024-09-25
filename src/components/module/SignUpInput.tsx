@@ -9,6 +9,8 @@ import Loader from "./Loader";
 import { useRouter } from "next/navigation";
 import ProfilePic from "./ProfilePic";
 import { useTranslations } from "next-intl";
+import ShowPass from "../element/ShowPass";
+import { isLengthValid } from "@/helper/function";
 
 const SignUpInput: FC<ISignupPage> = ({
   image,
@@ -30,9 +32,22 @@ const SignUpInput: FC<ISignupPage> = ({
     creditCardNumber: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
   const router = useRouter();
-  const { name, userName, email, password, lastName, profilePicUrl, gender } =
-    userInfo;
+  const {
+    name,
+    userName,
+    email,
+    phoneNumber,
+    password,
+    lastName,
+    profilePicUrl,
+    creditCardNumber,
+    gender,
+  } = userInfo;
+
+  const classNames =
+    " w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none";
   const t = useTranslations("signUpPage");
   const E = useTranslations("enum");
   useEffect(() => {
@@ -45,44 +60,47 @@ const SignUpInput: FC<ISignupPage> = ({
     });
   }, []);
 
-  const sendHandler = async () => {
-    if (
-      !regexInfo.name.test(name) ||
-      !regexInfo.email.test(email) ||
-      !regexInfo.userName.test(userName) ||
-      !regexInfo.password.test(password) ||
-      !regexInfo.lastName.test(lastName)
-    ) {
-      toast(E("Please insert correct Info"));
-      return;
-    }
-
-    setLoading(true);
-    await axios
-      .post("/api/auth/sign-up", { userInfo })
-      .then((res) => {
-        toast.success(res.data.message);
-        if (res.status === 200) {
-          router.push(`/${locale}/sign-in`);
-        }
-      })
-      .catch((error) => {
-        // console.log(error);
-        if (error.response.status === 422) {
-          toast.error(E("Please insert correct Info"));
-        } else if (error.response.status === 409) {
-          toast.error(E("There is an account with this email & phone number"));
-        } else if (error.response.status === 410) {
-          toast.error(E("There is an account with this user name"));
-        } else if (error.response.status === 411) {
-          toast.error(E("There is an account with this email"));
-        } else if (error.response.status === 500) {
-          toast.error("Server error , try again later");
-        }
-        return;
-      });
-    setLoading(false);
+  const sendHandler = () => {
+    console.log(userInfo);
   };
+  // const sendHandler = async () => {
+  //   if (
+  //     !regexInfo.name.test(name) ||
+  //     !regexInfo.email.test(email) ||
+  //     !regexInfo.userName.test(userName) ||
+  //     !regexInfo.password.test(password) ||
+  //     !regexInfo.lastName.test(lastName)
+  //   ) {
+  //     toast(E("Please insert correct Info"));
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   await axios
+  //     .post("/api/auth/sign-up", { userInfo })
+  //     .then((res) => {
+  //       toast.success(res.data.message);
+  //       if (res.status === 200) {
+  //         router.push(`/${locale}/sign-in`);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // console.log(error);
+  //       if (error.response.status === 422) {
+  //         toast.error(E("Please insert correct Info"));
+  //       } else if (error.response.status === 409) {
+  //         toast.error(E("There is an account with this email & phone number"));
+  //       } else if (error.response.status === 410) {
+  //         toast.error(E("There is an account with this user name"));
+  //       } else if (error.response.status === 411) {
+  //         toast.error(E("There is an account with this email"));
+  //       } else if (error.response.status === 500) {
+  //         toast.error("Server error , try again later");
+  //       }
+  //       return;
+  //     });
+  //   setLoading(false);
+  // };
 
   const changeHandler = (e: any) => {
     const { name, value } = e.target;
@@ -100,23 +118,95 @@ const SignUpInput: FC<ISignupPage> = ({
         locale={locale}
       />
       <div
-        className={`${locale === "fa" ? "font-iransans" : null} ${isEditing && image ? "blur-sm" : null} flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-6 pr-28`}
+        className={`${locale === "fa" ? "font-iransans" : null} ${isEditing && image ? "blur-sm" : null} -ml-5 flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-6 pr-28`}
       >
-        {(Object.keys(userInfo) as (keyof IUserInfo)[]).map((key) => (
-          <input
-            key={key}
-            className={`ml-2 w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none ${(key === "email" && regexInfo.email.test(userInfo[key as keyof IUserInfo])) || (key === "name" && regexInfo.name.test(userInfo[key as keyof IUserInfo])) || (key === "lastName" && regexInfo.lastName.test(userInfo[key as keyof IUserInfo])) || (key === "userName" && regexInfo.userName.test(userInfo[key as keyof IUserInfo])) || (key === "creditCardNumber" && regexInfo.creditCard.test(userInfo[key as keyof IUserInfo])) || (key === "password" && regexInfo.password.test(userInfo[key as keyof IUserInfo])) ? "focus:border-green-500" : "focus:border-red-700"} ${key === "role" || key === "gender" || key === "profilePicUrl" ? "hidden" : null}`}
-            value={userInfo[key as keyof IUserInfo]}
-            name={key}
-            readOnly={key === "phoneNumber"}
-            placeholder={key}
-            onChange={(e) => changeHandler(e)}
-          />
-        ))}
+        <input
+          className={`${classNames} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          type="text"
+          value={name}
+          name="name"
+          placeholder={locale === "fa" ? "نام" : "Name"}
+          onChange={(e) => changeHandler(e)}
+        />
+
+        <input
+          className={`${classNames} ${regexInfo.lastName.test(lastName) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          type="text"
+          value={lastName}
+          name="lastName"
+          placeholder={locale === "fa" ? " نام خانوادگی" : "Last Name"}
+          onChange={(e) => changeHandler(e)}
+        />
+
+        <input
+          className={`${classNames} ${regexInfo.userName.test(userName) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          type="text"
+          value={userName}
+          name="userName"
+          placeholder={locale === "fa" ? " آیدی" : "User Name"}
+          onChange={(e) => changeHandler(e)}
+        />
+
+        <input
+          className={`${classNames} ${regexInfo.email.test(email) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          type="email"
+          value={email}
+          name="email"
+          placeholder={locale === "fa" ? " ایمیل" : "Email"}
+          onChange={(e) => changeHandler(e)}
+        />
+
+        <input
+          className={`${classNames}`}
+          value={phoneNumber}
+          type="number"
+          readOnly
+        />
+
+        <div className="ml-5">
+          <div className="ml-2 flex items-center">
+            <input
+              className={`${classNames} ${regexInfo.password.test(password) ? "focus:border-green-500" : "focus:border-red-700"}`}
+              type={showPass ? "text" : "password"}
+              value={password}
+              name="password"
+              placeholder={locale === "fa" ? " رمز عبور" : "Password"}
+              onChange={(e) => changeHandler(e)}
+            />
+            <ShowPass
+              showPass={showPass}
+              setShowPass={setShowPass}
+              locale={locale}
+            />
+          </div>
+          <ul className="ml-6 mt-3 list-disc">
+            <li
+              className={`${isLengthValid(password) ? "text-green-600" : "text-gray-400"}`}
+            >
+              {t("8 characters")}
+            </li>
+            <li className="w-max">{t("Contains uppercase English letter")}</li>
+            <li>{t("Contains number")}</li>
+            <li>{t("Contains special character")}</li>
+          </ul>
+        </div>
+
+        <input
+          className={`${classNames} ${regexInfo.creditCard.test(creditCardNumber) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          type="text"
+          value={creditCardNumber}
+          name="creditCardNumber"
+          placeholder={
+            locale === "fa"
+              ? "  شماره کارت (احتیاری) "
+              : "Credit Card (optional)"
+          }
+          onChange={(e) => changeHandler(e)}
+        />
 
         {loading ? (
           <div className="mx-auto w-max">
-            <Loader height={40} width={80} />
+            <Loader color="#7e22ce" height={40} width={80} />
           </div>
         ) : (
           <button

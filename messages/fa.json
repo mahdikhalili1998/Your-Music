@@ -85,7 +85,11 @@
   "signUpPage": {
     "Create Account :": "ساخت حساب",
     "Send": "ارسال",
-    "Save": "ذخیره"
+    "Save": "ذخیره",
+    "8 characters": "حداقل هشت کارکتر باشد",
+    "Contains uppercase English letter": "حداقل یک حرف بزرگ انگلیسی داشته باشد",
+    "Contains number": "شامل اعداد باشد",
+    "Contains special character": "شامل یک کارکتر خاص باشد"
   },
   "sendOtpPage": {
     "Enter your phone number :": "شماره تلفن خود را وارد کنید :",

@@ -74,3 +74,9 @@ export interface IShowPost {
   post: any;
   locale: string;
 }
+
+export interface IShowPass {
+  showPass: boolean;
+  setShowPass: Function;
+  locale: string;
+}

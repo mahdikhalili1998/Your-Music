@@ -4,3 +4,8 @@ export function clearLocalStorage() {
 
   console.log("All localStorage data has been cleared.");
 }
+
+export function isLengthValid(str) {
+  return str.length >= 8;
+}
+

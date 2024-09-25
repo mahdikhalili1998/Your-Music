@@ -84,7 +84,11 @@
   "signUpPage": {
     "Create Account :": "Create Account :",
     "Send": "Send",
-    "Save": "Save"
+    "Save": "Save",
+    "8 characters": "8 characters",
+    "Contains uppercase English letter": "uppercase English letter",
+    "Contains number": "Contains number",
+    "Contains special character": "special character"
   },
   "welcomeMdoule": { "Welcome": "Welcome" },
   "sendOtpPage": {

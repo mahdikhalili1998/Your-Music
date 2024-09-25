@@ -5,6 +5,7 @@ import Image from "next/image";
 import AvatarEditor from "react-avatar-editor";
 import { IImgProfile, IProfilePicProps } from "@/types/types";
 import { profileImages } from "@/constant/image";
+import { useTranslations } from "next-intl";
 
 const ProfilePic: FC<IProfilePicProps> = ({
   setUserInfo,
@@ -24,6 +25,8 @@ const ProfilePic: FC<IProfilePicProps> = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
   const [scale, setScale] = useState(0); // مقدار زوم اولیه
+  const t = useTranslations("signUpPage");
+  const E = useTranslations("enum");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
