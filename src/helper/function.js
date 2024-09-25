@@ -1,8 +1,5 @@
 export function clearLocalStorage() {
-  // پاک کردن تمام داده‌های localStorage
   localStorage.clear();
-
-  console.log("All localStorage data has been cleared.");
 }
 
 export function isLengthValid(str) {
@@ -19,4 +16,8 @@ export function hasNumber(str) {
 
 export function hasSpecialCharacter(str) {
   return /[!@#$%^&*(),.?":{}|<>]/.test(str);
+}
+
+export function isEnglishOnly(str) {
+  return /^[A-Za-z]+$/.test(str);
 }

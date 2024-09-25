@@ -86,10 +86,10 @@ const ProfilePic: FC<IProfilePicProps> = ({
 
   return (
     <>
-      <div className="relative z-10 mx-auto">
+      <div className="relative z-10  mx-auto">
         <div
           onClick={() => fileInputRef.current?.click()}
-          className={`${isEditing && image ? "blur-sm" : null} border-3 z-10 -mb-14 flex cursor-pointer items-center justify-center rounded-full border-solid border-p-700 bg-white`}
+          className={`${isEditing && image ? "pointer-events-none blur-sm" : null} border-3 z-10 flex cursor-pointer items-center justify-center rounded-full border-solid border-p-700 bg-white`}
         >
           <Image
             alt="profile.pic"
@@ -107,7 +107,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
             priority
             width={400}
             height={400}
-            className={`h-24 w-24 rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
+            className={`h-[8rem] w-[8rem] rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
           />
         </div>
         <input
@@ -119,7 +119,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
         />
       </div>
       {isEditing && image && (
-        <div className="absolute z-[11] bg-gray-900/50 py-3">
+        <div className="absolute -left-5 top-8 z-[11] bg-gray-900/50 py-3">
           <AvatarEditor
             ref={editorRef}
             image={image}
@@ -130,7 +130,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
             scale={scale} // استفاده از مقدار زوم
             rotate={0}
           />
-          <div className="flex flex-col items-center justify-center gap-3 px-2">
+          <div className="flex flex-col items-center justify-center gap-3">
             <input
               type="range"
               min="1"

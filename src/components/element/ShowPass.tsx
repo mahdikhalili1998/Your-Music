@@ -8,9 +8,13 @@ const ShowPass: FC<IShowPass> = ({ locale, setShowPass, showPass }) => {
   return (
     <span onClick={(e) => setShowPass(!showPass)}>
       {showPass ? (
-        <FaEyeSlash className="text-xl text-p-700 -ml-5" />
+        <FaEyeSlash
+          className={`text-xl text-p-700 ${locale === "fa" ? "-mr-5" : "-ml-5"} mt-2`}
+        />
       ) : (
-        <FaEye className="text-xl text-p-700 -ml-5" />
+        <FaEye
+          className={`text-xl text-p-700 ${locale === "fa" ? "-mr-5" : "-ml-5"} mt-2`}
+        />
       )}
     </span>
   );

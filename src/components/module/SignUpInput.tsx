@@ -15,7 +15,9 @@ import {
   hasUpperCase,
   hasNumber,
   hasSpecialCharacter,
+  isEnglishOnly,
 } from "@/helper/function";
+import isPersian from "@/helper/LanguageRecognizer";
 
 const SignUpInput: FC<ISignupPage> = ({
   image,
@@ -51,8 +53,7 @@ const SignUpInput: FC<ISignupPage> = ({
     gender,
   } = userInfo;
 
-  const classNames =
-    " w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-3 text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none";
+  const classNames = ` w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-5 ${locale === "fa" ? "mr-4" : "ml-4"} text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none`;
   const t = useTranslations("signUpPage");
   const E = useTranslations("enum");
   useEffect(() => {
@@ -108,6 +109,7 @@ const SignUpInput: FC<ISignupPage> = ({
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
+
   return (
     <>
       <ProfilePic
@@ -120,10 +122,10 @@ const SignUpInput: FC<ISignupPage> = ({
         locale={locale}
       />
       <div
-        className={`${locale === "fa" ? "font-iransans" : null} ${isEditing && image ? "blur-sm" : null} -ml-5 flex flex-col items-center justify-center gap-5 rounded-br-full rounded-tr-full bg-white py-6 pr-28`}
+        className={`${locale === "fa" ? "-mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans" : "-ml-5 rounded-br-full rounded-tr-full pr-28"} ${isEditing && image ? "blur-sm" : null} -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-10`}
       >
         <input
-          className={`${classNames} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          className={`${classNames} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(name) ? "font-iransans" : "font-Roboto"}`}
           type="text"
           value={name}
           name="name"
@@ -132,7 +134,7 @@ const SignUpInput: FC<ISignupPage> = ({
         />
 
         <input
-          className={`${classNames} ${regexInfo.lastName.test(lastName) ? "focus:border-green-500" : "focus:border-red-700"}`}
+          className={`${classNames} ${regexInfo.lastName.test(lastName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(lastName) ? "font-iransans" : "font-Roboto"}`}
           type="text"
           value={lastName}
           name="lastName"
@@ -140,14 +142,23 @@ const SignUpInput: FC<ISignupPage> = ({
           onChange={(e) => changeHandler(e)}
         />
 
-        <input
-          className={`${classNames} ${regexInfo.userName.test(userName) ? "focus:border-green-500" : "focus:border-red-700"}`}
-          type="text"
-          value={userName}
-          name="userName"
-          placeholder={locale === "fa" ? " آیدی" : "User Name"}
-          onChange={(e) => changeHandler(e)}
-        />
+        <div>
+          <input
+            className={`${classNames} ${regexInfo.userName.test(userName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(userName) ? "font-iransans" : "font-Roboto"}`}
+            type="text"
+            value={userName}
+            name="userName"
+            placeholder={locale === "fa" ? " آیدی" : "User Name"}
+            onChange={(e) => changeHandler(e)}
+          />
+          <ul className={`${locale === "fa" ? "mr-8" : "ml-7"} text-sm mt-5 list-disc`}>
+            <li
+              className={`${isEnglishOnly(userName) ? "text-green-600" : "text-gray-400"}`}
+            >
+              {t("Must be English")}
+            </li>
+          </ul>
+        </div>
 
         <input
           className={`${classNames} ${regexInfo.email.test(email) ? "focus:border-green-500" : "focus:border-red-700"}`}
@@ -165,8 +176,10 @@ const SignUpInput: FC<ISignupPage> = ({
           readOnly
         />
 
-        <div className="ml-6">
-          <div className="ml-2 flex items-center">
+        <div className="flex flex-col items-center justify-start">
+          <div
+            className={`${locale === "fa" ? "mr-2" : "ml-2"} flex items-center`}
+          >
             <input
               className={`${classNames} ${regexInfo.password.test(password) ? "focus:border-green-500" : "focus:border-red-700"}`}
               type={showPass ? "text" : "password"}
@@ -181,7 +194,7 @@ const SignUpInput: FC<ISignupPage> = ({
               locale={locale}
             />
           </div>
-          <ul className="ml-7 mt-5 list-disc">
+          <ul className={`${locale === "fa" ? "mr-9" : "ml-8"} space-y-2 text-sm mt-5 list-disc`}>
             <li
               className={`${isLengthValid(password) ? "text-green-600" : "text-gray-400"}`}
             >
