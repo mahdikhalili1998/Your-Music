@@ -9,6 +9,8 @@ export interface IUserInfo {
   password: string;
   profilePicUrl: string;
   creditCardNumber: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IUserPostModel {
@@ -19,4 +21,6 @@ export interface IUserPostModel {
   profilePicUrl: string;
   likeCount: number;
   likeSituation: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

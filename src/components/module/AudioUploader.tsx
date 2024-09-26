@@ -38,6 +38,8 @@ const AudioUploader: FC<IAudioUploader> = ({
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null); // مرجع برای ورودی فایل
   const [loader, setLoader] = useState<boolean>(false);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
   const t = useTranslations("addPostPage");
   const E = useTranslations("enum");
 
@@ -119,9 +121,71 @@ const AudioUploader: FC<IAudioUploader> = ({
     }
   };
 
+  // const handleSubmit = async () => {
+  //   if (!audioFile) return;
+  //   setLoader(true);
+  //   try {
+  //     const startInSeconds = parseTime(cutStart);
+  //     const endInSeconds = parseTime(cutEnd);
+  //     const duration = endInSeconds - startInSeconds;
+
+  //     const audioContext = new (window.AudioContext ||
+  //       window.webkitAudioContext)();
+  //     const arrayBuffer = await audioFile.arrayBuffer();
+  //     const audioData = await audioContext.decodeAudioData(arrayBuffer);
+
+  //     // Create a new audio buffer for the cut audio
+  //     const cutBuffer = audioContext.createBuffer(
+  //       audioData.numberOfChannels,
+  //       duration * audioData.sampleRate,
+  //       audioData.sampleRate,
+  //     );
+  //     for (let i = 0; i < audioData.numberOfChannels; i++) {
+  //       cutBuffer.copyToChannel(
+  //         audioData
+  //           .getChannelData(i)
+  //           .slice(
+  //             startInSeconds * audioData.sampleRate,
+  //             endInSeconds * audioData.sampleRate,
+  //           ),
+  //         i,
+  //       );
+  //     }
+
+  //     // Convert audio buffer to WAV
+  //     const wavData = audioBufferToWav(cutBuffer);
+  //     const blob = new Blob([wavData], { type: "audio/wav" });
+
+  //     const fileExt = "wav";
+  //     const fileName = `${Date.now()}.${fileExt}`;
+  //     const filePath = `music/${fileName}`;
+
+  //     let { error } = await supabase.storage
+  //       .from("music")
+  //       .upload(filePath, blob);
+
+  //     if (error) {
+  //       throw error;
+  //     }
+
+  //     const { publicUrl } = supabase.storage
+  //       .from("music")
+  //       .getPublicUrl(filePath).data;
+
+  //     setCutAudioUrl(publicUrl);
+  //   } catch (error) {
+  //     console.error("Error uploading audio:", error);
+  //   }
+  //   setLoader(false);
+  // };
+
   const handleSubmit = async () => {
     if (!audioFile) return;
     setLoader(true);
+
+    const controller = new AbortController(); // ایجاد AbortController
+    setAbortController(controller); // ذخیره‌ی کنترلر برای لغو درخواست
+
     try {
       const startInSeconds = parseTime(cutStart);
       const endInSeconds = parseTime(cutEnd);
@@ -160,7 +224,9 @@ const AudioUploader: FC<IAudioUploader> = ({
 
       let { error } = await supabase.storage
         .from("music")
-        .upload(filePath, blob);
+        .upload(filePath, blob, {
+          signal: controller.signal, // ارسال سیگنال لغو به تابع بارگذاری
+        });
 
       if (error) {
         throw error;
@@ -172,9 +238,46 @@ const AudioUploader: FC<IAudioUploader> = ({
 
       setCutAudioUrl(publicUrl);
     } catch (error) {
-      console.error("Error uploading audio:", error);
+      if (error.name === "AbortError") {
+        console.log("Upload was canceled");
+      } else {
+        console.error("Error uploading audio:", error);
+      }
     }
+
     setLoader(false);
+  };
+
+  // const cancelUpload = () => {
+  //   if (wavesurferRef.current) {
+  //     wavesurferRef.current.destroy(); // تخریب موج‌ساز برای از بین بردن اکولایزر
+  //     wavesurferRef.current = null; // تنظیم مرجع موج‌ساز به null
+  //   }
+  //   setAudioFile(null); // حذف فایل صوتی
+  //   setCurrentTime(0); // بازنشانی زمان جاری
+  //   setAudioDuration(0); // بازنشانی مدت زمان صوت
+  //   setCutStart("0:00"); // بازنشانی زمان شروع
+  //   setCutEnd("0:00"); // بازنشانی زمان پایان
+  //   setCutAudioUrl(null); // ریست کردن URL آهنگ برش‌خورده
+  // };
+  const cancelUpload = () => {
+    if (abortController) {
+      abortController.abort(); // لغو بارگذاری
+      setAbortController(null); // ریست کنترلر
+    }
+
+    if (wavesurferRef.current) {
+      wavesurferRef.current.destroy(); // تخریب موج‌ساز
+      wavesurferRef.current = null; // تنظیم مرجع موج‌ساز به null
+    }
+
+    setAudioFile(null); // حذف فایل صوتی
+    setCurrentTime(0); // بازنشانی زمان جاری
+    setAudioDuration(0); // بازنشانی مدت زمان صوت
+    setCutStart("0:00"); // بازنشانی زمان شروع
+    setCutEnd("0:00"); // بازنشانی زمان پایان
+    setCutAudioUrl(null); // ریست کردن URL آهنگ برش‌خورده
+    setLoader(false); // متوقف کردن loader
   };
 
   const audioBufferToWav = (buffer: AudioBuffer) => {
@@ -310,15 +413,24 @@ const AudioUploader: FC<IAudioUploader> = ({
               />
             </div>
           </div>
-          <div className="mt-2 flex w-full items-center justify-center rounded-xl bg-green-500 px-4 py-2 font-medium text-white">
+          <div className="mt-2 flex items-center justify-center rounded-xl font-medium text-white">
             {loader ? (
-              <div>
+              <div
+                onClick={(e) => cancelUpload()}
+                className="flex w-full items-center justify-center rounded-lg bg-red-500 px-4 py-2"
+              >
+                {t("Cancle")}
                 <Loader width={80} height={20} color="#fff" />
               </div>
             ) : cutAudioUrl ? (
-              <button className="text-center">{t("It was confirmed")}</button>
+              <button className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-2 text-center">
+                {t("It was confirmed")}
+              </button>
             ) : (
-              <button className="text-center" onClick={handleSubmit}>
+              <button
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-2 text-center"
+                onClick={handleSubmit}
+              >
                 {t("Save music")}
               </button>
             )}

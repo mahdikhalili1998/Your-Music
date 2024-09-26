@@ -13,8 +13,10 @@ const userSchema = new Schema<IUserInfo>(
     creditCardNumber: { type: String, required: true },
     gender: { type: String, required: true },
     profilePicUrl: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }, // تاریخ ایجاد به صورت دستی
+    updatedAt: { type: Date, default: Date.now }, // تاریخ به‌روزرسانی به صورت دستی
   },
-  { timestamps: true },
+  { timestamps: false },
 );
 
 const userInfo =

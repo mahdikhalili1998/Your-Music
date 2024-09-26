@@ -11,31 +11,37 @@ import { FaHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import axios from "axios";
 import { useTranslations } from "next-intl";
-import momentJalaali from "moment-jalaali";
 import { p2e } from "@/helper/replaceNumber";
 import { AiFillDelete } from "react-icons/ai";
 import { LuDownload } from "react-icons/lu";
 import isPersian from "@/helper/LanguageRecognizer";
+import Loader from "./Loader";
+import momentJalaali from "moment-jalaali";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
-  // console.log(info);
   const [activePostId, setActivePostId] = useState<string | null>(null);
-  const [likeState, setLikeState] = useState<boolean>(null);
-  const [likeCount, setLikeCount] = useState<number>(null);
+  const [likeState, setLikeState] = useState<{ [key: string]: boolean }>({});
+  const [likeCount, setLikeCount] = useState<{ [key: string]: number }>({});
+  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
+  const jalaliDate = momentJalaali(post.createAt).format("jYYYY/jMM/jDD");
   const [profPic, setProfPic] = useState<string>("");
-  console.log(info);
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
   const t = useTranslations("showPostPage");
   const E = useTranslations("enum");
   momentJalaali.loadPersian({ usePersianDigits: true });
-  const jalaliDate = momentJalaali(post.createAt).format("jYYYY/jMM/jDD");
 
   useEffect(() => {
     const result = post.map((item) => {
-      setLikeCount(item.likeCount);
-      setLikeState(item.likeSituation);
+      setLikeCount((prevState) => ({
+        ...prevState,
+        [item._id]: item.likeCount,
+      }));
+      setLikeState((prevState) => ({
+        ...prevState,
+        [item._id]: item.likeSituation,
+      }));
     });
     const prof = info.map((infoo) => {
       post.map((item) => {
@@ -44,40 +50,36 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         }
       });
     });
-  }, []);
-
-  useEffect(() => {
-    router.refresh();
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        activePostId &&
-        refs.current[activePostId] &&
-        !refs.current[activePostId]?.contains(event.target as Node)
-      ) {
-        setActivePostId(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [activePostId]);
+  }, [post, info]);
 
   const likeHandler = async (_id: string) => {
-    setLikeState((likeState2) => {
-      const likeState = !likeState2;
-
-      axios
-        .patch("/api/upload", { data: [likeCount, likeState, _id] })
-        .then((res) => {
-          if (res.status === 201) {
-            router.refresh();
-          }
-        })
-        .catch((error) => console.log(error));
-
-      return likeState;
-    });
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [_id]: true, // تنظیم لودینگ برای پست خاص
+    }));
+    try {
+      const response = await axios.patch("/api/upload", {
+        data: [likeCount[_id], !likeState[_id], _id],
+      });
+      if (response.status === 201) {
+        setLikeState((prevState) => ({
+          ...prevState,
+          [_id]: !likeState[_id],
+        }));
+        setLikeCount((prevCount) => ({
+          ...prevCount,
+          [_id]: likeState[_id] ? prevCount[_id] - 1 : prevCount[_id] + 1,
+        }));
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading((prevLoading) => ({
+        ...prevLoading,
+        [_id]: false, // تنظیم لودینگ به false بعد از دریافت پاسخ
+      }));
+    }
   };
 
   const deleteHandler = async (id: string) => {
@@ -126,7 +128,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
               >
                 {!user ? null : user.userName === item.userName ? (
                   <span
-                    onClick={(e) => deleteHandler(item._id)}
+                    onClick={() => deleteHandler(item._id)}
                     className="flex items-center gap-2 text-red-600"
                   >
                     <AiFillDelete /> {t("delete")}
@@ -145,23 +147,31 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
             <source src={item.musicUrl} type="audio/mp3" />
           </audio>
           <div className="flex items-center gap-4">
-            <span
-              onClick={(e) => likeHandler(item._id)}
-              className="flex items-center gap-2"
-            >
-              {item.likeSituation ? (
-                <FaHeart className="text-xl text-red-600" />
-              ) : (
-                <FaRegHeart className="text-xl" />
-              )}
-              {item.likeCount}
-            </span>
+            {loading[item._id] ? ( // نمایش لودر فقط برای پست در حال لایک شدن
+              <div>
+                <Loader color="#020617" width={40} height={20} />
+              </div>
+            ) : (
+              <span
+                onClick={() => likeHandler(item._id)}
+                className="flex items-center gap-2"
+              >
+                {likeState[item._id] ? (
+                  <FaHeart className="text-xl text-red-600" />
+                ) : (
+                  <FaRegHeart className="text-xl" />
+                )}
+                {likeCount[item._id]}
+              </span>
+            )}
             <span>
               <FaRegComment className="text-xl" />
             </span>
           </div>
           <p
-            className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
+            className={`${
+              isPersian(item.description) ? "font-iransans" : "font-Roboto"
+            } font-medium text-p-950`}
           >
             {item.description}
           </p>
