@@ -49,17 +49,17 @@ function Layout({ children, locale }: LayoutProps) {
       />
       <main className={`my-[3rem]`}>
         <div
-          className={`${!open ? null : "pointer-events-none blur-sm"} transition-all duration-300`}
+          className={`${!open ? null : "pointer-events-none blur-sm"} transition-all duration-300 sm:ml-12`}
         >
           {children}
         </div>
         <div
           ref={divRef}
-          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 ${open ? "translate-x-20" : "translate-x-full"} `}
+          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} ${open ? "translate-x-20 sm:translate-x-[25rem]" : "translate-x-full md:flex md:translate-x-0"} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 md:absolute md:right-0 md:h-max md:w-max md:bg-none`}
         >
-          <div className={`mt-10 flex justify-start`}>
+          <div className={`mt-10 flex justify-start md:mt-10`}>
             <div
-              className={`flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black`}
+              className={`flex flex-col items-start divide-y-2 divide-p-950 font-Roboto text-black md:flex-row-reverse md:divide-none`}
             >
               <Link
                 className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
@@ -87,12 +87,13 @@ function Layout({ children, locale }: LayoutProps) {
                 href={`/${locale}/about`}
                 onClick={() => setOpen(false)}
               >
-                <FaCircleInfo className="text-2xl" /> {t("About us")}
+                <FaCircleInfo className="text-2xl" />{" "}
+                <span className="md:w-max">{t("About us")}</span>
               </Link>
             </div>
           </div>
           <span
-            className={`z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90`}
+            className={`z-10 -ml-7 mt-7 w-max rounded-bl-lg rounded-tl-lg bg-p-500 px-1 py-2 opacity-90 md:hidden`}
           >
             {open ? (
               <IoIosArrowDroprightCircle

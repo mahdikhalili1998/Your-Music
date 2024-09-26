@@ -99,7 +99,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       {reversedPost.map((item) => (
         <div
           key={item._id}
-          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4`}
+          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start gap-3">
@@ -143,7 +143,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
               </div>
             </div>
           </div>
-          <audio controls className="mx-2 mb-4 w-full max-w-lg">
+          <audio controls className="mx-2 mb-4 w-full 350:mx-auto 350:w-64">
             <source src={item.musicUrl} type="audio/mp3" />
           </audio>
           <div className="flex items-center gap-4">

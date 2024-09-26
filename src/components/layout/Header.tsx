@@ -13,10 +13,10 @@ const Header: FC<Iheader> = ({ open, setOpen, locale }) => {
 
   return (
     <div
-      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300 `}
+      className={`${!open ? null : "pointer-events-none blur-sm"} relative transition-all duration-300`}
     >
       <div
-        className={`flex ${locale === "fa" ? "flex-row-reverse" : null} justify-between bg-gradient-to-r from-p-500 to-p-200 py-3 font-shantell px-2`}
+        className={`flex ${locale === "fa" ? "flex-row-reverse" : null} justify-between bg-gradient-to-r from-p-500 to-p-200 px-2 py-3 font-shantell`}
       >
         <h2
           className={`relative ml-2 mt-5 flex ${locale === "fa" ? "flex-row-reverse" : null} items-center p-2 text-3xl text-p-200`}
@@ -35,7 +35,10 @@ const Header: FC<Iheader> = ({ open, setOpen, locale }) => {
             <BsHeadphones className="text-[2.4rem] text-purple-900" />
           </span>
         </h2>
-        <span onClick={() => clickHandler()} className="animate-menuDown mr-1">
+        <span
+          onClick={() => clickHandler()}
+          className="animate-menuDown mr-1 md:hidden"
+        >
           <TiThMenu className={`text-xl ${open ? "hidden" : "block"}`} />
         </span>
       </div>
