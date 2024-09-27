@@ -111,7 +111,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
 
   return (
     <div
-      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} transition-all duration-700 ${locale === "fa" ? "directon-rtl font-iransans" : null}`}
+      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} ${locale === "fa" ? "directon-rtl font-iransans" : null} transition-all duration-700 `}
     >
       <ul
         className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950`}
