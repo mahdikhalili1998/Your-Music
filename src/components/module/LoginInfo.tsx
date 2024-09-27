@@ -16,6 +16,7 @@ const LoginInfo: FC<IProfileDetail> = ({
   userData,
   locale,
   setIsBlur,
+  isBlur,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -115,17 +116,17 @@ const LoginInfo: FC<IProfileDetail> = ({
 
   return (
     <div
-      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto  -translate-y-0 opacity-100"}  transition-all duration-700`}
+      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} transition-all duration-700`}
     >
       <ul
-        className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950`}
+        className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950 ${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
       >
         <li onClick={(e) => editInfohandler("email")}>
           {changingOption === "email" && edit ? (
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("Email")} : </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[8rem]"
                 ref={inputRef}
                 type="text"
                 name="email"
@@ -147,7 +148,7 @@ const LoginInfo: FC<IProfileDetail> = ({
                 {t("userName")} :{" "}
               </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[8rem]"
                 ref={inputRef}
                 type="text"
                 name="userName"
@@ -188,7 +189,7 @@ const LoginInfo: FC<IProfileDetail> = ({
       {passLevel ? (
         <div
           ref={divRef}
-          className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
+          className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4 sm:w-[12rem]"
         >
           <h2 className="text-center text-sm font-medium">
             {t("Enter your password to continue")} :

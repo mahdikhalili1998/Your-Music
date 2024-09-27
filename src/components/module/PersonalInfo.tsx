@@ -17,6 +17,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
   locale,
   openPersonalModal,
   setIsBlur,
+  isBlur,
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
   const t = useTranslations("personalInfo");
   const [editedInfo, setEditedInfo] = useState<IPersonalInfo>({
     name: userData.name,
-    lastName: "",
+    lastName: userData.lastName,
     phoneNumber: userData.phoneNumber,
     _id: userData._id,
   });
@@ -111,17 +112,17 @@ const PersonalInfo: FC<IProfileDetail> = ({
 
   return (
     <div
-      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} ${locale === "fa" ? "directon-rtl font-iransans" : null} transition-all duration-700 `}
+      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} ${locale === "fa" ? "directon-rtl font-iransans" : null} transition-all duration-700`}
     >
       <ul
-        className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950`}
+        className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950 ${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
       >
         <li onClick={(e) => editInfohandler("name")}>
           {changingOption === "name" && edit ? (
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("Name")} : </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
                 ref={inputRef}
                 type="text"
                 name="name"
@@ -142,9 +143,9 @@ const PersonalInfo: FC<IProfileDetail> = ({
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">
                 {t("lastName")} :{" "}
-              </span>{" "}
+              </span>
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
                 ref={inputRef}
                 type="text"
                 name="lastName"
@@ -169,7 +170,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
                 {t("Phone Number")} :{" "}
               </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white"
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
                 ref={inputRef}
                 type="text"
                 name="phoneNumber"
@@ -226,7 +227,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
       {passLevel ? (
         <div
           ref={divRef}
-          className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
+          className="absolute left-[12%] top-[10%] z-20 flex w-3/4 flex-col items-center justify-center gap-4 rounded-lg bg-white p-4 sm:w-[12rem]"
         >
           <h2 className="text-center text-sm font-medium">
             {t("Enter your password to continue")} :
@@ -240,7 +241,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
           />
           {loader ? (
             <div>
-              <Loader height={40} width={80} />
+              <Loader color="#7e22ce" height={40} width={80} />
             </div>
           ) : (
             <button

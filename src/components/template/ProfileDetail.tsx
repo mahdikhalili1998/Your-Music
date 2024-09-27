@@ -62,6 +62,11 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
       handleUpload(file);
     }
   };
+  const handleCnacle = () => {
+ 
+    setIsEditing(false);
+    setImage(null);
+  };
 
   const handleUpload = async (file: File) => {
     try {
@@ -165,7 +170,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   return (
     <>
       <div
-        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : null} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:pr-8`}
+        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : null} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:pr-8 670:w-[38rem] md:w-max md:mx-auto md:px-20 md:rounded-bl-xl md:rounded-tl-xl md:rounded-xl md:mt-[106px]`}
       >
         <div className="flex-col gap-8 sm:flex">
           <div className="relative">
@@ -175,7 +180,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
                 width={400}
                 height={400}
                 alt="information"
-                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500`}
+                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500 sm:size-[11rem]`}
                 priority
               />
             </div>
@@ -187,7 +192,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               onChange={handleFileChange}
             />
             {profileOption ? (
-              <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] border-solid border-p-700 bg-gray-600/55">
+              <div className="absolute top-0 flex h-[9rem] w-[9rem] flex-col items-center justify-center gap-3 rounded-[100%] border-[3px] border-solid border-p-700 bg-gray-800/55 sm:h-[11rem] sm:w-[11rem]">
                 <span onClick={(e) => finallChange()} className="p-1 text-3xl">
                   <TbCaptureFilled className="text-green-500" />
                 </span>
@@ -210,7 +215,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
             ) : null}
           </div>
           {isEditing && image && (
-            <div className="absolute z-[11] bg-gray-900/50 py-3">
+            <div className="absolute z-[11] bg-gray-900/50 py-3 sm:top-[10rem] md:top-[14rem]">
               <AvatarEditor
                 ref={editorRef}
                 image={image}
@@ -231,12 +236,20 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
                   onChange={handleScaleChange}
                   className="mt-4 w-max"
                 />
-                <button
-                  onClick={handleSave}
-                  className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
-                >
-                  {t("Save")}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleSave}
+                    className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
+                  >
+                    {t("Save")}
+                  </button>
+                  <button
+                    onClick={handleCnacle}
+                    className="rounded-lg bg-red-700 px-2 py-1 text-sm font-medium text-red-200"
+                  >
+                    {t("Cancle")}
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -249,9 +262,9 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
           </button>
         </div>
         <div
-          className={`flex flex-col items-center justify-center gap-4 sm:flex-row`}
+          className={`${isEditing && image ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 sm:flex-row`}
         >
-          <div className="sm:flex gap-3 sm:flex-col sm:justify-center">
+          <div className="gap-3 sm:flex sm:flex-col sm:justify-center">
             <button
               onClick={(e) => personalHandler()}
               className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:mt-2`}
@@ -268,12 +281,13 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               locale={locale}
               openPersonalModal={openPersonalModal}
               setIsBlur={setIsBlur}
+              isBlur={isBlur}
             />
           </div>
-          <div className="sm:flex gap-3 sm:flex-col sm:justify-center">
+          <div className="gap-3 sm:flex sm:flex-col sm:justify-center">
             <button
               onClick={(e) => loginHandler()}
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:justify-center `}
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:justify-center`}
             >
               {t("Login Info")}
               {openLoginModal ? (
@@ -287,6 +301,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               userData={userData}
               openPersonalModal={openLoginModal}
               setIsBlur={setIsBlur}
+              isBlur={isBlur}
             />
           </div>
         </div>

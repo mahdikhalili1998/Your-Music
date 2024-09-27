@@ -26,7 +26,8 @@
     "Save": "ذخیره",
     "Personal Info": "اطلاعات شخصی",
     "Login Info": "اطلاعات اکانت",
-    "Sign Out": "خروج از حساب"
+    "Sign Out": "خروج از حساب",
+    "Cancle": "لغو"
   },
   "personalInfo": {
     "Name": "نام",

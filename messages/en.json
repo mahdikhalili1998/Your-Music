@@ -26,7 +26,8 @@
     "Save": "Save",
     "Personal Info": "Personal Info",
     "Login Info": "Login Info",
-    "Sign Out": "Sign Out"
+    "Sign Out": "Sign Out",
+    "Cancle": "Cancle"
   },
   "personalInfo": {
     "Name": "Name",

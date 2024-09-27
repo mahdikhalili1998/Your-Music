@@ -10,6 +10,7 @@ export interface IProfileDetail {
   userData: any;
   openPersonalModal: boolean;
   setIsBlur: Function;
+  isBlur: boolean;
   locale: string;
 }
 export interface IProf {
