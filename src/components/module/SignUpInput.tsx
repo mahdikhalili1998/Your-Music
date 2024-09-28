@@ -53,7 +53,7 @@ const SignUpInput: FC<ISignupPage> = ({
     gender,
   } = userInfo;
 
-  const classNames = ` w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-5 ${locale === "fa" ? "mr-4" : "ml-4"} text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none`;
+  const classNames = ` w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-5 ${locale === "fa" ? "mr-4" : "ml-4"} text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none md:plaeholder:text-lg`;
   const t = useTranslations("signUpPage");
   const E = useTranslations("enum");
   useEffect(() => {
@@ -122,10 +122,10 @@ const SignUpInput: FC<ISignupPage> = ({
         locale={locale}
       />
       <div
-        className={`${locale === "fa" ? "330:pl-32 330:pr-4 380:pl-36 550:pl-52 550:pr-8 -mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans" : "330:pr-32 330:pl-4 380:pr-36 550:pr-52 550:pl-8 -ml-5 rounded-br-full rounded-tr-full pr-28"} ${isEditing && image ? "blur-sm" : null} -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-14 `}
+        className={`${locale === "fa" ? "330:pl-32 330:pr-4 780:px-72 780:-mr-8 380:pl-36 550:pl-52 550:pr-8 -mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans md:rounded-[100%] md:px-64" : "330:pr-32 330:pl-4 380:pr-36 550:pr-52 550:pl-8 -ml-5 rounded-br-full rounded-tr-full pr-28 md:rounded-[100%] md:px-64"} ${isEditing && image ? "blur-sm" : null} 820:rounded-2xl 820:px-36 820:mx-auto -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-14 md:mt-6`}
       >
         <input
-          className={`${classNames} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(name) ? "font-iransans" : "font-Roboto"}`}
+          className={`${classNames} ${locale === "fa" ? "placeholder:font-iransans" : "placeholder:font-Roboto"} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(name) ? "font-iransans" : "font-Roboto"}`}
           type="text"
           value={name}
           name="name"
@@ -134,7 +134,7 @@ const SignUpInput: FC<ISignupPage> = ({
         />
 
         <input
-          className={`${classNames} ${regexInfo.lastName.test(lastName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(lastName) ? "font-iransans" : "font-Roboto"}`}
+          className={`${classNames} ${locale === "fa" ? "placeholder:font-iransans" : "placeholder:font-Roboto"} ${regexInfo.lastName.test(lastName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(lastName) ? "font-iransans" : "font-Roboto"} md:placeholder:text-lg`}
           type="text"
           value={lastName}
           name="lastName"
@@ -144,7 +144,7 @@ const SignUpInput: FC<ISignupPage> = ({
 
         <div>
           <input
-            className={`${classNames} ${regexInfo.userName.test(userName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(userName) ? "font-iransans" : "font-Roboto"}`}
+            className={`${classNames} ${locale === "fa" ? "placeholder:font-iransans" : "placeholder:font-Roboto"} ${regexInfo.userName.test(userName) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(userName) ? "font-iransans" : "font-Roboto"}`}
             type="text"
             value={userName}
             name="userName"
