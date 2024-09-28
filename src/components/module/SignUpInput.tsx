@@ -1,6 +1,6 @@
 "use client";
 
-import { ISignupPage, IUserInfo } from "@/types/types";
+import { ISignupPage, UserInfo } from "@/types/types";
 import axios from "axios";
 import { regexInfo } from "@/constant/regex";
 import { FC, useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const SignUpInput: FC<ISignupPage> = ({
   locale,
   setIsEditing,
 }) => {
-  const [userInfo, setUserInfo] = useState<IUserInfo>({
+  const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",
     lastName: "",
     userName: "",
@@ -122,7 +122,7 @@ const SignUpInput: FC<ISignupPage> = ({
         locale={locale}
       />
       <div
-        className={`${locale === "fa" ? "-mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans" : "-ml-5 rounded-br-full rounded-tr-full pr-28"} ${isEditing && image ? "blur-sm" : null} -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-10`}
+        className={`${locale === "fa" ? "330:pl-32 330:pr-4 380:pl-36 550:pl-52 550:pr-8 -mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans" : "330:pr-32 330:pl-4 380:pr-36 550:pr-52 550:pl-8 -ml-5 rounded-br-full rounded-tr-full pr-28"} ${isEditing && image ? "blur-sm" : null} -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-14 `}
       >
         <input
           className={`${classNames} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(name) ? "font-iransans" : "font-Roboto"}`}
@@ -242,7 +242,7 @@ const SignUpInput: FC<ISignupPage> = ({
         ) : (
           <button
             onClick={(e) => sendHandler()}
-            className="rounded-lg bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-35"
+            className="mt-4 rounded-lg bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-35 sm:px-8 sm:py-2"
             disabled={!name || !userName || !email || !password}
           >
             {t("Send")}

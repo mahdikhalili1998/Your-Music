@@ -8,10 +8,10 @@ const BtLight: FC<IPropsBtLight> = ({ nextLevel, locale }) => {
       className={`${locale === "fa" ? "directon-ltr" : null} flex items-center gap-5 text-sm`}
     >
       <FaRegCircle
-        className={`text-p-700 ${!nextLevel ? "rounded-full bg-p-700 text-p-700" : null}`}
+        className={`text-p-700 ${!nextLevel ? "rounded-full border-2 border-solid border-white bg-p-700 text-p-700" : null}`}
       />
       <FaRegCircle
-        className={`text-p-700 ${nextLevel ? "rounded-full bg-p-700 text-p-700" : null}`}
+        className={`text-p-700 ${nextLevel ? "rounded-full border-2 border-solid border-white bg-p-700 text-p-700" : null}`}
       />
     </div>
   );

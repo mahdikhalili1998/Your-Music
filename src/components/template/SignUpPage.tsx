@@ -19,15 +19,15 @@ function SignUpPage({ locale }: ILocale) {
   }, []);
   return (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} flex flex-col items-start justify-center gap-7 bg-gradient-to-r from-p-500 px-2 to-p-200 py-2`}
+      className={`${locale === "fa" ? "font-iransans" : null} flex flex-col items-start justify-center gap-7 bg-gradient-to-r from-p-500 to-p-200 px-2 py-2 sm:mx-7 sm:mt-16 sm:rounded-xl`}
     >
       <h2
-        className={`${locale === "fa" ? "text-end text-p-950" : "text-start text-white"} ${isEditing && image ? "blur-sm" : null} py-3 pl-2 font-medium`}
+        className={`${locale === "fa" ? "text-end text-p-950" : "text-start text-white"} ${isEditing && image ? "blur-sm" : null} 380:text-lg py-3 pl-2 font-medium`}
       >
         {t("Create Account :")}
       </h2>
       <Image
-        className={`${isEditing && image ? "blur-sm" : null} -mt-3`}
+        className={`${isEditing && image ? "blur-sm" : null} 330:w-[24rem] 330:h-auto mx-auto -mt-3`}
         src={"/image/signUp.png"}
         alt="sign-up"
         width={350}
