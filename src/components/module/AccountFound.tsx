@@ -42,7 +42,7 @@ const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName, locale }) => {
 
   return (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} space-y-6 bg-gradient-to-r from-p-500 to-p-200 p-2 py-6`}
+      className={`${locale === "fa" ? "font-iransans" : null} space-y-6 bg-gradient-to-r from-p-500 to-p-200 p-2 py-6 md:mx-4 md:rounded-xl md:mt-[6rem]`}
     >
       <h3
         className={`${locale === "fa" ? "text-right text-p-950" : "text-left text-white"} ml-1 font-medium`}
@@ -83,19 +83,15 @@ const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName, locale }) => {
       <button
         onClick={(e) => signInHandler()}
         disabled={!password}
-        className={`${locale === "fa" ? "mr-auto" : "ml-auto"} flex w-max items-center justify-between gap-8 rounded-md bg-white px-4 py-1 font-medium text-p-700 shadow-md shadow-p-400 transition-opacity duration-500 disabled:cursor-not-allowed disabled:opacity-50`}
+        className={`${locale === "fa" ? "directon-ltr ml-auto" : "ml-auto"} flex w-max items-center justify-between gap-8 rounded-md bg-white px-4 py-1 font-medium text-p-700 shadow-md shadow-p-400 transition-opacity duration-500 disabled:cursor-not-allowed disabled:opacity-50`}
       >
         {!loader ? (
           <>
             {t("Sign in")}
-            {locale === "fa" ? (
-              <RiArrowLeftSLine className="mt-1 text-xl text-p-700" />
-            ) : (
-              <RiArrowRightSLine className="mt-1 text-xl text-p-700" />
-            )}
+            <RiArrowRightSLine className="mt-1 text-xl text-p-700" />
           </>
         ) : (
-          <Loader height={24} width={106} />
+          <Loader color="#7e22ce" height={24} width={106} />
         )}
       </button>
       <Toaster />

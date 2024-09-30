@@ -33,7 +33,7 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
     setLoader(true);
     // console.log(number);
     await axios
-      .get("/api/find-account/", { params:{ number} })
+      .get("/api/find-account/", { params: { number } })
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
@@ -61,6 +61,7 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
         }
       });
   };
+
   return userName && profilePicUrl ? (
     <AccountFound
       profilePicUrl={profilePicUrl}
@@ -69,12 +70,12 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
     />
   ) : (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} space-y-5 bg-gradient-to-r from-p-500 to-p-200 p-2`}
+      className={`${locale === "fa" ? "directon-ltr font-iransans" : null} space-y-5 bg-gradient-to-r from-p-500 to-p-200 p-2 pb-14 sm:mx-5 sm:mt-[6rem] sm:rounded-xl`}
     >
       <h2
-        className={`${locale === "fa" ? "text-p-950" : "text-white"} font-medium`}
+        className={`${locale === "fa" ? "pr-2 text-right text-p-950" : "pl-2 text-left text-white"} py-5 text-lg font-medium`}
       >
-        {t("Finding your account")} :
+        {t("Finding your account")}
       </h2>
       <Image
         src={"/image/findAccount.png"}
@@ -84,11 +85,15 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
         priority
         className="mx-auto w-max"
       />
-      <div className="-ml-2 flex flex-col items-start justify-center gap-10 rounded-br-full rounded-tr-full bg-white py-5 pl-2 pr-8">
-        <div className="ml-2 flex w-max items-center border-b-2 border-solid border-p-700">
-          <span className="ml-2">
+      <div
+        className={`-ml-8 w-max rounded-br-full rounded-tr-full bg-white py-5 pl-2 pr-8 md:m-0 md:mx-auto md:rounded-[100%] md:p-7 md:py-12 md:pl-0 md:text-center`}
+      >
+        <div
+          className={`ml-8 flex w-max items-center border-b-2 border-solid border-p-700`}
+        >
+          <p className="ml-2">
             <FaPhone className="text-p-700" />
-          </span>
+          </p>
           <input
             type="number"
             name="number"
@@ -100,20 +105,16 @@ const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
         </div>
         {loader ? (
           <div className="mx-auto w-max">
-            <Loader height={40} width={80} />
+            <Loader color="#7e22ce" height={40} width={80} />
           </div>
         ) : (
           <button
             onClick={(e) => findHandler()}
-            className="ml-5 flex w-max items-center rounded-md bg-p-700 px-2 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-55"
+            className={`-mr-10 ml-auto mt-8 flex w-max items-center gap-2 rounded-md bg-p-700 px-4 py-1 font-medium text-white disabled:cursor-not-allowed disabled:opacity-55`}
             disabled={!number}
           >
-            {t("Find Account")}{" "}
-            {locale === "fa" ? (
-              <MdKeyboardArrowLeft className="mt-[2px] text-xl" />
-            ) : (
-              <MdKeyboardArrowRight className="mt-[2px] text-xl" />
-            )}
+            {t("Find Account")}
+            <MdKeyboardArrowRight className="mt-[2px] text-xl" />{" "}
           </button>
         )}
       </div>
