@@ -47,6 +47,11 @@ const ProfilePic: FC<IProfilePicProps> = ({
     }
   };
 
+  const handleCnacle = () => {
+    setIsEditing(false);
+    setImage(null);
+  };
+
   const handleUpload = async (file: File) => {
     try {
       const fileExt = file.name.split(".").pop();
@@ -107,7 +112,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
             priority
             width={400}
             height={400}
-            className={`380:h-[10rem] 380:w-[10rem] h-[8rem] w-[8rem] rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400`}
+            className={`h-[8rem] w-[8rem] rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400 380:h-[10rem] 380:w-[10rem]`}
           />
         </div>
         <input
@@ -119,7 +124,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
         />
       </div>
       {isEditing && image && (
-        <div className="absolute -left-5 top-8 z-[11] bg-gray-900/50 py-3">
+        <div className="400:left-[45px] 500:left-[96px] 600:left-[138px] 600:top-[184px] 640:left-[185px] absolute -left-5 top-8 z-[11] bg-gray-900/50 py-3 330:left-[16px] 330:top-[168px] 820:left-[263px] 1170:left-[29rem]">
           <AvatarEditor
             ref={editorRef}
             image={image}
@@ -140,12 +145,20 @@ const ProfilePic: FC<IProfilePicProps> = ({
               onChange={handleScaleChange}
               className="mt-4 w-max"
             />
-            <button
-              onClick={handleSave}
-              className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
-            >
-              {t("Save")}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleSave}
+                className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
+              >
+                {t("Save")}
+              </button>
+              <button
+                onClick={handleCnacle}
+                className="rounded-lg bg-red-700 px-2 py-1 text-sm font-medium text-red-200"
+              >
+                {t("Cancle")}
+              </button>
+            </div>
           </div>
         </div>
       )}

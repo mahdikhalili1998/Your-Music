@@ -101,7 +101,7 @@ function SignInPage({ locale }: ILocale) {
     <div className={`${locale === "fa" ? "font-iransans" : null} relative`}>
       {loader ? (
         <div className="absolute left-[5rem] top-[17rem] z-10 blur-none">
-          <Loader height={70} width={110} />{" "}
+          <Loader color="#7e22ce" height={70} width={110} />{" "}
         </div>
       ) : null}
       <div
@@ -110,7 +110,7 @@ function SignInPage({ locale }: ILocale) {
         {resetPass ? (
           <ResetPasspage locale={locale} />
         ) : (
-          <div className="flex flex-col gap-7 bg-gradient-to-r from-p-500 to-p-200 pb-8">
+          <div className="flex flex-col gap-7 rounded-xl bg-gradient-to-r from-p-500 to-p-200 pb-8">
             <h2
               className={`${locale === "fa" ? "text-p-950" : "text-white"} px-2 py-3 pl-2 font-medium`}
             >
@@ -121,14 +121,14 @@ function SignInPage({ locale }: ILocale) {
               alt="logo"
               width={500}
               height={500}
-              className=""
+              className="mx-auto w-[22rem] sm:w-[26rem]"
               priority
             />
             <div
               className={`${locale === "fa" ? "ml-7" : "mr-7"} flex flex-col gap-10 rounded-ee-full rounded-se-full bg-white pb-5`}
             >
               <div
-                className={`${locale === "fa" ? "mr-8" : "ml-2"} mt-2 flex flex-col items-start gap-6`}
+                className={`${locale === "fa" ? "mr-8" : "ml-2"} mt-2 flex flex-col items-start gap-6 pt-3`}
               >
                 <div className="flex w-[9rem] items-center border-b-2 border-solid border-p-700">
                   <label

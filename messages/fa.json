@@ -80,13 +80,15 @@
     "There is an account with this user name": "این نام کاربری توسط شخص دیگری ثبت شده است",
     "There is an account with this email": "این ایمیل توسط شخص دیگری ثبت شده است",
     "The operation was successful": "عملیات موفقیت آمیز بود",
-    "Your profile picture changed": "عکس پروفایل با موفقیت تغیر کرد"
+    "Your profile picture changed": "عکس پروفایل با موفقیت تغیر کرد",
+    "no user": "حسابی با این شماره یافت نشد"
   },
   "welcomeMdoule": { "Welcome": "خوش آمدی" },
   "signUpPage": {
     "Create Account :": "ساخت حساب",
     "Send": "ارسال",
     "Save": "ذخیره",
+    "Cancle": "لغو",
     "8 characters": "حداقل هشت کارکتر باشد",
     "Contains uppercase English letter": "یک حرف بزرگ انگلیسی",
     "Contains number": "شامل اعداد باشد",

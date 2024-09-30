@@ -11,13 +11,14 @@ export async function POST(req: NextRequest) {
     // console.log(data);
     const existedPhoneNumber = await userInfo.findOne({ phoneNumber: data });
 
-    if (existedPhoneNumber) {
+    if (!existedPhoneNumber) {
       return NextResponse.json(
         { message: MESSSGE.EXSITED_USER.replace("email", "phone number") },
         { status: STATUS.EXSITED_USER },
       );
     }
-    if (!existedPhoneNumber) {
+
+    if (existedPhoneNumber) {
       return NextResponse.json(
         {
           message: MESSSGE.SUCCSESS,

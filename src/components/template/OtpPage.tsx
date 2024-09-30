@@ -39,17 +39,11 @@ function OtpPage({ locale }: ILocale) {
         data: p2e(phoneNumber),
       });
       if (res.status === 200) {
-        const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
-          headers,
-        });
-        if (proxyRes.status === 200) {
-          setOtpCode(proxyRes.data.code);
-          setLoading(false);
-          setNextLevel(true);
-        }
+        toast.error(E("There is an account with this phone number"));
+        setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.response) {
         if (error.response.status === 404) {
           toast.error(E("Error in sending request"));
@@ -61,8 +55,14 @@ function OtpPage({ locale }: ILocale) {
           toast.error(E("Can Not Find User"));
           setLoading(false);
         } else if (error.response.status === 409) {
-          toast.error(E("There is an account with this phone number"));
-          setLoading(false);
+          const proxyRes = await axios.post("/api/proxy", JSON.stringify(num), {
+            headers,
+          });
+          if (proxyRes.status === 200) {
+            setOtpCode(proxyRes.data.code);
+            setLoading(false);
+            setNextLevel(true);
+          }
         }
       }
     }

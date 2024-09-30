@@ -178,7 +178,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
           <p className="-mt-4 text-xs font-medium text-gray-600">
             {locale === "fa"
               ? jalaliDate
-              : p2e(moment(post.createAt).format("YYYY/MM/DD"))}
+              : p2e(moment(post.createdAt).format("YYYY/MM/DD"))}
           </p>
         </div>
       ))}

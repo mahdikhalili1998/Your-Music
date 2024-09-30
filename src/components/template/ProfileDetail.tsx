@@ -62,6 +62,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
       handleUpload(file);
     }
   };
+  
   const handleCnacle = () => {
  
     setIsEditing(false);

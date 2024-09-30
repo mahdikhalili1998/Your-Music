@@ -80,12 +80,14 @@
     "There is an account with this user name": "There is an account with this user name",
     "There is an account with this email": "There is an account with this email",
     "The operation was successful": "The operation was successful",
-    "Your profile picture changed": "Your profile picture changed"
+    "Your profile picture changed": "Your profile picture changed",
+    "no user": "No account was found with this number"
   },
   "signUpPage": {
     "Create Account :": "Create Account :",
     "Send": "Send",
     "Save": "Save",
+    "Cancle": "Cancle",
     "8 characters": "8 characters",
     "Contains uppercase English letter": "uppercase English letter",
     "Contains number": "Contains number",

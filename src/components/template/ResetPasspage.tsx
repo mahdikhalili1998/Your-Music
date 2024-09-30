@@ -118,6 +118,10 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
           toast.error(E("Server error , try again later"));
           setLoader(false);
           setChangePass({ ...changePass, phone: "" });
+        } else if (error.response.status === 409) {
+          toast.error(E("no user"));
+          setLoader(false);
+          setChangePass({ ...changePass, phone: "" });
         }
       });
   };
@@ -162,10 +166,10 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
 
   return (
     <div
-      className={`${locale === "fa" ? "directon-rtl font-iransans" : ""} bg-gradient-to-r from-p-500 to-p-200 px-2 py-3`}
+      className={`${locale === "fa" ? "directon-rtl font-iransans" : ""} rounded-xl bg-gradient-to-r from-p-500 to-p-200 px-2 py-3 sm:mx-10 sm:mt-[7rem]`}
     >
       <h2
-        className={`${locale === "fa" ? "text-right text-p-950" : "text-left text-white"} font-medium`}
+        className={`${locale === "fa" ? "text-right text-p-950" : "text-left text-white"} font-medium sm:mr-7`}
       >
         {resetModal ? t("Create new password") : t("Enter your phone number")}
       </h2>
@@ -242,7 +246,7 @@ const ResetPasspage: FC<ILocale> = ({ locale }) => {
           )}
           {loader ? (
             <div className="mx-auto w-max">
-              <Loader height={40} width={80} />
+              <Loader color="#7e22ce" height={40} width={80} />
             </div>
           ) : resetModal ? (
             <button
