@@ -178,7 +178,7 @@ function SignInPage({ locale }: ILocale) {
                     )}
                   </>
                 ) : (
-                  <Loader height={24} width={106} />
+                  <Loader color="#7e22ce" height={24} width={106} />
                 )}
               </button>
             </div>

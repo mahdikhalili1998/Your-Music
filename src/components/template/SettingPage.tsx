@@ -24,10 +24,10 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
 
   return (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} space-y-8 bg-gradient-to-r from-p-500 to-p-200 p-2`}
+      className={`${locale === "fa" ? "font-iransans" : null} space-y-8 bg-gradient-to-r from-p-500 to-p-200 p-2 sm:mx-4 sm:mt-[6rem] sm:rounded-xl sm:pb-10`}
     >
       <h2
-        className={` ${isSure ? "pointer-events-none blur-sm" : null} ${locale === "fa" ? "text-right font-semibold text-p-950" : "text-left font-medium tracking-[1px] text-white"} `}
+        className={` ${isSure ? "pointer-events-none blur-sm" : null} ${locale === "fa" ? "pr-2 pt-2 text-right font-semibold text-p-950" : "text-left font-medium tracking-[1px] text-white"} `}
       >
         {t("Setting")}
       </h2>
@@ -42,11 +42,11 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
         />
       </div>
       <div
-        className={
+        className={`${
           locale === "en"
             ? "-ml-2 w-max rounded-br-full rounded-tr-full bg-white p-2 pr-20"
             : "-mr-2 w-max rounded-bl-full rounded-tl-full bg-white p-2 pl-20 pr-4"
-        }
+        } 900:rounded-2xl 900:mx-auto 900:space-y-3 sm:py-5`}
       >
         {language ? (
           <div className="flex flex-col gap-3">

@@ -91,27 +91,20 @@ const LoginInfo: FC<IProfileDetail> = ({
         // console.log(error);
         if (error.response.status === 409) {
           toast.error(t("You have not made any changes"));
-          setPassLevel(false);
-          router.refresh();
         } else if (error.response.status === 401) {
           toast.error(t("wrong password"));
-          setPassLevel(false);
-          router.refresh();
         } else if (error.response.status === 422) {
           toast.error(t("Please insert correct Info"));
-          setPassLevel(false);
-          router.refresh();
         } else if (error.response.status === 404) {
           toast.error(t("user not found"));
-          setPassLevel(false);
-          router.refresh();
         } else if (error.response.status === 500) {
           toast.error(t("server error , try again later"));
-          setPassLevel(false);
-          router.refresh();
         }
       });
+    setPassLevel(false);
+    setIsBlur(false);
     setLoader(false);
+    router.refresh();
   };
 
   return (

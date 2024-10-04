@@ -35,7 +35,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
   const inputRef = useRef(null);
   const divRef = useRef(null);
   momentJalaali.loadPersian({ usePersianDigits: true });
-  const jalaliDate = momentJalaali(userData.updatedAt).format("jYYYY/jMM/jDD");
+  const jalaliDate = momentJalaali(userData.createdAt).format("jYYYY/jMM/jDD");
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -92,22 +92,20 @@ const PersonalInfo: FC<IProfileDetail> = ({
         // console.log(error);
         if (error.response.status === 409) {
           toast.error(t("You have not made any changes"));
-          setPassLevel(false);
         } else if (error.response.status === 401) {
           toast.error(t("wrong password"));
-          setPassLevel(false);
         } else if (error.response.status === 422) {
           toast.error(t("Please insert correct Info"));
-          setPassLevel(false);
         } else if (error.response.status === 404) {
           toast.error(t("user not found"));
-          setPassLevel(false);
         } else if (error.response.status === 500) {
           toast.error(t("server error , try again later"));
-          setPassLevel(false);
         }
       });
     setLoader(false);
+    setPassLevel(false);
+    setIsBlur(false);
+    router.refresh();
   };
 
   return (
@@ -212,7 +210,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
             {" "}
             {locale === "fa"
               ? jalaliDate
-              : p2e(moment(userData.updatedAt).format("YYYY/MM/DD"))}
+              : p2e(moment(userData.createdAt).format("YYYY/MM/DD"))}
           </span>
         </li>
         {edit ? (

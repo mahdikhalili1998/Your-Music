@@ -17,6 +17,7 @@ import { LuDownload } from "react-icons/lu";
 import isPersian from "@/helper/LanguageRecognizer";
 import Loader from "./Loader";
 import momentJalaali from "moment-jalaali";
+import toast, { Toaster } from "react-hot-toast";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -74,6 +75,9 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       }
     } catch (error) {
       console.log(error);
+      if (error.response.status === 401) {
+        toast.error(E("login"));
+      }
     } finally {
       setLoading((prevLoading) => ({
         ...prevLoading,
@@ -182,6 +186,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
           </p>
         </div>
       ))}
+      <Toaster />
     </div>
   );
 };

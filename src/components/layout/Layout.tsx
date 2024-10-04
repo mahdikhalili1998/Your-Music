@@ -55,7 +55,7 @@ function Layout({ children, locale }: LayoutProps) {
         </div>
         <div
           ref={divRef}
-          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} ${open ? "translate-x-20 sm:translate-x-[25rem]" : "translate-x-full md:flex md:translate-x-0"} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 md:absolute md:right-0 md:h-max md:w-max md:bg-none`}
+          className={`${locale === "fa" ? "directon-ltr font-iransans" : null} ${open ? "translate-x-20 sm:translate-x-[25rem]" : "translate-x-full md:flex md:translate-x-0"} fixed left-0 top-0 z-50 flex h-full w-full flex-col rounded-bl-[5rem] rounded-tl-[5rem] bg-gradient-to-r from-p-500 to-p-200 pb-[3rem] opacity-90 transition-transform duration-700 md:absolute md:right-0 md:ml-auto md:h-max md:w-max md:bg-none`}
         >
           <div className={`mt-10 flex justify-start md:mt-10`}>
             <div

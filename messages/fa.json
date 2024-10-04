@@ -81,7 +81,8 @@
     "There is an account with this email": "این ایمیل توسط شخص دیگری ثبت شده است",
     "The operation was successful": "عملیات موفقیت آمیز بود",
     "Your profile picture changed": "عکس پروفایل با موفقیت تغیر کرد",
-    "no user": "حسابی با این شماره یافت نشد"
+    "no user": "حسابی با این شماره یافت نشد",
+    "login": "لطفا وارد حساب خود شوید "
   },
   "welcomeMdoule": { "Welcome": "خوش آمدی" },
   "signUpPage": {

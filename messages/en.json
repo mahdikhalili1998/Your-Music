@@ -81,7 +81,8 @@
     "There is an account with this email": "There is an account with this email",
     "The operation was successful": "The operation was successful",
     "Your profile picture changed": "Your profile picture changed",
-    "no user": "No account was found with this number"
+    "no user": "No account was found with this number",
+    "login": "Please sign up/in "
   },
   "signUpPage": {
     "Create Account :": "Create Account :",

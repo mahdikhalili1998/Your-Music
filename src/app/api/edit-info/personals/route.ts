@@ -57,6 +57,7 @@ export async function PATCH(req: NextRequest) {
     user.phoneNumber = phoneNumber;
     user.name = name;
     user.lastName = lastName;
+    user.updatedAt = Date.now();
     await user.save();
 
     return NextResponse.json(

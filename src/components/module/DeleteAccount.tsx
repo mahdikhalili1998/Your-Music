@@ -73,13 +73,15 @@ const DeleteAccount: FC<IDeleteAccount> = ({
         )}
       </button>
       {isSure ? (
-        <div className={` `}>
+        <div
+          className={`${locale === "fa" ? "450:right-24 absolute 350:right-12 350:top-10 sm:right-28 sm:top-2" : "450:left-24 absolute 350:left-12 350:top-10 sm:left-28 sm:top-2"}`}
+        >
           {finalDeleting ? (
-            <div className="absolute flex w-max -translate-y-16 translate-x-1/2 flex-col items-center justify-center space-y-4 rounded-md bg-gradient-to-r from-p-700 to-p-300 p-4">
+            <div className="flex w-max flex-col items-center justify-center space-y-4 rounded-md bg-gradient-to-r from-p-700 to-p-400 p-4">
               <span className="font-medium text-white"> Are you sure ? </span>
               {loading ? (
                 <div className="mx-auto w-max">
-                  <Loader height={40} width={80} />
+                  <Loader color="#7e22ce" height={40} width={80} />
                 </div>
               ) : (
                 <div className="flex items-center gap-3">

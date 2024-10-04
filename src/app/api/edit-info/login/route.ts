@@ -80,6 +80,7 @@ export async function PATCH(req: NextRequest) {
 
     user.email = email.toLowerCase();
     user.userName = userName.toLowerCase();
+    user.updatedAt = Date.now();
     user.save();
 
     return NextResponse.json(

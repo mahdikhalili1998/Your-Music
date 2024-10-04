@@ -11,8 +11,8 @@ const userPostSchema = new Schema<IUserPostModel>(
     userName: { type: String, required: true },
     likeCount: { type: Number, default: 0 },
     likeSituation: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now }, // تاریخ ایجاد به صورت دستی
-    updatedAt: { type: Date, default: Date.now }, // تاریخ به‌روزرسانی به صورت دستی
+    createdAt: { type: Date, default: Date.now() }, // تاریخ ایجاد به صورت دستی
+    updatedAt: { type: Date, default: Date.now() }, // تاریخ به‌روزرسانی به صورت دستی
   },
   {
     // حذف timestamps
