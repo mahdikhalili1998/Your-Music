@@ -5,7 +5,6 @@ import SignUpInput from "../module/SignUpInput";
 import { redirect } from "next/navigation";
 import { ILocale } from "@/types/props";
 import { useTranslations } from "next-intl";
-import { p2e } from "@/helper/replaceNumber.js";
 
 function SignUpPage({ locale }: ILocale) {
   const [image, setImage] = useState<File | null>(null);

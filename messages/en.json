@@ -139,6 +139,7 @@
     "Save music": "Save music"
   },
   "showPostPage": { "delete": "delete", "download": "download" },
+  "pageNotFound": { "Page was not found": "Page was not found" },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": "Sign Up",

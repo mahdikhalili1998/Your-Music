@@ -20,6 +20,7 @@ export interface IProf {
 
 export interface IUser {
   user: any;
+  locale?: string;
   // profilePicUrl: string;
 }
 

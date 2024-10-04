@@ -6,7 +6,7 @@ import { FC, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslations } from "next-intl";
 
-const Welcome: FC<IUser> = ({ user }) => {
+const Welcome: FC<IUser> = ({ user, locale }) => {
   const { status } = useSession();
   const t = useTranslations("welcomeMdoule");
   useEffect(() => {
@@ -21,9 +21,16 @@ const Welcome: FC<IUser> = ({ user }) => {
             priority
             className="h-20 w-20 rounded-[100%] border-[3px] border-solid border-white shadow-2xl shadow-p-700"
           />
-          <span className="text-p-950 flex">
-            {t("Welcome")} {user.name}
-          </span>
+
+          {locale === "fa" ? (
+            <span className="flex text-p-950">
+              {user.name} {t("Welcome")}
+            </span>
+          ) : (
+            <span className="flex text-p-950">
+              {t("Welcome")} {user.name}
+            </span>
+          )}
         </div>,
       );
     }

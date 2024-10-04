@@ -50,7 +50,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
 
   return (
     <div>
-      {user ? <Welcome user={{ ...user }} /> : null}
+      {user ? <Welcome user={{ ...user }} locale={locale} /> : null}
       <div>
         <ShowPost
           post={JSON.parse(JSON.stringify(post))}

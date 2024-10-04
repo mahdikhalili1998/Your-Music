@@ -139,6 +139,7 @@
     "Save music": "ذخیره آهنگ"
   },
   "showPostPage": { "delete": "حذف", "download": "دانلود" },
+  "pageNotFound": { "Page was not found": "صفحه ی مورد نظر یافت نشد" },
   "SignIn head": "برای دسترسی به امکانات بیشتر حساب بسازید / وارد حساب خود شوید ",
   "_ Dont have an account?": "آیا حسابی ندارید ؟",
   " Sign Up": "ساخت حساب",
