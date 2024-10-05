@@ -24,9 +24,12 @@ export async function GET(req: NextRequest) {
         return foundedUserInfo;
       }),
     );
+    const flattenedResults = searchResult.flat();
+
+    // console.log(flattenedResults);
 
     return NextResponse.json(
-      { message: MESSSGE.SUCCSESS, data: searchResult },
+      { message: MESSSGE.SUCCSESS, data: flattenedResults },
       { status: STATUS.SUCCSESS },
     );
   } catch (error) {
