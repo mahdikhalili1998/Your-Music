@@ -15,7 +15,7 @@ const Shortcut: FC<Iheader> = ({ header, open, setOpen, locale }) => {
       <Link href={`/${locale}/profile`}>
         <MdAccountCircle className="text-3xl text-white" />
       </Link>
-      <Link href={`/${locale}/profile`}>
+      <Link href={`/${locale}/search`}>
         <FiSearch className="mr-5 text-3xl text-white sm:mr-0" />
       </Link>
       <div>

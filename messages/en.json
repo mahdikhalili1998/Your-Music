@@ -1,10 +1,11 @@
 {
   "HomePage": {
     "Profile": "Profile",
-    "Download": "Download",
+    "Search": "Search",
     "Setting": "Setting",
     "About us": "About us"
   },
+  "searchPage": { "Search": "Search" },
   "SettingPage": {
     "Theme": "Theme",
     "Languages": "Languages",

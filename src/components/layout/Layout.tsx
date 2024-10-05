@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
-import Footer from "./Footer";
+import { FiSearch } from "react-icons/fi";
 import { MdAccountCircle } from "react-icons/md";
 import { IoMdDownload, IoMdSettings } from "react-icons/io";
 import Link from "next/link";
@@ -70,10 +70,10 @@ function Layout({ children, locale }: LayoutProps) {
               </Link>
               <Link
                 className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
-                href={`/${locale}/download`}
+                href={`/${locale}/search`}
                 onClick={() => setOpen(false)}
               >
-                <IoMdDownload className="text-3xl" /> {t("Download")}
+                <FiSearch className="text-3xl" /> {t("Search")}
               </Link>
               <Link
                 className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}

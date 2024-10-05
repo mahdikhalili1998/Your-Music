@@ -1,10 +1,11 @@
 {
   "HomePage": {
     "Profile": "پروفایل",
-    "Download": "دانلود",
+    "Search": "جستجو",
     "Setting": "تنظیمات",
     "About us": "درباره ما"
   },
+  "searchPage": { "Search": "جست و جو" },
   "SettingPage": {
     "Setting": "تنظیمات",
     "Languages": " زبان",
