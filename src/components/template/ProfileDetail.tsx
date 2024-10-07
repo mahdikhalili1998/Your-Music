@@ -62,9 +62,8 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
       handleUpload(file);
     }
   };
-  
+
   const handleCnacle = () => {
- 
     setIsEditing(false);
     setImage(null);
   };
@@ -171,7 +170,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   return (
     <>
       <div
-        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : null} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:pr-8 670:w-[38rem] md:w-max md:mx-auto md:px-20 md:rounded-bl-xl md:rounded-tl-xl md:rounded-xl md:mt-[106px]`}
+        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : "directon-rtl"} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:py-10 sm:pr-10 670:w-[38rem] md:mx-auto md:mt-[106px] md:w-max md:rounded-xl md:rounded-bl-xl md:rounded-tl-xl md:px-20`}
       >
         <div className="flex-col gap-8 sm:flex">
           <div className="relative">
@@ -263,7 +262,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
           </button>
         </div>
         <div
-          className={`${isEditing && image ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 sm:flex-row`}
+          className={`${isEditing && image ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-start gap-4 sm:flex-row`}
         >
           <div className="gap-3 sm:flex sm:flex-col sm:justify-center">
             <button
@@ -285,10 +284,10 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               isBlur={isBlur}
             />
           </div>
-          <div className="gap-3 sm:flex sm:flex-col sm:justify-center">
+          <div className="centerter gap-3 sm:flex sm:w-max sm:flex-col sm:items-center sm:justify-center">
             <button
               onClick={(e) => loginHandler()}
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:justify-center`}
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} sm:justify-cente flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:w-max`}
             >
               {t("Login Info")}
               {openLoginModal ? (

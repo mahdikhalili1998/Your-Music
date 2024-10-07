@@ -21,3 +21,10 @@ export function hasSpecialCharacter(str) {
 export function isEnglishOnly(str) {
   return /^[A-Za-z._]+$/.test(str);
 }
+
+export const truncateText = (text, charLimit = 15) => {
+  if (text.length > charLimit) {
+    return "..." + text.slice(0, charLimit);
+  }
+  return text;
+};

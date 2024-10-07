@@ -60,3 +60,6 @@
 .directon-rtl {
   direction: rtl;
 }
+.centerter {
+  text-align: -webkit-center;
+}

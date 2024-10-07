@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import momentJalaali from "moment-jalaali";
 import { p2e } from "@/helper/replaceNumber.js";
+import { truncateText } from "@/helper/function";
+
 const LoginInfo: FC<IProfileDetail> = ({
   openPersonalModal,
   userData,
@@ -117,7 +119,7 @@ const LoginInfo: FC<IProfileDetail> = ({
         <li onClick={(e) => editInfohandler("email")}>
           {changingOption === "email" && edit ? (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">{t("Email")} : </span>{" "}
+              <span className="font-medium text-rose-800">{t("Email")}: </span>{" "}
               <input
                 className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[8rem]"
                 ref={inputRef}
@@ -130,7 +132,9 @@ const LoginInfo: FC<IProfileDetail> = ({
           ) : (
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("Email")} : </span>
-              <span>{edit ? editedInfo.email : userData.email}</span>
+              <span>
+                {edit ? editedInfo.email : truncateText(userData.email)}
+              </span>
             </div>
           )}
         </li>

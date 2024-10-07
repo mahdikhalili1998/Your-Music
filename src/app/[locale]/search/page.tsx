@@ -6,7 +6,7 @@ import SearchPage from "@/components/template/SearchPage";
 
 async function Page({ params: { locale } }: IParams) {
   const session = await getServerSession(authOptions);
-  if (session) redirect(`/${locale}/profile`);
+  if (!session) redirect(`/${locale}/profile`);
   return <SearchPage locale={locale} />;
 }
 
