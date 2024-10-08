@@ -141,6 +141,7 @@
   },
   "showPostPage": { "delete": "حذف", "download": "دانلود" },
   "pageNotFound": { "Page was not found": "صفحه ی مورد نظر یافت نشد" },
+  "overViwe": { "Posts": "پست ها", "Confirm": "تایید" },
   "aboutPage": {
     "Little about me": "یه کوچولو راجب من",
     "bio": "سلام، من مهدی خلیلی ،توسعه دهنده ی این وب اپ ، هستم",

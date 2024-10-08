@@ -84,7 +84,7 @@ const SearchPage: FC<ILocale> = ({ locale }) => {
           height={300}
           alt="search"
           priority
-          className="lg:size-[16rem ] mx-auto size-[12rem] w-max"
+          className="lg:size-[18rem ] mx-auto size-[12rem] w-max"
         />
         <div className="flex flex-col items-center justify-center gap-6 overflow-y-auto md:max-h-[15rem] lg:mx-auto">
           <div className="mx-auto flex w-max items-center gap-3 rounded-xl bg-white p-2 md:sticky md:top-0 md:border-2 md:border-solid md:border-p-700">

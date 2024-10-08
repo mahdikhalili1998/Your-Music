@@ -63,7 +63,7 @@ function Layout({ children, locale }: LayoutProps) {
             >
               <Link
                 className={`${locale === "fa" ? "font-iransans font-medium" : null} custom-divider flex items-center gap-2 px-3 py-2 text-p-950`}
-                href={`/${locale}/profile`}
+                href={`/${locale}/overViwe`}
                 onClick={() => setOpen(false)}
               >
                 <MdAccountCircle className="text-3xl" /> {t("Profile")}

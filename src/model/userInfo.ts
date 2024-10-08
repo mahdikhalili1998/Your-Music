@@ -8,6 +8,7 @@ const userSchema = new Schema<IUserInfo>(
     password: { type: String, required: true },
     userName: { type: String, required: true },
     email: { type: String, required: true },
+    bio: { type: String, required: false },
     role: { type: String, default: "user" },
     phoneNumber: { type: String, required: true },
     creditCardNumber: { type: String, required: true },
