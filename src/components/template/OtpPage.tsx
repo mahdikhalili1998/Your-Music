@@ -91,10 +91,10 @@ function OtpPage({ locale }: ILocale) {
 
   return (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} mx-10 mt-28 space-y-4 rounded-lg bg-gradient-to-r from-p-500 to-p-200 py-5`}
+      className={`${locale === "fa" ? "font-iransans" : null} flex flex-col space-y-4 rounded-lg bg-gradient-to-r from-p-500 to-p-200 py-5 sm:mx-3 sm:mt-14`}
     >
       <h2
-        className={`${locale === "fa" ? "pr-2 text-right" : "pl-2 text-left"} font-medium text-p-950`}
+        className={`${locale === "fa" ? "pr-2 text-right" : "pl-2 text-left text-white"} font-medium text-p-950`}
       >
         {nextLevel ? t("Enter your code :") : t("Enter your phone number :")}
       </h2>

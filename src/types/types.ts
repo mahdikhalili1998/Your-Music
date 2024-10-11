@@ -13,10 +13,11 @@ export interface IPersonalInfo {
   lastName: string;
   phoneNumber: string;
   _id: string;
+  bio: string;
 }
 
 export interface IProfilePicProps {
-  userInfo: IUserInfo;
+  userInfo: UserInfo;
   setUserInfo: Function;
   image: File;
   setImage: Function;
@@ -44,11 +45,18 @@ export type UserInfo = {
   userName: string;
   profilePicUrl: string;
   locale?: string;
+  creditCardNumber: string;
+  gender: string;
+  password: string;
+  role: string;
+  phoneNumber: string;
+  email: string;
+  name: string;
+  lastName: string;
+  bio: string;
 };
 
 export interface ILike_cm {
   like: boolean;
   comment: string;
 }
-
-export interface IAccountFound {}

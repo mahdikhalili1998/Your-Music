@@ -32,6 +32,7 @@
   },
   "personalInfo": {
     "Name": "Name",
+    "bio": "bio",
     "lastName": "lastName",
     "Phone Number": "Phone Number",
     "Membership type": "Membership type",
@@ -155,7 +156,11 @@
     "Instagram": "Instagram",
     "WhatsApp": "WhatsApp"
   },
-  "overViwe": { "Posts": "Posts", "Confirm": "Confirm" },
+  "overViwe": {
+    "Posts": "Posts",
+    "Confirm": "Confirm",
+    "Profile Detail": "edit / see Information"
+  },
   "SignIn head": "SignIn / SignUp to achieve more options :",
   "_ Dont have an account?": "_ Dont have an account?",
   " Sign Up": "Sign Up",

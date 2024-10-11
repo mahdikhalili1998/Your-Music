@@ -6,11 +6,14 @@ import React, { FC, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import isPersian from "@/helper/LanguageRecognizer.js";
+import { MdEdit } from "react-icons/md";
 import axios from "axios";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
-  const [bio, setBio] = useState<string>("sd");
+  const [bio, setBio] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(0);
+  const [editBio, setEditBio] = useState<boolean>(false);
+  const [editValue, setEditValue] = useState<string>("");
   const t = useTranslations("overViwe");
 
   const bioHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -26,6 +29,12 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       .patch("/api/bio", { data: { id: user._id, bio } })
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
+  };
+
+  const editHandler = () => {
+    if (user.bio) {
+      setEditBio(true);
+    }
   };
 
   return (
@@ -52,32 +61,23 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       </div>
       <p
         className={`${isPersian(user.name) || isPersian(user.lastName) ? "font-iransans" : "font-Roboto"} font-lg mb-3 ml-3 font-medium text-white`}
+        onClick={(e) => editHandler()}
       >
         {user.name} {user.lastName}
       </p>
-      <div className="flex flex-col">
-        <div className="ml-3 flex flex-col">
-          <span
-            className={`${!bio ? "hidden" : "inline-block"} ${charCount === 150 ? "text-red-600" : "text-p-950"} text-sm`}
-          >
-            {charCount} / 150
-          </span>
-          <textarea
-            placeholder={
-              locale === "fa" ? "بیو را اینجا بنویسید" : "Type bio here "
-            }
-            className="bg-transparent px-2 py-1 placeholder:text-left placeholder:text-p-950 focus:outline-none"
-            value={bio}
-            onChange={(e) => bioHandler(e)}
-          />
-        </div>
-        <button
-          className={`${!bio ? "hidden" : "inline-block"} mx-auto w-max rounded-lg bg-gradient-to-r from-p-700 to-p-400 px-2 py-1 font-medium text-white`}
-          onClick={(e) => confirmHandler(user._id)}
+      {user.bio ? (
+        <p
+          className={`${isPersian(user.bio) ? "font-iransans" : "font-Roboto"} mb-3 ml-2`}
         >
-          {t("Confirm")}
-        </button>
-      </div>
+          {user.bio}
+        </p>
+      ) : null}
+      <Link
+        className="ml-1 rounded-lg bg-gradient-to-r from-p-700 to-p-500 px-2 py-1 font-medium text-white"
+        href={`/${locale}/profile`}
+      >
+        {t("Profile Detail")}
+      </Link>
     </div>
   );
 };
@@ -85,5 +85,19 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
 export default OverViwePage;
 
 {
-  /* <Link href={`/${locale}/profile`}>Profile Detail</Link> */
+  /* <div className="ml-3 flex flex-col">
+<span
+  className={`${!bio ? "hidden" : "inline-block"} ${charCount === 150 ? "text-red-600" : "text-p-950"} text-sm`}
+>
+  {charCount} / 150
+</span>
+<textarea
+  placeholder={
+    locale === "fa" ? "بیو را اینجا بنویسید" : "Type bio here "
+  }
+  className="bg-transparent px-2 py-1 placeholder:text-left placeholder:text-p-950 focus:outline-none"
+  value={bio}
+  onChange={(e) => bioHandler(e)}
+/>
+</div> */
 }

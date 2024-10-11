@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
         phoneNumber,
         creditCardNumber,
         gender,
+        bio,
         profilePicUrl,
       },
     }: { userInfo: IUserInfo } = await req.json();
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest) {
     const newUser = await userInfo.create({
       name,
       lastName,
+      bio,
       userName: userName.toLowerCase(),
       password: hashPass,
       email: email.toLowerCase(),

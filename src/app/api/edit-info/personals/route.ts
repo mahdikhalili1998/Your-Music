@@ -9,10 +9,10 @@ export async function PATCH(req: NextRequest) {
   try {
     await ConnectDB();
     const {
-      editedInfo: { name, phoneNumber, _id, lastName },
+      editedInfo: { name, phoneNumber, _id, lastName, bio },
       password,
     } = await req.json();
-
+    console.log(bio);
     const user = await userInfo.findOne({ _id }); //main account
 
     const isValid = await verifyPassword(password, user.password);
@@ -47,7 +47,8 @@ export async function PATCH(req: NextRequest) {
     if (
       name === user.name &&
       phoneNumber === user.phoneNumber &&
-      lastName === user.lastName
+      lastName === user.lastName &&
+      bio === user.bio
     ) {
       return NextResponse.json(
         { message: MESSSGE.DUPLICATE_INFORMATION },
@@ -57,6 +58,7 @@ export async function PATCH(req: NextRequest) {
     user.phoneNumber = phoneNumber;
     user.name = name;
     user.lastName = lastName;
+    user.bio = bio;
     user.updatedAt = Date.now();
     await user.save();
 

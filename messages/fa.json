@@ -32,6 +32,7 @@
   },
   "personalInfo": {
     "Name": "نام",
+    "bio": "بیو",
     "lastName": "نام خانوادگی",
     "Phone Number": "تلفن تماس",
     "Membership type": "نوع عضویت",
@@ -141,7 +142,11 @@
   },
   "showPostPage": { "delete": "حذف", "download": "دانلود" },
   "pageNotFound": { "Page was not found": "صفحه ی مورد نظر یافت نشد" },
-  "overViwe": { "Posts": "پست ها", "Confirm": "تایید" },
+  "overViwe": {
+    "Posts": "پست ها",
+    "Confirm": "تایید",
+    "Profile Detail": "مشاهده / ویرایش اطلاعات شخصی"
+  },
   "aboutPage": {
     "Little about me": "یه کوچولو راجب من",
     "bio": "سلام، من مهدی خلیلی ،توسعه دهنده ی این وب اپ ، هستم",

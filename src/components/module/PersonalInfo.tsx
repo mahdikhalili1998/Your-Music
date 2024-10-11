@@ -28,7 +28,9 @@ const PersonalInfo: FC<IProfileDetail> = ({
     lastName: userData.lastName,
     phoneNumber: userData.phoneNumber,
     _id: userData._id,
+    bio: userData.bio,
   });
+
   const [changingOption, setChangingOption] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -110,7 +112,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
 
   return (
     <div
-      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto -translate-y-0 opacity-100"} ${locale === "fa" ? "directon-rtl font-iransans" : null} transition-all duration-700`}
+      className={`relative ${!openPersonalModal ? "-z-10 h-0 -translate-y-24 opacity-0" : "z-10 h-auto translate-y-3 opacity-100"} ${locale === "fa" ? "directon-rtl font-iransans" : null} transition-all duration-700`}
     >
       <ul
         className={`${passLevel ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-p-200 to-p-300 p-2 text-p-950 ${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"}`}
@@ -157,6 +159,27 @@ const PersonalInfo: FC<IProfileDetail> = ({
                 {t("lastName")} :{" "}
               </span>
               <span>{edit ? editedInfo.lastName : userData.lastName}</span>
+            </div>
+          )}
+        </li>
+
+        <li onClick={(e) => editInfohandler("bio")}>
+          {changingOption === "bio" && edit ? (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">{t("bio")} : </span>{" "}
+              <input
+                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
+                ref={inputRef}
+                type="text"
+                name="bio"
+                value={edit ? editedInfo.bio : userData.bio}
+                onChange={(e) => changeHandler(e)}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <span className="font-medium text-rose-800">{t("bio")} : </span>
+              <span>{edit ? editedInfo.bio : userData.bio}</span>
             </div>
           )}
         </li>

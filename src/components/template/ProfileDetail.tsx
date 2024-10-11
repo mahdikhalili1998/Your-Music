@@ -170,7 +170,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   return (
     <>
       <div
-        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : "directon-rtl"} items-center justify-center gap-4 bg-gradient-to-r from-p-500 to-p-200 py-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:py-10 sm:pr-10 670:w-[38rem] md:mx-auto md:mt-[106px] md:w-max md:rounded-xl md:rounded-bl-xl md:rounded-tl-xl md:px-20`}
+        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : "directon-rtl"} items-center justify-center gap-6 bg-gradient-to-r from-p-500 to-p-200 py-6 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:py-10 sm:pr-10 670:w-[38rem] md:mx-auto md:mt-[106px] md:w-max md:rounded-xl md:rounded-bl-xl md:rounded-tl-xl md:px-20`}
       >
         <div className="flex-col gap-8 sm:flex">
           <div className="relative">
@@ -264,10 +264,10 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
         <div
           className={`${isEditing && image ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-start gap-4 sm:flex-row`}
         >
-          <div className="gap-3 sm:flex sm:flex-col sm:justify-center">
+          <div className="items-center gap-5 sm:flex sm:flex-col sm:justify-center">
             <button
               onClick={(e) => personalHandler()}
-              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:mt-2`}
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} mx-auto flex w-max place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:mt-2`}
             >
               {t("Personal Info")}
               {openPersonalModal ? (
@@ -284,7 +284,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               isBlur={isBlur}
             />
           </div>
-          <div className="centerter gap-3 sm:flex sm:w-max sm:flex-col sm:items-center sm:justify-center">
+          <div className="centerter mt-3 items-center gap-3 sm:flex sm:w-max sm:flex-col sm:items-center sm:justify-center">
             <button
               onClick={(e) => loginHandler()}
               className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} sm:justify-cente flex place-items-center gap-2 rounded-lg bg-white bg-gradient-to-r from-white to-p-300 px-2 py-1 font-medium text-p-950 shadow-md shadow-p-300 sm:w-max`}

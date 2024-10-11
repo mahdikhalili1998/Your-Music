@@ -37,6 +37,7 @@ const SignUpInput: FC<ISignupPage> = ({
     gender: "",
     profilePicUrl: "",
     creditCardNumber: "",
+    bio: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [showPass, setShowPass] = useState<boolean>(false);
@@ -122,7 +123,7 @@ const SignUpInput: FC<ISignupPage> = ({
         locale={locale}
       />
       <div
-        className={`${locale === "fa" ? "330:pl-32 330:pr-4 780:px-72 780:-mr-8 380:pl-36 550:pl-52 550:pr-8 -mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans md:rounded-[100%] md:px-64" : "330:pr-32 330:pl-4 380:pr-36 550:pr-52 550:pl-8 -ml-5 rounded-br-full rounded-tr-full pr-28 md:rounded-[100%] md:px-64"} ${isEditing && image ? "blur-sm" : null} 820:rounded-2xl 820:px-36 820:mx-auto -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-14 md:mt-6`}
+        className={`${locale === "fa" ? "-mr-5 rounded-bl-full rounded-tl-full pl-24 font-iransans 330:pl-32 330:pr-4 380:pl-36 550:pl-52 550:pr-8 md:rounded-[100%] md:px-64 780:-mr-8 780:px-72" : "-ml-5 rounded-br-full rounded-tr-full pr-28 330:pl-4 330:pr-32 380:pr-36 550:pl-8 550:pr-52 md:rounded-[100%] md:px-64"} ${isEditing && image ? "blur-sm" : null} -mt-6 flex flex-col items-center justify-center gap-5 bg-white py-14 md:mt-6 820:mx-auto 820:rounded-2xl 820:px-36`}
       >
         <input
           className={`${classNames} ${locale === "fa" ? "placeholder:font-iransans" : "placeholder:font-Roboto"} ${regexInfo.name.test(name) ? "focus:border-green-500" : "focus:border-red-700"} ${isPersian(name) ? "font-iransans" : "font-Roboto"}`}

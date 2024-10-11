@@ -28,8 +28,6 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
       return null;
     }
   }
-
-  // گرفتن پست‌ها
   const post = await userPost.find();
   let info = null;
   if (post) {
@@ -51,7 +49,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
   return (
     <div>
       {user ? <Welcome user={{ ...user }} locale={locale} /> : null}
-      <div>
+      <div className="sm:mx-6">
         <ShowPost
           post={JSON.parse(JSON.stringify(post))}
           info={JSON.parse(JSON.stringify(info))}

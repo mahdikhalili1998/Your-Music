@@ -99,7 +99,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   };
 
   return (
-    <div>
+    <div >
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
         return (
