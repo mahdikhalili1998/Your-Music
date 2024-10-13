@@ -83,3 +83,7 @@ export interface IShowPass {
   setShowPass: Function;
   locale: string;
 }
+
+export interface IProfilePost {
+  user: any;
+}

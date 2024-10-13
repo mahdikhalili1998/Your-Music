@@ -17,6 +17,7 @@ export enum MESSSGE {
   NO_ACCOUNT_PHONE = "There is no account with this phone number",
   UNATHOURISED = "unathuristion",
   NOT_POST_FOUNDED = " not post founded",
+  NO_POST = "There is no post",
 }
 
 export enum STATUS {
@@ -32,4 +33,5 @@ export enum STATUS {
   NOT_FOUND2 = 403,
   WRONG_PASS = 401,
   DELETE = 204,
+  
 }

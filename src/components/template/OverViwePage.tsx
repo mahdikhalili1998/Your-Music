@@ -6,8 +6,8 @@ import React, { FC, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import isPersian from "@/helper/LanguageRecognizer.js";
-import { MdEdit } from "react-icons/md";
 import axios from "axios";
+import ProfilePost from "../module/ProfilePost";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [bio, setBio] = useState<string>("");
@@ -78,6 +78,7 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       >
         {t("Profile Detail")}
       </Link>
+      <ProfilePost user={user} />
     </div>
   );
 };
