@@ -2,18 +2,50 @@
 import { IUser } from "@/types/props";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import isPersian from "@/helper/LanguageRecognizer.js";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import ProfilePost from "../module/ProfilePost";
+import Loader from "../module/Loader";
+import MusicPlayer from "./Music";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [bio, setBio] = useState<string>("");
   const [charCount, setCharCount] = useState<number>(0);
   const [editBio, setEditBio] = useState<boolean>(false);
   const [editValue, setEditValue] = useState<string>("");
+  const [posts, setPosts] = useState<any[]>(null);
+  const [noPost, setNoPost] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
+  const E = useTranslations("enum");
+  useEffect(() => {
+    const dataFetcher = async () => {
+      setLoader(true);
+      await axios
+        .get(`/api/get-post?id=${user._id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            setPosts(res.data.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 404) {
+            toast.error(E("Error in sending request"));
+          } else if (error.response.status === 403) {
+            toast.error(E("Can Not Find User"));
+          } else if (error.response.status === 204) {
+            setNoPost(true);
+          }
+        });
+      setLoader(false);
+    };
+    dataFetcher();
+  }, []);
   const t = useTranslations("overViwe");
 
   const bioHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -56,7 +88,14 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
         />
         <div className="flex flex-col items-center justify-center">
           <h3>{t("Posts")}</h3>
-          <span>45</span>
+          {posts?.length ? (
+            <span>{posts.length}</span>
+          ) : (
+            <span className="mt-1">
+              {" "}
+              <Loader color=" #fff" width={50} height={20} />
+            </span>
+          )}
         </div>
       </div>
       <p
@@ -78,7 +117,9 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       >
         {t("Profile Detail")}
       </Link>
-      <ProfilePost user={user} />
+      <ProfilePost loader={loader} posts={posts} noPost={noPost} />
+
+      <Toaster />
     </div>
   );
 };

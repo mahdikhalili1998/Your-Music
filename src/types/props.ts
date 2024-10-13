@@ -85,5 +85,10 @@ export interface IShowPass {
 }
 
 export interface IProfilePost {
-  user: any;
+  loader: boolean;
+  posts: any[];
+  noPost: boolean;
+}
+export interface IMusicUrl {
+  musicUrl: string;
 }
