@@ -21,6 +21,7 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [noPost, setNoPost] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const E = useTranslations("enum");
+  const t = useTranslations("overViwe");
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -47,23 +48,6 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
     dataFetcher();
   }, []);
 
-  const t = useTranslations("overViwe");
-
-  const bioHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
-    if (text.length <= 150) {
-      setBio(text); // بروزرسانی بیو
-      setCharCount(text.length); // بروزرسانی تعداد کاراکترها
-    }
-  };
-
-  const confirmHandler = async () => {
-    await axios
-      .patch("/api/bio", { data: { id: user._id, bio } })
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
-  };
-
   const editHandler = () => {
     if (user.bio) {
       setEditBio(true);
@@ -72,13 +56,13 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
 
   return (
     <div
-      className={`${locale === "fa" ? "directon-ltr font-iransans" : "font-Roboto"} bg-gradient-to-r from-p-500 to-p-200 px-2 py-4`}
+      className={`${locale === "fa" ? "directon-ltr font-iransans" : "font-Roboto"} bg-gradient-to-r from-p-500 to-p-200 px-2 py-8 sm:mx-4 sm:rounded-lg sm:px-4`}
     >
       <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
         <LuUser2 className="-mt-2 text-xl" />
         {user.userName}
       </h1>
-      <div className="mb-5 flex gap-8">
+      <div className="mb-5 flex justify-between md:justify-normal md:gap-44">
         <Image
           src={user.profilePicUrl}
           alt="pic"
@@ -87,12 +71,12 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
           priority
           className="size-[7rem] rounded-[100%] border-2 border-solid border-white"
         />
-        <div className="flex flex-col items-center justify-center">
-          <h3>{t("Posts")}</h3>
+        <div className="mr-12 flex flex-col items-center justify-center 500:mr-32">
+          <h3 className="text-xl font-medium">{t("Posts")}</h3>
           {posts?.length ? (
-            <span>{posts.length}</span>
+            <span className="text-lg font-medium">{posts.length}</span>
           ) : posts?.length === 0 ? (
-            <span>0</span>
+            <span className="text-lg font-medium">0</span>
           ) : (
             <span className="mt-1">
               <Loader color=" #fff" width={50} height={20} />
@@ -119,7 +103,12 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       >
         {t("Profile Detail")}
       </Link>
-      <ProfilePost loader={loader} posts={posts} noPost={noPost} locale={locale} />
+      <ProfilePost
+        loader={loader}
+        posts={posts}
+        noPost={noPost}
+        locale={locale}
+      />
 
       <Toaster />
     </div>

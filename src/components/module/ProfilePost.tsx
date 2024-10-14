@@ -9,7 +9,7 @@ import MusicPlayer from "../template/Music";
 
 const ProfilePost: FC<IProfilePost> = ({ loader, posts, locale }) => {
   return (
-    <div className="mt-7 flex items-center justify-between">
+    <div className="mt-7 grid grid-cols-2 400:grid-cols-3 900:grid-cols-4 lg:grid-cols-5">
       {loader ? (
         <div className="mx-auto w-max">
           <Loader color="#FFF" width={70} height={40} />
