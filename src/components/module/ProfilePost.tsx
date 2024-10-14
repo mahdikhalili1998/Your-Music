@@ -7,18 +7,22 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import MusicPlayer from "../template/Music";
 
-const ProfilePost: FC<IProfilePost> = ({ loader, posts }) => {
+const ProfilePost: FC<IProfilePost> = ({ loader, posts, locale }) => {
   return (
-    <div className="mt-7">
+    <div className="mt-7 flex items-center justify-between">
       {loader ? (
         <div className="mx-auto w-max">
           <Loader color="#FFF" width={70} height={40} />
         </div>
       ) : (
         posts?.map((item) => (
-          <div key={item._id}>
-            <MusicPlayer musicUrl={item.musicUrl} />
-          </div>
+          <MusicPlayer
+            key={item._id}
+            musicUrl={item.musicUrl}
+            id={item._id}
+            locale={locale}
+            date={item.createdAt}
+          />
         ))
       )}
       <Toaster />

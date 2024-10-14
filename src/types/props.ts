@@ -88,7 +88,11 @@ export interface IProfilePost {
   loader: boolean;
   posts: any[];
   noPost: boolean;
+  locale: string;
 }
 export interface IMusicUrl {
   musicUrl: string;
+  locale: string;
+  date: Date;
+  id: string;
 }

@@ -1,14 +1,21 @@
-// components/MusicPlayer.tsx
-
+"use client";
 import { IMusicUrl } from "@/types/props";
 import { FC, useState } from "react";
+import { FaPause } from "react-icons/fa6";
+import { FaPlay } from "react-icons/fa";
+import Link from "next/link";
+import { p2e } from "@/helper/replaceNumber.js";
+import momentJalaali from "moment-jalaali";
+import moment from "moment";
+import { IoLogOutOutline } from "react-icons/io5";
 
-const MusicPlayer: FC<IMusicUrl> = ({ musicUrl }) => {
-  console.log(musicUrl);
+const MusicPlayer: FC<IMusicUrl> = ({ musicUrl, locale, date, id }) => {
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [audio] = useState(new Audio());
   const [isPlaying, setIsPlaying] = useState(false);
   const [url, setUrl] = useState<string>("");
+  momentJalaali.loadPersian({ usePersianDigits: true });
+  const jalaliDate = momentJalaali(date).format("jYYYY/jMM/jDD");
 
   const playAudio = () => {
     if (musicUrl) {
@@ -25,22 +32,27 @@ const MusicPlayer: FC<IMusicUrl> = ({ musicUrl }) => {
   };
 
   return (
-    <div className="mx-auto max-w-md rounded-lg bg-gray-800 p-4 shadow-lg">
-      <div className="flex items-center justify-center">
-        <div className="relative">
-          <div className="flex h-40 w-40 items-center justify-center rounded-full bg-blue-600">
-            {isPlaying ? (
-              <button onClick={pauseAudio} className="text-3xl text-white">
-                &#10074;&#10074; {/* Pause Icon */}
-              </button>
-            ) : (
-              <button onClick={playAudio} className="text-3xl text-white">
-                &#9658; {/* Play Icon */}
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col items-center justify-center gap-3">
+      <div
+        className={`${isPlaying ? "border-p-300" : "border-white"} flex size-[6rem] items-center justify-center rounded-full border-[3px] border-solid bg-p-700`}
+      >
+        {isPlaying ? (
+          <button onClick={pauseAudio} className={"text-3xl text-p-300"}>
+            <FaPause />
+          </button>
+        ) : (
+          <button onClick={playAudio} className="text-3xl text-white">
+            <FaPlay />
+          </button>
+        )}
+      </div>{" "}
+      <Link
+        className="flex flex-col items-center justify-center gap-2 font-medium text-p-950"
+        href={`/${locale}/${id}`}
+      >
+        {locale === "fa" ? jalaliDate : p2e(moment(date).format("YYYY/MM/DD"))}
+        <IoLogOutOutline className="text-2xl font-bold text-p-950" />
+      </Link>
     </div>
   );
 };

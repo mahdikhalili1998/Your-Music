@@ -21,13 +21,13 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [noPost, setNoPost] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const E = useTranslations("enum");
+
   useEffect(() => {
     const dataFetcher = async () => {
       setLoader(true);
       await axios
         .get(`/api/get-post?id=${user._id}`)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             setPosts(res.data.data);
           }
@@ -46,6 +46,7 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
     };
     dataFetcher();
   }, []);
+
   const t = useTranslations("overViwe");
 
   const bioHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -90,9 +91,10 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
           <h3>{t("Posts")}</h3>
           {posts?.length ? (
             <span>{posts.length}</span>
+          ) : posts?.length === 0 ? (
+            <span>0</span>
           ) : (
             <span className="mt-1">
-              {" "}
               <Loader color=" #fff" width={50} height={20} />
             </span>
           )}
@@ -117,7 +119,7 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       >
         {t("Profile Detail")}
       </Link>
-      <ProfilePost loader={loader} posts={posts} noPost={noPost} />
+      <ProfilePost loader={loader} posts={posts} noPost={noPost} locale={locale} />
 
       <Toaster />
     </div>
