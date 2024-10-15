@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
     const result = await userPost.create({
       profilePicUrl: user.profilePicUrl,
       userName: user.userName,
+      userLikeId: [],
       description,
       musicUrl: cutAudioUrl,
       userId: new Types.ObjectId(user._id),
@@ -36,51 +37,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS },
       { status: STATUS.SUCCSESS },
-    );
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: MESSSGE.SERVER_ERROR },
-      { status: STATUS.ERROR },
-    );
-  }
-}
-
-export async function PATCH(req: NextRequest) {
-  try {
-    await ConnectDB();
-    const { data } = await req.json();
-    const [likeCount, likeState, _id] = data;
-    const session = await getServerSession(req);
-    if (!session) {
-      return NextResponse.json(
-        { message: MESSSGE.UNATHOURISED },
-        { status: STATUS.WRONG_PASS },
-      );
-    }
-
-    const userPosted = await userPost.findOne({ _id });
-    console.log(userPosted);
-    if (!userPosted) {
-      return NextResponse.json(
-        { message: MESSSGE.NOT_POST_FOUNDED },
-        { status: STATUS.NOT_FOUND2 },
-      );
-    }
-    // console.log({ likeCount, likeState });
-    if (likeState) {
-      userPosted.likeSituation = true;
-      userPosted.likeCount++;
-      userPosted.save();
-    } else {
-      userPosted.likeSituation = false;
-      userPosted.likeCount--;
-      userPosted.save();
-    }
-
-    return NextResponse.json(
-      { message: MESSSGE.INFO_CHANGE, data: userPosted },
-      { status: STATUS.EDIT_INFO },
     );
   } catch (error) {
     console.log(error);

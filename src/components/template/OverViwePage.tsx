@@ -13,10 +13,7 @@ import Loader from "../module/Loader";
 import MusicPlayer from "./Music";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
-  const [bio, setBio] = useState<string>("");
-  const [charCount, setCharCount] = useState<number>(0);
   const [editBio, setEditBio] = useState<boolean>(false);
-  const [editValue, setEditValue] = useState<string>("");
   const [posts, setPosts] = useState<any[]>(null);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);

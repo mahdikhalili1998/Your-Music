@@ -9,8 +9,7 @@ const userPostSchema = new Schema<IUserPostModel>(
     musicUrl: { type: String, required: true },
     profilePicUrl: { type: String, required: true },
     userName: { type: String, required: true },
-    likeCount: { type: Number, default: 0 },
-    likeSituation: { type: Boolean, default: false },
+    userLikeId: { type: [String], required: false },
     createdAt: { type: Date, default: Date.now() }, // تاریخ ایجاد به صورت دستی
     updatedAt: { type: Date, default: Date.now() }, // تاریخ به‌روزرسانی به صورت دستی
   },

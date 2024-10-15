@@ -20,11 +20,7 @@ import momentJalaali from "moment-jalaali";
 import toast, { Toaster } from "react-hot-toast";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
-  // console.log({ post, info, user });
   const [activePostId, setActivePostId] = useState<string | null>(null);
-  const [likeState, setLikeState] = useState<{ [key: string]: boolean }>({});
-  const [likeCount, setLikeCount] = useState<{ [key: string]: number }>({});
-  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const [profPic, setProfPic] = useState<string>("");
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -33,64 +29,21 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const E = useTranslations("enum");
   momentJalaali.loadPersian({ usePersianDigits: true });
 
-  useEffect(() => {
-    const result = post.map((item) => {
-      setLikeCount((prevState) => ({
-        ...prevState,
-        [item._id]: item.likeCount,
-      }));
-      setLikeState((prevState) => ({
-        ...prevState,
-        [item._id]: item.likeSituation,
-      }));
-    });
-    const prof = info.map((infoo) => {
-      post.map((item) => {
-        if (infoo._id === item.userId) {
-          setProfPic(infoo.profilePicUrl);
+  const likeHandler = async (id: string, postId: string) => {
+    await axios
+      .patch("/api/like", { data: { id, postId } })
+      .then((res) => {
+        if (res.status === 201) {
+          router.refresh();
         }
-      });
-    });
-  }, [post, info]);
-
-  const likeHandler = async (_id: string) => {
-    setLoading((prevLoading) => ({
-      ...prevLoading,
-      [_id]: true, // تنظیم لودینگ برای پست خاص
-    }));
-    try {
-      const response = await axios.patch("/api/upload", {
-        data: [likeCount[_id], !likeState[_id], _id],
-      });
-      if (response.status === 201) {
-        setLikeState((prevState) => ({
-          ...prevState,
-          [_id]: !likeState[_id],
-        }));
-        setLikeCount((prevCount) => ({
-          ...prevCount,
-          [_id]: likeState[_id] ? prevCount[_id] - 1 : prevCount[_id] + 1,
-        }));
-        router.refresh();
-      }
-    } catch (error) {
-      console.log(error);
-      if (error.response.status === 401) {
-        toast.error(E("login"));
-      }
-    } finally {
-      setLoading((prevLoading) => ({
-        ...prevLoading,
-        [_id]: false, // تنظیم لودینگ به false بعد از دریافت پاسخ
-      }));
-    }
+      })
+      .catch((error) => console.log(error));
   };
 
   const deleteHandler = async (id: string) => {
     await axios
       .delete("/api/upload", { data: { id: id } })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           router.refresh();
         }
@@ -99,7 +52,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   };
 
   return (
-    <div >
+    <div>
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
         return (
@@ -156,28 +109,38 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
             <audio controls className="mx-2 mb-4 w-full 350:mx-auto 350:w-64">
               <source src={item.musicUrl} type="audio/mp3" />
             </audio>
-            <div className="flex items-center gap-4">
-              {loading[item._id] ? ( // نمایش لودر فقط برای پست در حال لایک شدن
-                <div>
-                  <Loader color="#020617" width={40} height={20} />
-                </div>
-              ) : (
+            {user ? (
+              <div className="flex items-center gap-4">
                 <span
-                  onClick={() => likeHandler(item._id)}
+                  onClick={() => likeHandler(user.id, item._id)}
                   className="flex items-center gap-2"
                 >
-                  {likeState[item._id] ? (
+                  {item.userLikeId.includes(user.id) ? (
                     <FaHeart className="text-xl text-red-600" />
                   ) : (
                     <FaRegHeart className="text-xl" />
                   )}
-                  {likeCount[item._id]}
+
+                  {item.userLikeId.length ? item.userLikeId.length : null}
                 </span>
-              )}
-              <span>
-                <FaRegComment className="text-xl" />
-              </span>
-            </div>
+                <span>
+                  <FaRegComment className="text-xl" />
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <span
+                  onClick={() => toast.error(t("sign in"))}
+                  className="flex items-center gap-2"
+                >
+                  <FaRegHeart className="text-xl" />
+                  {item.userLikeId.length}
+                </span>
+                <span onClick={() => toast.error(t("sign in"))}>
+                  <FaRegComment className="text-xl" />
+                </span>
+              </div>
+            )}
             <p
               className={`${
                 isPersian(item.description) ? "font-iransans" : "font-Roboto"

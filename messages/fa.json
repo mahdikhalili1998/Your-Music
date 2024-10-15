@@ -140,7 +140,11 @@
     "It was confirmed": "تایید شد",
     "Save music": "ذخیره آهنگ"
   },
-  "showPostPage": { "delete": "حذف", "download": "دانلود" },
+  "showPostPage": {
+    "delete": "حذف",
+    "download": "دانلود",
+    "sign in": "لطفا وارد حساب خود شوید"
+  },
   "pageNotFound": { "Page was not found": "صفحه ی مورد نظر یافت نشد" },
   "overViwe": {
     "Posts": "پست ها",

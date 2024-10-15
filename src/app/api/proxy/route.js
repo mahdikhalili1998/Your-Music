@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const body = await req.json();
+    // console.log(body);
 
     // دریافت هدر Authorization در صورت نیاز
     const authorizationHeader = req.headers.get("authorization");

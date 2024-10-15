@@ -140,7 +140,11 @@
     "It was confirmed": "It was confirmed",
     "Save music": "Save music"
   },
-  "showPostPage": { "delete": "delete", "download": "download" },
+  "showPostPage": {
+    "delete": "delete",
+    "download": "download",
+    "sign in": "please sign in/up"
+  },
   "pageNotFound": { "Page was not found": "Page was not found" },
   "aboutPage": {
     "Little about me": "Little about me",
