@@ -18,6 +18,7 @@ import isPersian from "@/helper/LanguageRecognizer";
 import Loader from "./Loader";
 import momentJalaali from "moment-jalaali";
 import toast, { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -62,7 +63,10 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
           >
             <div className="flex items-center justify-between">
               {userInfo && (
-                <div className="flex items-center justify-start gap-3">
+                <Link
+                  href={`/${locale}/userPage/${userInfo._id}`}
+                  className="flex items-center justify-start gap-3"
+                >
                   <Image
                     src={userInfo.profilePicUrl}
                     alt="profilePicture"
@@ -74,7 +78,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   <span className="font-medium text-p-950">
                     {userInfo.userName}
                   </span>
-                </div>
+                </Link>
               )}
               <div className="relative">
                 <SlOptionsVertical

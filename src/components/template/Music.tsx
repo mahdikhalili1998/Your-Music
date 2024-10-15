@@ -48,7 +48,7 @@ const MusicPlayer: FC<IMusicUrl> = ({ musicUrl, locale, date, id }) => {
       </div>{" "}
       <Link
         className="flex flex-col items-center justify-center gap-2 font-medium text-p-950"
-        href={`/${locale}/${id}`}
+        href={`/${locale}/postDetail/${id}`}
       >
         {locale === "fa" ? jalaliDate : p2e(moment(date).format("YYYY/MM/DD"))}
         <IoLogOutOutline className="text-2xl font-bold text-p-950" />
