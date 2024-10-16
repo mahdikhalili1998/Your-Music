@@ -10,6 +10,8 @@ import { LuUser2 } from "react-icons/lu";
 import Image from "next/image";
 import isPersian from "@/helper/LanguageRecognizer.js";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
   //   console.log(user);
@@ -19,6 +21,12 @@ const UserDetail: FC<ILocale> = ({ user }) => {
   const { locale } = useParams();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
+  const {
+    data: {
+      user: { email },
+    },
+  } = useSession();
+  //   console.log(email);
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -91,10 +99,19 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           </p>
           {user.bio ? (
             <p
-              className={`${isPersian(user.bio) ? "directon-rtl font-iransans mr-4" : "font-Roboto"} mb-3 ml-2`}
+              className={`${isPersian(user.bio) ? "directon-rtl mr-4 font-iransans" : "font-Roboto"} mb-3 ml-2`}
             >
               {user.bio}
             </p>
+          ) : null}
+
+          {user.email === email ? (
+            <Link
+              className="ml-1 rounded-lg bg-gradient-to-r from-p-700 to-p-500 px-2 py-1 font-medium text-white"
+              href={`/${locale}/profile`}
+            >
+              {t("Profile Detail")}
+            </Link>
           ) : null}
 
           <ProfilePost

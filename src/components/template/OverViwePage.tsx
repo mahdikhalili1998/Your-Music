@@ -10,7 +10,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import ProfilePost from "../module/ProfilePost";
 import Loader from "../module/Loader";
-import { useSession } from "next-auth/react";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [editBio, setEditBio] = useState<boolean>(false);
@@ -19,8 +18,6 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [loader, setLoader] = useState<boolean>(false);
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
-  const { status } = useSession();
-  // console.log(status);
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -96,14 +93,13 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
           {user.bio}
         </p>
       ) : null}
-      {status === "authenticated" ? (
-        <Link
-          className="ml-1 rounded-lg bg-gradient-to-r from-p-700 to-p-500 px-2 py-1 font-medium text-white"
-          href={`/${locale}/profile`}
-        >
-          {t("Profile Detail")}
-        </Link>
-      ) : null}
+
+      <Link
+        className="ml-1 rounded-lg bg-gradient-to-r from-p-700 to-p-500 px-2 py-1 font-medium text-white"
+        href={`/${locale}/profile`}
+      >
+        {t("Profile Detail")}
+      </Link>
 
       <ProfilePost
         loader={loader}
