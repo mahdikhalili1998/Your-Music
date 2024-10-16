@@ -98,7 +98,7 @@ function SignInPage({ locale }: ILocale) {
   // };
 
   return (
-    <div className={`${locale === "fa" ? "font-iransans" : null} relative`}>
+    <div className={`${locale === "fa" ? "font-iransans" : null} relative sm:mx-3`}>
       {loader ? (
         <div className="absolute left-[5rem] top-[17rem] z-10 blur-none">
           <Loader color="#7e22ce" height={70} width={110} />{" "}

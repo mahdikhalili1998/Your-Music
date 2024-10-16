@@ -15,12 +15,12 @@ import { p2e } from "@/helper/replaceNumber";
 import { AiFillDelete } from "react-icons/ai";
 import { LuDownload } from "react-icons/lu";
 import isPersian from "@/helper/LanguageRecognizer";
-import Loader from "./Loader";
 import momentJalaali from "moment-jalaali";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
+
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [profPic, setProfPic] = useState<string>("");
   const reversedPost = post.toReversed();

@@ -59,6 +59,7 @@ export interface IParams {
 
 export interface ILocale {
   locale?: string;
+  user?: any;
 }
 
 export interface IMainPart {

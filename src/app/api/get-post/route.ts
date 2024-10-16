@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     await ConnectDB();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("id");
+    // console.log(searchParams);
     if (!userId) {
       return NextResponse.json(
         { message: MESSSGE.USER_NOT_FOUND },

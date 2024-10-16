@@ -41,3 +41,28 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    await ConnectDB();
+    const { data } = await req.json();
+    const user = await userInfo.findOne({ _id: data });
+    // console.log(user);
+    if (!user) {
+      return NextResponse.json(
+        { message: MESSSGE.USER_NOT_FOUND },
+        { status: STATUS.NOT_FOUND2 },
+      );
+    }
+    return NextResponse.json(
+      { message: MESSSGE.SUCCSESS, data: user },
+      { status: STATUS.SUCCSESS },
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: MESSSGE.SERVER_ERROR },
+      { status: STATUS.ERROR },
+    );
+  }
+}

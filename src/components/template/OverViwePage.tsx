@@ -61,14 +61,14 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
         <LuUser2 className="-mt-2 text-xl" />
         {user.userName}
       </h1>
-      <div className="mb-5 flex justify-between md:justify-normal md:gap-44">
+      <div className="mb-5 flex justify-between md:justify-center md:gap-20">
         <Image
           src={user.profilePicUrl}
           alt="pic"
           width={300}
           height={300}
           priority
-          className="size-[7rem] rounded-[100%] border-2 border-solid border-white"
+          className="size-[7rem] rounded-[100%] border-2 border-solid border-white md:size-[9rem]"
         />
         <div className="mr-12 flex flex-col items-center justify-center 500:mr-32">
           <h3 className="text-xl font-medium">{t("Posts")}</h3>
@@ -84,7 +84,7 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
         </div>
       </div>
       <p
-        className={`${isPersian(user.name) || isPersian(user.lastName) ? "font-iransans" : "font-Roboto"} font-lg mb-3 ml-3 font-medium text-white`}
+        className={`${isPersian(user.name) || isPersian(user.lastName) ? "font-iransans" : "font-Roboto"} font-lg mb-3 ml-3 font-medium text-white md:-ml-[16rem] md:text-center`}
         onClick={(e) => editHandler()}
       >
         {user.name} {user.lastName}
