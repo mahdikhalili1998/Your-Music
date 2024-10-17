@@ -170,5 +170,6 @@
   " Sign Up": "ساخت حساب",
   "_ Have an account?": "حساب دارید ؟ ",
   " Sign In": "ورود به حساب",
-  "User not found, please sign in again": "کاربر پیدا نشد ، لطفا دوباره وارد شوید !!"
+  "User not found, please sign in again": "کاربر پیدا نشد ، لطفا دوباره وارد شوید !!",
+  "UnAuthenticated": "برای جزییات بیشتر وارد حساب خود شوید"
 }

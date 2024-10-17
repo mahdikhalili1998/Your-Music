@@ -17,7 +17,7 @@ export async function POST(req) {
     }
 
     const response = await fetch(
-      "https://console.melipayamak.com/api/send/otp/b56cb348f246442598aef8e5a96a18e9",
+      "https://console.melipayamak.com/api/receive/balance/484bd1b6a9d9467789d7d2fcc78b2c3b",
       {
         method: "POST",
         headers: {

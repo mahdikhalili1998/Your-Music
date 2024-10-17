@@ -14,19 +14,20 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
-  //   console.log(user);
+  console.log(user);
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
-  const {
-    data: {
-      user: { email },
-    },
-  } = useSession();
-  //   console.log(email);
+  // const {
+  //   data: {
+  //     user: { email },
+  //   },
+  // } = useSession();
+  const { status, data } = useSession();
+  // console.log(re);
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -49,6 +50,8 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               setNoPost(true);
             }
           });
+      } else {
+        return <h1>LOADING ....</h1>;
       }
 
       setLoader(false);
@@ -105,7 +108,8 @@ const UserDetail: FC<ILocale> = ({ user }) => {
             </p>
           ) : null}
 
-          {user.email === email ? (
+          {status === "unauthenticated" ? null : user.email ===
+            data?.user?.email ? (
             <Link
               className="ml-1 rounded-lg bg-gradient-to-r from-p-700 to-p-500 px-2 py-1 font-medium text-white"
               href={`/${locale}/profile`}

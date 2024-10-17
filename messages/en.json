@@ -170,5 +170,6 @@
   " Sign Up": "Sign Up",
   "_ Have an account?": "_ Have an account?",
   " Sign In": "Sign In",
-  "User not found, please sign in again": "User not found, please sign in again"
+  "User not found, please sign in again": "User not found, please sign in again",
+  "UnAuthenticated": "for more options sign in / up"
 }

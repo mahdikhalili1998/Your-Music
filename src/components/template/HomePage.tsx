@@ -48,6 +48,12 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
 
   return (
     <div>
+      {session ? null : (
+        <div className="animated-bg mx-auto mb-10 w-max rounded-lg px-10 py-2">
+          {t("UnAuthenticated")}
+        </div>
+      )}
+
       {user ? <Welcome user={{ ...user }} locale={locale} /> : null}
       <div className="sm:mx-6">
         <ShowPost
