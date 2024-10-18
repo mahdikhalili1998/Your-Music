@@ -39,3 +39,28 @@ next-env.d.ts
 رمز ورود به صفحه تنظیمات :
 @Mahdi1998
 
+main layout.tsx:
+import "../app/globals.css";
+import "@/font/font.css";
+import "@/font/menu.css";
+import "@/font/fontFace.css";
+import { getMessages } from "next-intl/server";
+
+interface LayoutProps {
+  children: React.ReactNode;
+  params: { locale: string };
+}
+
+const RootLayout: React.FC<LayoutProps> = async ({
+  children,
+  params: { locale },
+}) => {
+  const messages = await getMessages();
+  return (
+    <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
+      <body className={"mx-auto max-w-[1600px] font-Roboto"}>{children}</body>
+    </html>
+  );
+};
+
+export default RootLayout;

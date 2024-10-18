@@ -26,10 +26,12 @@ const RootLayout: React.FC<LayoutProps> = async ({
   return (
     <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
       <link rel="icon" href="/favicon.ico" />
-      <body className={"mx-auto max-w-[1600px] font-Roboto "}>
+      <body className={"mx-auto max-w-[1600px] font-Roboto"}>
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>
-            <Layout locale={locale}>{children}</Layout>
+            <Layout locale={JSON.parse(JSON.stringify(locale))}>
+              {children}
+            </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>
       </body>

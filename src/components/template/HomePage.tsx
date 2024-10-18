@@ -10,6 +10,7 @@ import enMessages from "../../../messages/en.json";
 import { ILocale } from "@/types/props";
 import userPost from "@/model/userPost";
 import ShowPost from "../module/ShowPost";
+import Link from "next/link";
 
 const HomePage: FC<ILocale> = async ({ locale }) => {
   await ConnectDB();
@@ -49,12 +50,22 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
   return (
     <div>
       {session ? null : (
-        <div className="animated-bg mx-auto mb-10 w-max rounded-lg px-10 py-2">
-          {t("UnAuthenticated")}
+        <div className="mb-10">
+          <Link
+            href={`/${locale}/profile`}
+            className="animated-bg mx-auto w-max rounded-lg px-10 py-2"
+          >
+            {t("UnAuthenticated")}
+          </Link>
         </div>
       )}
 
-      {user ? <Welcome user={{ ...user }} locale={locale} /> : null}
+      {user ? (
+        <Welcome
+          user={JSON.parse(JSON.stringify({ ...user }))}
+          locale={locale}
+        />
+      ) : null}
       <div className="sm:mx-6">
         <ShowPost
           post={JSON.parse(JSON.stringify(post))}
