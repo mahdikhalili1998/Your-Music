@@ -145,9 +145,14 @@
     "download": "دانلود",
     "sign in": "لطفا وارد حساب خود شوید"
   },
-  "pageNotFound": { "Page was not found": "صفحه ی مورد نظر یافت نشد" },
+  "pageNotFound": {
+    "Page was not found": "صفحه ی مورد نظر یافت نشد",
+    "lang": "English",
+    "Go to main page": "رفتن به صفحه اصلی"
+  },
   "overViwe": {
     "Posts": "پست ها",
+    "Save": "ذخیرها",
     "Confirm": "تایید",
     "Profile Detail": "مشاهده / ویرایش اطلاعات شخصی"
   },

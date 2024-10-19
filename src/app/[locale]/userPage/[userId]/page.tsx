@@ -14,7 +14,7 @@ function Page() {
       await axios
         .post("/api/find-account", { data: userId })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             setUser(res?.data?.data);
           }

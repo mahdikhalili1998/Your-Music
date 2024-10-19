@@ -145,7 +145,11 @@
     "download": "download",
     "sign in": "please sign in/up"
   },
-  "pageNotFound": { "Page was not found": "Page was not found" },
+  "pageNotFound": {
+    "Page was not found": "Page was not found",
+    "lang": "زبان فارسی",
+    "Go to main page": "Go to main page"
+  },
   "aboutPage": {
     "Little about me": "Little about me",
     "bio": "Hello,I'm Mahdi Khalili, the developer of this web app.",
@@ -162,6 +166,7 @@
   },
   "overViwe": {
     "Posts": "Posts",
+    "Save": "Save",
     "Confirm": "Confirm",
     "Profile Detail": "edit / see Information"
   },

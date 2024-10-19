@@ -10,12 +10,17 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import ProfilePost from "../module/ProfilePost";
 import Loader from "../module/Loader";
+import { LuGrid } from "react-icons/lu";
+import { FaRegBookmark } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [editBio, setEditBio] = useState<boolean>(false);
   const [posts, setPosts] = useState<any[]>(null);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
+  const { status, data } = useSession();
+
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
 
@@ -100,6 +105,19 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
       >
         {t("Profile Detail")}
       </Link>
+
+      <div className="mt-10 border-t-2 border-solid border-gray-500 pb-2">
+        <ul className="mt-4 flex items-center justify-around">
+          <li className="flex items-center gap-1">
+            <LuGrid className="text-xl" />
+            <span>{t("Posts")}</span>
+          </li>
+          <li className="flex items-center gap-1">
+            <FaRegBookmark className="text-xl" />
+            <span>{t("Save")}</span>
+          </li>
+        </ul>
+      </div>
 
       <ProfilePost
         loader={loader}

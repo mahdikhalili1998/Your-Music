@@ -12,22 +12,18 @@ import isPersian from "@/helper/LanguageRecognizer.js";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { LuGrid } from "react-icons/lu";
+import { FaRegBookmark } from "react-icons/fa";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
-  console.log(user);
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("post");
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
-  // const {
-  //   data: {
-  //     user: { email },
-  //   },
-  // } = useSession();
   const { status, data } = useSession();
-  // console.log(re);
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -117,6 +113,21 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               {t("Profile Detail")}
             </Link>
           ) : null}
+          <div className="mt-10 border-t-2 border-solid border-gray-500 pb-2">
+            <ul className="mt-4 flex items-center justify-around">
+              <li className="flex items-center gap-1">
+                <LuGrid className="text-xl" />
+                <span>{t("Posts")}</span>
+              </li>
+              {status === "unauthenticated" ? null : user.email ===
+                data?.user?.email ? (
+                <li className="flex items-center gap-1">
+                  <FaRegBookmark className="text-xl" />
+                  <span>{t("Save")}</span>
+                </li>
+              ) : null}
+            </ul>
+          </div>
 
           <ProfilePost
             loader={loader}

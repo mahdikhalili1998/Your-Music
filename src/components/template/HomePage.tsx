@@ -50,10 +50,10 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
   return (
     <div>
       {session ? null : (
-        <div className="mb-10">
+        <div className="mb-10 flex justify-center">
           <Link
             href={`/${locale}/profile`}
-            className="animated-bg mx-auto w-max rounded-lg px-10 py-2"
+            className="animated-bg mx-auto w-max rounded-lg px-2 py-2 sm:w-full sm:mx-3"
           >
             {t("UnAuthenticated")}
           </Link>

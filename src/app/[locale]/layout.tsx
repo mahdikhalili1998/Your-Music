@@ -1,3 +1,4 @@
+// src/app/[locale]/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/font/font.css";
@@ -23,9 +24,13 @@ const RootLayout: React.FC<LayoutProps> = async ({
   params: { locale },
 }) => {
   const messages = await getMessages();
+
   return (
     <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
-      <link rel="icon" href="/favicon.ico" />
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        {/* دیگر تگ‌های head می‌توانند اینجا قرار گیرند */}
+      </head>
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>
