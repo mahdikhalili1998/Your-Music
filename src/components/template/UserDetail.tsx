@@ -9,21 +9,24 @@ import { useTranslations } from "next-intl";
 import { LuUser2 } from "react-icons/lu";
 import Image from "next/image";
 import isPersian from "@/helper/LanguageRecognizer.js";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { LuGrid } from "react-icons/lu";
 import { FaRegBookmark } from "react-icons/fa";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("post");
+  // console.log(category);
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
   const { status, data } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const dataFetcher = async () => {
@@ -55,6 +58,10 @@ const UserDetail: FC<ILocale> = ({ user }) => {
     dataFetcher();
   }, [user]);
 
+  const categoryHandler = (e: string) => {
+    setCategory(e);
+  };
+
   return (
     <div>
       {!user ? (
@@ -65,10 +72,16 @@ const UserDetail: FC<ILocale> = ({ user }) => {
         <div
           className={`${locale === "fa" ? "directon-ltr font-iransans" : "font-Roboto"} bg-gradient-to-r from-p-500 to-p-200 px-2 py-8 sm:mx-4 sm:rounded-lg sm:px-4`}
         >
-          <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
-            <LuUser2 className="-mt-2 text-xl" />
-            {user.userName}
-          </h1>
+          <div className="flex gap-2">
+            <IoIosArrowRoundBack
+              onClick={(e) => router.back()}
+              className="-mt-2 text-5xl"
+            />
+            <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
+              <LuUser2 className="-mt-2 text-xl" />
+              {user.userName}
+            </h1>
+          </div>
           <div className="mb-5 flex justify-between md:justify-center md:gap-20">
             <Image
               src={user.profilePicUrl}
@@ -113,28 +126,36 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               {t("Profile Detail")}
             </Link>
           ) : null}
+
           <div className="mt-10 border-t-2 border-solid border-gray-500 pb-2">
             <ul className="mt-4 flex items-center justify-around">
-              <li className="flex items-center gap-1">
+              <li
+                onClick={(e) => categoryHandler("post")}
+                className={`${category === "post" ? "border-b-[1px] border-solid border-gray-700 text-2xl" : null} flex items-center gap-1`}
+              >
                 <LuGrid className="text-xl" />
                 <span>{t("Posts")}</span>
               </li>
               {status === "unauthenticated" ? null : user.email ===
                 data?.user?.email ? (
-                <li className="flex items-center gap-1">
+                <li
+                  onClick={(e) => categoryHandler("save")}
+                  className={`${category === "save" ? "border-b-[1px] border-solid border-gray-700 text-2xl" : null} flex items-center gap-1`}
+                >
                   <FaRegBookmark className="text-xl" />
                   <span>{t("Save")}</span>
                 </li>
               ) : null}
             </ul>
           </div>
-
-          <ProfilePost
-            loader={loader}
-            posts={posts}
-            noPost={noPost}
-            locale={locale}
-          />
+          {category === "post" && (
+            <ProfilePost
+              loader={loader}
+              posts={posts}
+              noPost={noPost}
+              locale={locale}
+            />
+          )}
 
           <Toaster />
         </div>

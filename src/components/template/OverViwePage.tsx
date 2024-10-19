@@ -13,14 +13,17 @@ import Loader from "../module/Loader";
 import { LuGrid } from "react-icons/lu";
 import { FaRegBookmark } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const OverViwePage: FC<IUser> = ({ locale, user }) => {
   const [editBio, setEditBio] = useState<boolean>(false);
   const [posts, setPosts] = useState<any[]>(null);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("post");
   const { status, data } = useSession();
-
+  const router = useRouter();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
 
@@ -49,6 +52,10 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
     dataFetcher();
   }, []);
 
+  const categoryHandler = (e: string) => {
+    setCategory(e);
+  };
+
   const editHandler = () => {
     if (user.bio) {
       setEditBio(true);
@@ -59,10 +66,17 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
     <div
       className={`${locale === "fa" ? "directon-ltr font-iransans" : "font-Roboto"} bg-gradient-to-r from-p-500 to-p-200 px-2 py-8 sm:mx-4 sm:rounded-lg sm:px-4`}
     >
-      <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
-        <LuUser2 className="-mt-2 text-xl" />
-        {user.userName}
-      </h1>
+      <div className="flex gap-2">
+        <IoIosArrowRoundBack
+          onClick={(e) => router.back()}
+          className="-mt-2 text-5xl"
+        />{" "}
+        <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
+          <LuUser2 className="-mt-2 text-xl" />
+          {user.userName}
+        </h1>
+      </div>
+
       <div className="mb-5 flex justify-between md:justify-center md:gap-20">
         <Image
           src={user.profilePicUrl}
@@ -108,11 +122,17 @@ const OverViwePage: FC<IUser> = ({ locale, user }) => {
 
       <div className="mt-10 border-t-2 border-solid border-gray-500 pb-2">
         <ul className="mt-4 flex items-center justify-around">
-          <li className="flex items-center gap-1">
+          <li
+            onClick={(e) => categoryHandler("post")}
+            className={`${category === "post" ? "border-b-[1px] border-solid border-gray-700 text-2xl" : null} flex items-center gap-1`}
+          >
             <LuGrid className="text-xl" />
             <span>{t("Posts")}</span>
           </li>
-          <li className="flex items-center gap-1">
+          <li
+            onClick={(e) => categoryHandler("save")}
+            className={`${category === "save" ? "border-b-[1px] border-solid border-gray-700 text-2xl" : null} flex items-center gap-1`}
+          >
             <FaRegBookmark className="text-xl" />
             <span>{t("Save")}</span>
           </li>
