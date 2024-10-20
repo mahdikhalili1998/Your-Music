@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
         creditCardNumber,
         gender,
         bio,
+        save,
         profilePicUrl,
       },
     }: { userInfo: IUserInfo } = await req.json();
@@ -76,6 +77,7 @@ export async function POST(req: NextRequest) {
       name,
       lastName,
       bio,
+      save,
       userName: userName.toLowerCase(),
       password: hashPass,
       email: email.toLowerCase(),
@@ -90,7 +92,7 @@ export async function POST(req: NextRequest) {
       { status: STATUS.SUCCSESS },
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(
       { message: MESSSGE.SERVER_ERROR },
       { status: STATUS.ERROR },

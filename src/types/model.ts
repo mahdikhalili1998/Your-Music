@@ -4,6 +4,7 @@ export interface IUserInfo {
   gender: string;
   userName: string;
   email: string;
+  savePost: any[];
   bio?: string;
   readonly role: string;
   readonly phoneNumber: string;

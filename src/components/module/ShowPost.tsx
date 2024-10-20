@@ -18,6 +18,7 @@ import isPersian from "@/helper/LanguageRecognizer";
 import momentJalaali from "moment-jalaali";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
+import { FaRegBookmark } from "react-icons/fa6";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   // console.log(user);
@@ -52,6 +53,16 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       })
       .catch((error) => console.log(error));
   };
+
+  const savePostHandler = async (id: string) => {
+    await axios
+      .patch("/api/save-post", { data: id })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
+  useEffect(() => {
+    router.refresh();
+  }, []);
 
   return (
     <div>
@@ -131,6 +142,9 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 <span>
                   <FaRegComment className="text-xl" />
                 </span>
+                <span onClick={(e) => savePostHandler(item._id)}>
+                  <FaRegBookmark className="text-xl" />
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-4">
@@ -143,6 +157,9 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 </span>
                 <span onClick={() => toast.error(t("sign in"))}>
                   <FaRegComment className="text-xl" />
+                </span>
+                <span onClick={() => toast.error(t("sign in"))}>
+                  <FaRegBookmark className="text-xl" />
                 </span>
               </div>
             )}

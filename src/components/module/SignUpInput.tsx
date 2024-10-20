@@ -38,6 +38,7 @@ const SignUpInput: FC<ISignupPage> = ({
     profilePicUrl: "",
     creditCardNumber: "",
     bio: "",
+    save: [],
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [showPass, setShowPass] = useState<boolean>(false);

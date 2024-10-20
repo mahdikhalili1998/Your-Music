@@ -54,6 +54,7 @@ export type UserInfo = {
   name: string;
   lastName: string;
   bio: string;
+  save: any[];
 };
 export interface IUserFound {
   profilePicUrl: string;
