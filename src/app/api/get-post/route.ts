@@ -35,3 +35,26 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+export async function POST(req: NextRequest) {
+  try {
+    await ConnectDB();
+    const { data } = await req.json();
+    const post = await userPost.findOne({ _id: data });
+    if (!post) {
+      return NextResponse.json(
+        { message: MESSSGE.NO_POST },
+        { status: STATUS.NOT_FOUND2 },
+      );
+    }
+    return NextResponse.json(
+      { message: MESSSGE.SUCCSESS, data: post },
+      { status: STATUS.SUCCSESS },
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: MESSSGE.SERVER_ERROR },
+      { status: STATUS.ERROR },
+    );
+  }
+}

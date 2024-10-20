@@ -1,46 +1,66 @@
-"use client";
-
-import { IShowPost } from "@/types/props";
-import Image from "next/image";
-import { FC, useEffect, useRef, useState } from "react";
-import { SlOptionsVertical } from "react-icons/sl";
-import moment from "moment";
-import { useRouter } from "next/navigation";
-import { FaRegHeart } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { FaRegComment } from "react-icons/fa";
+"use clinet";
 import axios from "axios";
-import { useTranslations } from "next-intl";
-import { p2e } from "@/helper/replaceNumber";
+import { error } from "console";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import Loader from "../module/Loader";
+import Link from "next/link";
+import Image from "next/image";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { SlOptionsVertical } from "react-icons/sl";
 import { AiFillDelete } from "react-icons/ai";
 import { LuDownload } from "react-icons/lu";
+import { useTranslations } from "next-intl";
+import toast, { Toaster } from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { FaHeart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import isPersian from "@/helper/LanguageRecognizer";
 import momentJalaali from "moment-jalaali";
-import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
+import { p2e } from "@/helper/replaceNumber";
+import moment from "moment";
 
-const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
-  // console.log(user);
-
+function PostDetail() {
+  const { locale, id } = useParams();
+  const [detail, setDetail] = useState<any[]>([]);
+  const [userLogInfo, setUserLogInfo] = useState<any>();
   const [activePostId, setActivePostId] = useState<string | null>(null);
-  const [profPic, setProfPic] = useState<string>("");
-  const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
   const t = useTranslations("showPostPage");
   const E = useTranslations("enum");
+  const { data, status } = useSession();
   momentJalaali.loadPersian({ usePersianDigits: true });
-
-  const likeHandler = async (id: string, postId: string) => {
-    await axios
-      .patch("/api/like", { data: { id, postId } })
-      .then((res) => {
-        if (res.status === 201) {
-          router.refresh();
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+  //   authenticated
+  // console.log(detail);
+  useEffect(() => {
+    const dataFetcher = async () => {
+      await axios
+        .post("/api/get-post", { data: id })
+        .then((res) => {
+          if (res.status === 200) {
+            setDetail([res?.data?.data]);
+          }
+        })
+        .catch((error) => console.log(error));
+    };
+    const getSesstion = async () => {
+      if (status === "authenticated") {
+        await axios
+          .post("/api/search", { data: data.user.email })
+          .then((res) => {
+            // console.log(res);
+            if (res.status === 200) {
+              setUserLogInfo(res?.data?.data);
+            }
+          })
+          .catch((error) => console.log(error));
+      }
+    };
+    dataFetcher();
+    getSesstion();
+  }, []);
 
   const deleteHandler = async (id: string) => {
     await axios
@@ -53,37 +73,51 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       .catch((error) => console.log(error));
   };
 
+  const likeHandler = async (id: string, postId: string) => {
+    await axios
+      .patch("/api/like", { data: { id, postId } })
+      .then((res) => {
+        if (res.status === 201) {
+          router.refresh();
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
-    <div>
-      {reversedPost.map((item) => {
-        const userInfo = info.find((user) => user._id === item.userId);
-        return (
+    <div className={`${locale === "fa" ? "directon-ltr font-iransans" : ""}`}>
+      {!detail ? (
+        <div className="mx-auto w-max">
+          <Loader color="#7e22ce" width={120} height={70} />
+        </div>
+      ) : (
+        detail?.map((item) => (
           <div
             key={item._id}
-            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
+            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 flex flex-col pb-4 md:mx-10 lg:mx-20`}
           >
+            <IoIosArrowRoundBack
+              onClick={(e) => router.back()}
+              className="-mt-2 text-5xl text-p-950"
+            />
             <div className="flex items-center justify-between">
-              {userInfo && (
-                <Link
-                  href={`/${locale}/userPage/${userInfo._id}`}
-                  className="flex items-center justify-start gap-3"
-                >
-                  <Image
-                    src={userInfo.profilePicUrl}
-                    alt="profilePicture"
-                    width={300}
-                    height={300}
-                    priority
-                    className="size-[4rem] rounded-[100%] border-2 border-solid border-p-700"
-                  />
-                  <span className="font-medium text-p-950">
-                    {userInfo.userName}
-                  </span>
-                </Link>
-              )}
+              <Link
+                href={`/${locale}/userPage/${item.userId}`}
+                className="flex items-center justify-start gap-3"
+              >
+                <Image
+                  src={item.profilePicUrl}
+                  alt="profilePicture"
+                  width={300}
+                  height={300}
+                  priority
+                  className="size-[4rem] rounded-[100%] border-2 border-solid border-p-700"
+                />
+                <span className="font-medium text-p-950">{item.userName}</span>
+              </Link>
               <div className="relative">
                 <SlOptionsVertical
-                  className="-mt-1"
+                  className="-mt-1 mr-3"
                   onClick={() =>
                     setActivePostId(activePostId === item._id ? null : item._id)
                   }
@@ -94,7 +128,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                     activePostId !== item._id ? "hidden" : "absolute right-1"
                   } ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
                 >
-                  {!user ? null : user.userName === item.userName ? (
+                  {userLogInfo?._id === item.userId ? (
                     <span
                       onClick={() => deleteHandler(item._id)}
                       className="flex items-center gap-2 text-red-600"
@@ -111,16 +145,16 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 </div>
               </div>
             </div>
-            <audio controls className="mx-2 mb-4 w-full 350:mx-auto 350:w-64">
+            <audio controls className="mx-2 my-8 w-full 350:mx-auto 350:w-64">
               <source src={item.musicUrl} type="audio/mp3" />
             </audio>
-            {user ? (
-              <div className="flex items-center gap-4">
+            {userLogInfo ? (
+              <div className="flex pl-2 items-center gap-4">
                 <span
-                  onClick={() => likeHandler(user.id, item._id)}
+                  onClick={() => likeHandler(userLogInfo._id, item._id)}
                   className="flex items-center gap-2"
                 >
-                  {item.userLikeId.includes(user.id) ? (
+                  {item.userLikeId.includes(userLogInfo._id) ? (
                     <FaHeart className="text-xl text-red-600" />
                   ) : (
                     <FaRegHeart className="text-xl" />
@@ -149,21 +183,21 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
             <p
               className={`${
                 isPersian(item.description) ? "font-iransans" : "font-Roboto"
-              } font-medium text-p-950`}
+              } m-2 mt-4 font-medium text-p-950`}
             >
               {item.description}
             </p>
-            <p className="-mt-4 text-xs font-medium text-gray-600">
+            <p className="ml-2 mt-1 text-xs font-medium text-gray-600">
               {locale === "fa"
                 ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
                 : p2e(moment(item.createdAt).format("YYYY/MM/DD"))}
             </p>
           </div>
-        );
-      })}
+        ))
+      )}
       <Toaster />
     </div>
   );
-};
+}
 
-export default ShowPost;
+export default PostDetail;

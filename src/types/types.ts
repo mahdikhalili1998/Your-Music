@@ -55,6 +55,15 @@ export type UserInfo = {
   lastName: string;
   bio: string;
 };
+export interface IUserFound {
+  profilePicUrl: string;
+  userName: string;
+  locale: string;
+}
+export interface IUser {
+  profilePicUrl: string;
+  userName: string;
+}
 
 export interface ILike_cm {
   like: boolean;

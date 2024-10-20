@@ -1,5 +1,5 @@
 "use client";
-import { UserInfo } from "@/types/types";
+import { IUserFound } from "@/types/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { p2e } from "@/helper/replaceNumber.js";
 
-const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName, locale }) => {
+const AccountFound: FC<IUserFound> = ({ profilePicUrl, userName, locale }) => {
   const [password, setPassword] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
   const router = useRouter();
@@ -42,7 +42,7 @@ const AccountFound: FC<UserInfo> = ({ profilePicUrl, userName, locale }) => {
 
   return (
     <div
-      className={`${locale === "fa" ? "font-iransans" : null} space-y-6 bg-gradient-to-r from-p-500 to-p-200 p-2 py-6 md:mx-4 md:rounded-xl md:mt-[6rem]`}
+      className={`${locale === "fa" ? "font-iransans" : null} space-y-6 bg-gradient-to-r from-p-500 to-p-200 p-2 py-6 md:mx-4 md:mt-[6rem] md:rounded-xl`}
     >
       <h3
         className={`${locale === "fa" ? "text-right text-p-950" : "text-left text-white"} ml-1 font-medium`}

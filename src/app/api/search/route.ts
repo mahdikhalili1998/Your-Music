@@ -40,3 +40,22 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    await ConnectDB();
+    const { data } = await req.json();
+    const userinfoes = await userInfo.findOne({ email: data });
+    console.log(userinfoes);
+    return NextResponse.json(
+      { message: MESSSGE.SUCCSESS,data:userinfoes},
+      { status: STATUS.SUCCSESS },
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: MESSSGE.SERVER_ERROR },
+      { status: STATUS.ERROR },
+    );
+  }
+}

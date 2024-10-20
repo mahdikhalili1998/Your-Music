@@ -6,7 +6,7 @@ import { regexInfo } from "@/constant/regex.js";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { FaPhone } from "react-icons/fa6";
-import { UserInfo } from "@/types/types";
+import { IUser, UserInfo } from "@/types/types";
 import Loader from "../module/Loader";
 import AccountFound from "../module/AccountFound";
 import Image from "next/image";
@@ -17,9 +17,8 @@ import { p2e } from "@/helper/replaceNumber.js";
 const FindAccountPage: FC<IProfilePageProps> = ({ locale }) => {
   const [number, setNumber] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<UserInfo>({
+  const [userInfo, setUserInfo] = useState<IUser>({
     profilePicUrl: "",
-    // "https://gxajjxknndbjfcoxazof.supabase.co/storage/v1/object/public/user-profile/0.19286261221151113.jpg",
     userName: "",
   });
   const { userName, profilePicUrl } = userInfo;

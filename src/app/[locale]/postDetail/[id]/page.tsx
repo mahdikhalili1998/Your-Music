@@ -1,10 +1,12 @@
 "use client";
-import { useParams } from "next/navigation";
-function Page() {
-  const { id } = useParams(); // گرفتن id از URL
+import PostDetail from "@/components/template/PostDetail";
 
-  console.log(id);
-  return <div>Page</div>;
+function Page() {
+  return (
+    <div>
+      <PostDetail />
+    </div>
+  );
 }
 
 export default Page;
