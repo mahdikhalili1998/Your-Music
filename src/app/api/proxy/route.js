@@ -17,14 +17,14 @@ export async function POST(req) {
     }
 
     const response = await fetch(
-      "https://console.melipayamak.com/api/receive/balance/484bd1b6a9d9467789d7d2fcc78b2c3b",
+      "https://console.melipayamak.com/api/send/otp/b04826134a3a45fdaa62b6c6d8b0a02a",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authorizationHeader,
+          Authorization: `Bearer ${authorizationHeader}`, // Bearer token
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body), // بدنه درخواست را اضافه می‌کنیم
       },
     );
 
