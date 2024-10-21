@@ -19,6 +19,7 @@ import momentJalaali from "moment-jalaali";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import { FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark } from "react-icons/fa6";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   // console.log(user);
@@ -57,7 +58,11 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const savePostHandler = async (id: string) => {
     await axios
       .patch("/api/save-post", { data: id })
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.status === 201) {
+          router.refresh();
+        }
+      })
       .catch((error) => console.log(error));
   };
   useEffect(() => {
@@ -142,8 +147,13 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 <span>
                   <FaRegComment className="text-xl" />
                 </span>
-                <span onClick={(e) => savePostHandler(item._id)}>
-                  <FaRegBookmark className="text-xl" />
+
+                <span onClick={() => savePostHandler(item._id)}>
+                  {user.savePost.includes(item._id) ? (
+                    <FaBookmark className="text-xl" />
+                  ) : (
+                    <FaRegBookmark className="text-xl" />
+                  )}
                 </span>
               </div>
             ) : (
@@ -155,10 +165,10 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   <FaRegHeart className="text-xl" />
                   {item.userLikeId.length}
                 </span>
-                <span onClick={() => toast.error(t("sign in"))}>
+                <span onClick={(e) => toast.error(t("sign in"))}>
                   <FaRegComment className="text-xl" />
                 </span>
-                <span onClick={() => toast.error(t("sign in"))}>
+                <span onClick={(e) => toast.error(t("sign in"))}>
                   <FaRegBookmark className="text-xl" />
                 </span>
               </div>

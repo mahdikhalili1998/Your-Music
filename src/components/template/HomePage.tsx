@@ -24,6 +24,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
         id: dbUser._id,
         userName: dbUser.userName,
         profilePicUrl: dbUser.profilePicUrl,
+        savePost: dbUser.savePost,
       };
     } else {
       return null;
@@ -53,7 +54,7 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
         <div className="mb-10 flex justify-center">
           <Link
             href={`/${locale}/profile`}
-            className="animated-bg mx-auto w-max rounded-lg px-2 py-2 sm:w-full sm:mx-3"
+            className="animated-bg mx-auto w-max rounded-lg px-2 py-2 sm:mx-3 sm:w-full"
           >
             {t("UnAuthenticated")}
           </Link>
