@@ -59,14 +59,14 @@ function OtpPage({ locale }: ILocale) {
             .post("/api/proxy", JSON.stringify(num), {
               headers,
             })
-            .then((res) => console.log(res))
+            .then((res) => {
+              if (res.status === 200) {
+                setOtpCode(res.data.code);
+                setLoading(false);
+                setNextLevel(true);
+              }
+            })
             .catch((error) => console.log(error));
-          // console.log(proxyRes);
-          // if (proxyRes.status === 200) {
-          //   setOtpCode(proxyRes.data.code);
-          //   setLoading(false);
-          //   setNextLevel(true);
-          // }
         }
       }
     }
