@@ -20,7 +20,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("post");
-  console.log(user);
+  // console.log(user);
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
   const E = useTranslations("enum");

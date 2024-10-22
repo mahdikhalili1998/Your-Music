@@ -66,7 +66,12 @@ function OtpPage({ locale }: ILocale) {
                 setNextLevel(true);
               }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              console.log(error);
+              if (error.response.status === 500) {
+                toast.error(E("Server error , try again later"));
+              }
+            });
         }
       }
     }

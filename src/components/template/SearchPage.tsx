@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import Loader from "../module/Loader";
 import { FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
 
 const SearchPage: FC<ILocale> = ({ locale }) => {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -35,7 +36,7 @@ const SearchPage: FC<ILocale> = ({ locale }) => {
         params: { searchValue: value },
         signal: newController.signal,
       });
-      console.log(res);
+      // console.log(res);
       if (res.status === 200) {
         if (res.data.data.length === 0) {
           setNotFound(true);
@@ -117,8 +118,9 @@ const SearchPage: FC<ILocale> = ({ locale }) => {
               </div>
             ) : (
               foundedUser?.map((item) => (
-                <div
-                  className="mx-3 flex items-center justify-center gap-12 rounded-2xl bg-white px-3 py-1"
+                <Link
+                  href={`/${locale}/userPage/${item._id}`}
+                  className="mx-3 flex items-center justify-center gap-6 rounded-2xl bg-white px-3 py-1"
                   key={item._id}
                 >
                   <div className="flex items-center gap-10">
@@ -135,7 +137,7 @@ const SearchPage: FC<ILocale> = ({ locale }) => {
                     </span>
                   </div>
                   <FaChevronRight className="mt-1" />
-                </div>
+                </Link>
               ))
             )}
           </div>
