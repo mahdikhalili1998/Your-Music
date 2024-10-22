@@ -15,12 +15,14 @@ import { IPassword } from "@/types/types";
 import Link from "next/link";
 import { ILocale } from "@/types/props";
 import { useTranslations } from "next-intl";
+import ShowPass from "../element/ShowPass";
 
 function SignInPage({ locale }: ILocale) {
   const [userInfo, setUserInfo] = useState<ISignIn>({
     userName: "",
     password: "",
   });
+  const [showPass, setShowPass] = useState<boolean>(false);
   const [resetPass, setResetPass] = useState<boolean>(false);
   const [otpCode, setOtpCode] = useState<string>("");
   const { userName, password } = userInfo;
@@ -98,7 +100,9 @@ function SignInPage({ locale }: ILocale) {
   // };
 
   return (
-    <div className={`${locale === "fa" ? "font-iransans" : null} relative sm:mx-3`}>
+    <div
+      className={`${locale === "fa" ? "font-iransans" : null} relative sm:mx-3`}
+    >
       {loader ? (
         <div className="absolute left-[5rem] top-[17rem] z-10 blur-none">
           <Loader color="#7e22ce" height={70} width={110} />{" "}
@@ -146,21 +150,29 @@ function SignInPage({ locale }: ILocale) {
                     className="s w-44 bg-inherit px-3 py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-700/65 focus:bg-transparent focus:outline-none"
                   />
                 </div>
-                <div className="flex w-[9rem] items-center border-b-2 border-solid border-p-700">
+                <div className="flex w-[12rem] items-center border-b-2 border-solid border-p-700">
                   <label
                     htmlFor="lock"
                     className={`${locale === "fa" ? "mr-1" : "-mr-5"}`}
                   >
                     <FaLock className="text-lg text-p-700" />
                   </label>
-                  <input
-                    id="lock"
-                    placeholder={locale === "fa" ? "رمز عبور" : "password"}
-                    onChange={(e) => changeHandler(e)}
-                    name="password"
-                    value={userInfo.password}
-                    className="w-44 bg-inherit px-3 py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-700/65 focus:outline-none"
-                  />
+                  <div className="flex">
+                    <input
+                      id="lock"
+                      type={showPass ? "text" : "password"}
+                      placeholder={locale === "fa" ? "رمز عبور" : "password"}
+                      onChange={(e) => changeHandler(e)}
+                      name="password"
+                      value={userInfo.password}
+                      className="w-44 bg-inherit px-3 py-1 text-center text-p-950 placeholder:text-center placeholder:text-p-700/65 focus:outline-none"
+                    />
+                    <ShowPass
+                      showPass={showPass}
+                      setShowPass={setShowPass}
+                      locale={locale}
+                    />
+                  </div>
                 </div>
               </div>
 

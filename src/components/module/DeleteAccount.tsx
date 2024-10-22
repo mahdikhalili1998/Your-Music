@@ -35,11 +35,10 @@ const DeleteAccount: FC<IDeleteAccount> = ({
   };
 
   const yesHandler = async () => {
-    const jsonData = JSON.stringify(user.email); // تبدیل به JSON صحیح
     setLoading(true);
     const toastId = toast.loading(s("Waiting"));
     await axios
-      .delete("/api/delete-account", { data: jsonData })
+      .delete("/api/delete-account")
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
@@ -74,7 +73,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
       </button>
       {isSure ? (
         <div
-          className={`${locale === "fa" ? "450:right-24 absolute 350:right-12 350:top-10 sm:right-28 sm:top-2" : "450:left-24 absolute 350:left-12 350:top-10 sm:left-28 sm:top-2"}`}
+          className={`${locale === "fa" ? "absolute 350:right-12 350:top-10 450:right-24 sm:right-28 sm:top-2" : "absolute 350:left-12 350:top-10 450:left-24 sm:left-28 sm:top-2"}`}
         >
           {finalDeleting ? (
             <div className="flex w-max flex-col items-center justify-center space-y-4 rounded-md bg-gradient-to-r from-p-700 to-p-400 p-4">
@@ -89,7 +88,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
                     onClick={(e) => yesHandler()}
                     className="rounded-lg bg-red-500 px-2 py-1 text-sm font-medium text-white"
                   >
-                    {s(" Yes ...")}
+                    {s("Yes")}
                   </button>
                   <button
                     onClick={(e) => {
@@ -98,7 +97,7 @@ const DeleteAccount: FC<IDeleteAccount> = ({
                     }}
                     className="rounded-lg bg-green-500 px-2 py-1 text-sm font-medium text-white"
                   >
-                    {s("No !")}
+                    {s("No")}
                   </button>
                 </div>
               )}

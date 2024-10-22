@@ -22,7 +22,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
-  // console.log(user);
+  // console.log(info);
 
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [profPic, setProfPic] = useState<string>("");
@@ -73,13 +73,14 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
     <div>
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
+      
         return (
           <div
             key={item._id}
             className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
           >
             <div className="flex items-center justify-between">
-              {userInfo && (
+              {userInfo ? (
                 <Link
                   href={`/${locale}/userPage/${userInfo._id}`}
                   className="flex items-center justify-start gap-3"
@@ -96,7 +97,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                     {userInfo.userName}
                   </span>
                 </Link>
-              )}
+              ) : null}
               <div className="relative">
                 <SlOptionsVertical
                   className="-mt-1"

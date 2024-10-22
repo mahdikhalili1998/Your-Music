@@ -14,8 +14,8 @@
     "Setting": "Setting",
     "Persian": "Persian",
     "English": "English",
-    "Yes": " Yes ...",
-    "No": "No !",
+    "Yes": "Yes",
+    "No": "No",
     "Type": "Type",
     "to continue": "to continue ...",
     "Delete": "Delete",
@@ -95,7 +95,8 @@
     "Contains uppercase English letter": "uppercase English letter",
     "Contains number": "Contains number",
     "Contains special character": "special character",
-    "Must be English": "Must be English"
+    "Must be English": "Must be English",
+    "card": "To participate in the lottery"
   },
   "welcomeMdoule": { "Welcome": "Welcome" },
   "sendOtpPage": {

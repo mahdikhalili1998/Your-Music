@@ -6,6 +6,8 @@ import AvatarEditor from "react-avatar-editor";
 import { IImgProfile, IProfilePicProps } from "@/types/types";
 import { profileImages } from "@/constant/image";
 import { useTranslations } from "next-intl";
+import { IoMdAddCircle } from "react-icons/io";
+import Loader from "./Loader";
 
 const ProfilePic: FC<IProfilePicProps> = ({
   setUserInfo,
@@ -21,6 +23,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
     other: profileImages.men,
     user: "",
   });
+  const [loader, setLoader] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
@@ -37,13 +40,21 @@ const ProfilePic: FC<IProfilePicProps> = ({
   };
 
   const handleSave = async () => {
-    if (editorRef.current && image) {
-      const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
-      const blob = await fetch(canvas).then((res) => res.blob());
-      const file = new File([blob], image.name, { type: image.type });
+    setLoader(true);
+    try {
+      if (editorRef.current && image) {
+        const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
+        const blob = await fetch(canvas).then((res) => res.blob());
+        const file = new File([blob], image.name, { type: image.type });
 
-      // آپلود تصویر به Supabase
-      handleUpload(file);
+        await handleUpload(file);
+      } else {
+        console.error("Editor or image is not available.");
+      }
+    } catch (error) {
+      console.error("Error during save process:", error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -94,7 +105,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
       <div className="relative z-10 mx-auto">
         <div
           onClick={() => fileInputRef.current?.click()}
-          className={`${isEditing && image ? "pointer-events-none blur-sm" : null} border-3 z-10 flex cursor-pointer items-center justify-center rounded-full border-solid border-p-700 bg-white`}
+          className={`${isEditing && image ? "pointer-events-none blur-sm" : null} border-3 relative z-10 flex cursor-pointer items-center justify-center rounded-full border-solid border-p-700 bg-white`}
         >
           <Image
             alt="profile.pic"
@@ -114,6 +125,9 @@ const ProfilePic: FC<IProfilePicProps> = ({
             height={400}
             className={`h-[8rem] w-[8rem] rounded-full border-[3px] border-solid border-white shadow-lg shadow-p-400 380:h-[10rem] 380:w-[10rem]`}
           />
+          <span className="absolute bottom-0 right-4">
+            <IoMdAddCircle className="rounded-[100%] bg-white text-3xl text-blue-700" />
+          </span>
         </div>
         <input
           type="file"
@@ -124,7 +138,7 @@ const ProfilePic: FC<IProfilePicProps> = ({
         />
       </div>
       {isEditing && image && (
-        <div className="400:left-[45px] 500:left-[96px] 600:left-[138px] 600:top-[184px] 640:left-[185px] absolute -left-5 top-8 z-[11] bg-gray-900/50 py-3 330:left-[16px] 330:top-[168px] 820:left-[263px] 1170:left-[29rem]">
+        <div className="absolute -left-5 top-8 z-[11] bg-gray-900/50 py-3 330:left-[16px] 330:top-[168px] 400:left-[45px] 500:left-[96px] 600:left-[138px] 600:top-[184px] 640:left-[185px] 820:left-[263px] 1170:left-[29rem]">
           <AvatarEditor
             ref={editorRef}
             image={image}
@@ -150,7 +164,13 @@ const ProfilePic: FC<IProfilePicProps> = ({
                 onClick={handleSave}
                 className="rounded-lg bg-p-700 px-2 py-1 text-sm font-medium text-p-200"
               >
-                {t("Save")}
+                {loader ? (
+                  <div className="mx-auto w-max">
+                    <Loader color="#fff" height={20} width={40} />
+                  </div>
+                ) : (
+                  t("Save")
+                )}
               </button>
               <button
                 onClick={handleCnacle}

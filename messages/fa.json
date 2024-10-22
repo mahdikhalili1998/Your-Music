@@ -96,7 +96,8 @@
     "Contains uppercase English letter": "یک حرف بزرگ انگلیسی",
     "Contains number": "شامل اعداد باشد",
     "Contains special character": "یک کارکتر خاص",
-    "Must be English": "باید انگیلیسی باشد"
+    "Must be English": "باید انگیلیسی باشد",
+    "card": "برای شرکت در قرعه کشی"
   },
   "sendOtpPage": {
     "Enter your phone number :": "شماره تلفن خود را وارد کنید :",

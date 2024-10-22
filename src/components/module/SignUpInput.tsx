@@ -223,19 +223,27 @@ const SignUpInput: FC<ISignupPage> = ({
             </li>
           </ul>
         </div>
-
-        <input
-          className={`${classNames} ${regexInfo.creditCard.test(creditCardNumber) ? "focus:border-green-500" : "focus:border-red-700"}`}
-          type="text"
-          value={creditCardNumber}
-          name="creditCardNumber"
-          placeholder={
-            locale === "fa"
-              ? "  شماره کارت (الزامی) "
-              : "Credit Card (Mandatory)"
-          }
-          onChange={(e) => changeHandler(e)}
-        />
+        <div>
+          <input
+            className={`${classNames} ${regexInfo.creditCard.test(creditCardNumber) ? "focus:border-green-500" : "focus:border-red-700"}`}
+            type="text"
+            value={creditCardNumber}
+            name="creditCardNumber"
+            placeholder={
+              locale === "fa"
+                ? "  شماره کارت (الزامی) "
+                : "Credit Card (Mandatory)"
+            }
+            onChange={(e) => changeHandler(e)}
+          />
+          <ul className="list-disc">
+            <li
+              className={`${locale === "fa" ? "mr-4" : "ml-4"} pt-1 text-sm text-gray-400`}
+            >
+              {t("card")}
+            </li>
+          </ul>
+        </div>
 
         {loading ? (
           <div className="mx-auto w-max">
