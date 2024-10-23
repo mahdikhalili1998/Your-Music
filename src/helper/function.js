@@ -1,3 +1,5 @@
+import userPost from "@/model/userPost";
+
 export function clearLocalStorage() {
   localStorage.clear();
 }
@@ -28,3 +30,11 @@ export const truncateText = (text, charLimit = 15) => {
   }
   return text;
 };
+
+export function splitStringByComma(str) {
+  if (!str || typeof str !== "string") {
+    throw new Error("Input must be a valid string");
+  }
+  return str.split(",");
+}
+

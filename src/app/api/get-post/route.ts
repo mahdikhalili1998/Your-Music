@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     await ConnectDB();
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("id");
-    // console.log(searchParams);
+    // console.log(userId);
     if (!userId) {
       return NextResponse.json(
         { message: MESSSGE.USER_NOT_FOUND },
@@ -16,10 +16,11 @@ export async function GET(req: NextRequest) {
       );
     }
     const userPosts = await userPost.find({ userId });
-    if (!userPosts) {
+
+    if (userPosts.length === 0) {
       return NextResponse.json(
-        { message: MESSSGE.NO_POST },
-        { status: STATUS.DELETE },
+        { message: MESSSGE.NOT_POST_FOUNDED },
+        { status: STATUS.NOT_FOUND },
       );
     }
 

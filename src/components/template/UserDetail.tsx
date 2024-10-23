@@ -17,17 +17,19 @@ import { FaRegBookmark } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
+  // console.log(user);
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
+  const [noPostSave, setNoPostSave] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("post");
-  // console.log(user);
+  const [savePost, setSavePost] = useState<any[]>(null);
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
   const E = useTranslations("enum");
   const t = useTranslations("overViwe");
   const { status, data } = useSession();
   const router = useRouter();
-
+  // console.log(posts);
   useEffect(() => {
     const dataFetcher = async () => {
       setLoader(true);
@@ -42,11 +44,9 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           .catch((error) => {
             console.log(error);
             if (error.response.status === 404) {
-              toast.error(E("Error in sending request"));
+              setNoPost(true);
             } else if (error.response.status === 403) {
               toast.error(E("Can Not Find User"));
-            } else if (error.response.status === 204) {
-              setNoPost(true);
             }
           });
       } else {
@@ -55,7 +55,28 @@ const UserDetail: FC<ILocale> = ({ user }) => {
 
       setLoader(false);
     };
+    const getSavePosts = async () => {
+      const userSavePosts = user.savePost.join(",");
+      await axios
+        .get("/api/save-post", { params: { user: userSavePosts } })
+        .then((res) => {
+          if (res.status === 200) {
+            setSavePost(res.data.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 404) {
+            toast.error(E("Error in sending request"));
+          } else if (error.response.status === 403) {
+            toast.error(E("Can Not Find User"));
+          } else if (error.response.status === 204) {
+            setNoPostSave(true);
+          }
+        });
+    };
     dataFetcher();
+    getSavePosts();
   }, [user]);
 
   const categoryHandler = (e: string) => {
@@ -95,7 +116,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               <h3 className="text-xl font-medium">{t("Posts")}</h3>
               {posts?.length ? (
                 <span className="text-lg font-medium">{posts.length}</span>
-              ) : posts?.length === 0 ? (
+              ) : posts === null ? (
                 <span className="text-lg font-medium">0</span>
               ) : (
                 <span className="mt-1">
@@ -151,8 +172,19 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           {category === "post" && (
             <ProfilePost
               loader={loader}
-              posts={posts}
               noPost={noPost}
+              posts={posts}
+              noPostSave={noPostSave}
+              locale={locale}
+            />
+          )}
+
+          {category === "save" && (
+            <ProfilePost
+              loader={loader}
+              noPost={noPost}
+              posts={savePost}
+              noPostSave={noPostSave}
               locale={locale}
             />
           )}
