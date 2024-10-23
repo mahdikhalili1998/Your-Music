@@ -13,12 +13,11 @@ const ProfilePost: FC<IProfilePost> = ({
   NoPostSave,
 }) => {
   const reversedPost = posts?.toReversed();
-  console.log(noPost);
   return (
     <>
       {" "}
       {noPost || NoPostSave ? (
-        <h2 className="mx-auto mt-8 w-max">No post ...</h2>
+        <h2 className="mx-auto mt-8 w-max text-xl text-p-950">No post ...</h2>
       ) : (
         <div className="mt-7 grid grid-cols-2 gap-3 gap-y-5 400:grid-cols-3 900:grid-cols-4 lg:grid-cols-5">
           {loader ? (

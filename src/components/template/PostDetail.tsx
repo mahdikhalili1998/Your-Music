@@ -33,7 +33,7 @@ function PostDetail() {
   const { data, status } = useSession();
   momentJalaali.loadPersian({ usePersianDigits: true });
   //   authenticated
-  // console.log(detail);
+  // console.log(detail[0].userId);
   useEffect(() => {
     const dataFetcher = async () => {
       await axios
@@ -67,7 +67,7 @@ function PostDetail() {
       .delete("/api/upload", { data: { id: id } })
       .then((res) => {
         if (res.status === 200) {
-          router.refresh();
+          router.push(`/${locale}/userPage/${detail[0]?.userId}`);
         }
       })
       .catch((error) => console.log(error));
@@ -149,7 +149,7 @@ function PostDetail() {
               <source src={item.musicUrl} type="audio/mp3" />
             </audio>
             {userLogInfo ? (
-              <div className="flex pl-2 items-center gap-4">
+              <div className="flex items-center gap-4 pl-2">
                 <span
                   onClick={() => likeHandler(userLogInfo._id, item._id)}
                   className="flex items-center gap-2"
