@@ -66,6 +66,13 @@ export async function GET(req: NextRequest) {
       }),
     );
     const flattenedPosts = findPost.flat();
+    // console.log(flattenedPosts);
+    if (flattenedPosts.length === 0) {
+      return NextResponse.json(
+        { message: MESSSGE.NOT_POST_FOUNDED },
+        { status: STATUS.NOT_FOUND },
+      );
+    }
 
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: flattenedPosts },

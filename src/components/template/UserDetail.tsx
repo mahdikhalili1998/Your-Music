@@ -15,6 +15,7 @@ import Link from "next/link";
 import { LuGrid } from "react-icons/lu";
 import { FaRegBookmark } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import ProfileSavePost from "../module/ProfileSavePost";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
   // console.log(user);
@@ -29,7 +30,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
   const t = useTranslations("overViwe");
   const { status, data } = useSession();
   const router = useRouter();
-  // console.log(posts);
+
   useEffect(() => {
     const dataFetcher = async () => {
       setLoader(true);
@@ -42,7 +43,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
             }
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             if (error.response.status === 404) {
               setNoPost(true);
             } else if (error.response.status === 403) {
@@ -65,13 +66,11 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           if (error.response.status === 404) {
-            toast.error(E("Error in sending request"));
+            setNoPostSave(true);
           } else if (error.response.status === 403) {
             toast.error(E("Can Not Find User"));
-          } else if (error.response.status === 204) {
-            setNoPostSave(true);
           }
         });
     };
@@ -180,7 +179,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           )}
 
           {category === "save" && (
-            <ProfilePost
+            <ProfileSavePost
               loader={loader}
               noPost={noPost}
               posts={savePost}

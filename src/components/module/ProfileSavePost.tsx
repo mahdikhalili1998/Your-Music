@@ -5,18 +5,18 @@ import { Toaster } from "react-hot-toast";
 import Loader from "./Loader";
 import MusicPlayer from "../template/Music";
 
-const ProfilePost: FC<IProfilePost> = ({
+const ProfileSavePost: FC<IProfilePost> = ({
   loader,
   posts,
   locale,
   noPost,
-  NoPostSave,
+  noPostSave,
 }) => {
   const reversedPost = posts?.toReversed();
+  // console.log(noPostSave);
   return (
     <>
-      {" "}
-      {noPost ? (
+      {noPostSave ? (
         <h2 className="mx-auto mt-8 w-max text-xl text-p-950">No post ...</h2>
       ) : (
         <div className="mt-7 grid grid-cols-2 gap-3 gap-y-5 400:grid-cols-3 900:grid-cols-4 lg:grid-cols-5">
@@ -42,4 +42,4 @@ const ProfilePost: FC<IProfilePost> = ({
   );
 };
 
-export default ProfilePost;
+export default ProfileSavePost;

@@ -20,6 +20,8 @@ import isPersian from "@/helper/LanguageRecognizer";
 import momentJalaali from "moment-jalaali";
 import { p2e } from "@/helper/replaceNumber";
 import moment from "moment";
+import { FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark } from "react-icons/fa6";
 
 function PostDetail() {
   const { locale, id } = useParams();
@@ -33,7 +35,7 @@ function PostDetail() {
   const { data, status } = useSession();
   momentJalaali.loadPersian({ usePersianDigits: true });
   //   authenticated
-  // console.log(detail[0].userId);
+  // console.log(status);
   useEffect(() => {
     const dataFetcher = async () => {
       await axios
@@ -79,6 +81,17 @@ function PostDetail() {
       .then((res) => {
         if (res.status === 201) {
           router.refresh();
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const savePostHandler = async (id: string) => {
+    await axios
+      .patch("/api/save-post", { data: id })
+      .then((res) => {
+        if (res.status === 201) {
+          router.push(`/${locale}/userPage/${userLogInfo._id}`);
         }
       })
       .catch((error) => console.log(error));
@@ -164,6 +177,13 @@ function PostDetail() {
                 </span>
                 <span>
                   <FaRegComment className="text-xl" />
+                </span>
+                <span onClick={() => savePostHandler(item._id)}>
+                  {userLogInfo.savePost.includes(item._id) ? (
+                    <FaBookmark className="text-xl" />
+                  ) : (
+                    <FaRegBookmark className="text-xl" />
+                  )}
                 </span>
               </div>
             ) : (
