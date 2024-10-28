@@ -1,6 +1,5 @@
 "use clinet";
 import axios from "axios";
-import { error } from "console";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Loader from "../module/Loader";
@@ -35,7 +34,7 @@ function PostDetail() {
   const { data, status } = useSession();
   momentJalaali.loadPersian({ usePersianDigits: true });
   //   authenticated
-  // console.log(status);
+  // console.log(detail);
   useEffect(() => {
     const dataFetcher = async () => {
       await axios
@@ -69,6 +68,7 @@ function PostDetail() {
       .delete("/api/upload", { data: { id: id } })
       .then((res) => {
         if (res.status === 200) {
+          router.refresh();
           router.push(`/${locale}/userPage/${detail[0]?.userId}`);
         }
       })

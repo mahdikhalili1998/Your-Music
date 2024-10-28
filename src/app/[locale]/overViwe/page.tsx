@@ -11,9 +11,8 @@ async function Page({ params: { locale } }: IParams) {
   if (!session) redirect(`/${locale}/profile`);
   await ConnectDB();
   const user = await userInfo.findOne({ email: session.user.email });
-  if (user) redirect(`/${locale}/userPage/${user._id}`);
 
-  // return <OverViwePage locale={locale} user={user} />;
+  return <OverViwePage locale={locale} user={user} />;
 }
 
 export default Page;

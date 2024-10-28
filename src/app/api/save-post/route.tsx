@@ -48,7 +48,6 @@ export async function PATCH(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     await ConnectDB();
-
     const { searchParams } = new URL(req.url);
     const userIds = searchParams.getAll("user"); // دریافت آرایه به جای یک رشته
     if (!userIds) {
@@ -58,7 +57,6 @@ export async function GET(req: NextRequest) {
       );
     }
     const splitIds = splitStringByComma(userIds[0]);
-
     const findPost = await Promise.all(
       splitIds.map(async (item) => {
         const getPostFromModel = await userPost.find({ _id: item });
@@ -66,14 +64,12 @@ export async function GET(req: NextRequest) {
       }),
     );
     const flattenedPosts = findPost.flat();
-    // console.log(flattenedPosts);
     if (flattenedPosts.length === 0) {
       return NextResponse.json(
         { message: MESSSGE.NOT_POST_FOUNDED },
         { status: STATUS.NOT_FOUND },
       );
     }
-
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: flattenedPosts },
       { status: STATUS.SUCCSESS },

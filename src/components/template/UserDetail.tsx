@@ -18,11 +18,10 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import ProfileSavePost from "../module/ProfileSavePost";
 
 const UserDetail: FC<ILocale> = ({ user }) => {
-  // console.log(user);
   const [loader, setLoader] = useState<boolean>(false);
   const [noPost, setNoPost] = useState<boolean>(false);
-  const [noPostSave, setNoPostSave] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("post");
+  const [noPostSave, setNoPostSave] = useState<boolean>(false);
   const [savePost, setSavePost] = useState<any[]>(null);
   const [posts, setPosts] = useState<any[]>(null);
   const { locale } = useParams();
@@ -43,7 +42,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
             }
           })
           .catch((error) => {
-            // console.log(error);
+            console.log(error);
             if (error.response.status === 404) {
               setNoPost(true);
             } else if (error.response.status === 403) {
@@ -66,7 +65,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           }
         })
         .catch((error) => {
-          // console.log(error);
+          console.log(error);
           if (error.response.status === 404) {
             setNoPostSave(true);
           } else if (error.response.status === 403) {
@@ -74,6 +73,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           }
         });
     };
+
     dataFetcher();
     getSavePosts();
   }, [user]);
@@ -177,7 +177,6 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               locale={locale}
             />
           )}
-
           {category === "save" && (
             <ProfileSavePost
               loader={loader}

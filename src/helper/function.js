@@ -1,5 +1,3 @@
-import userPost from "@/model/userPost";
-
 export function clearLocalStorage() {
   localStorage.clear();
 }

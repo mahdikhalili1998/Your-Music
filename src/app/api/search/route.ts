@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/utils/ConnectDB";
 import { MESSSGE, STATUS } from "@/enums/enum";
 import userInfo from "@/model/userInfo";
-import { getServerSession } from "next-auth";
 
 export async function GET(req: NextRequest) {
   try {
@@ -46,8 +45,8 @@ export async function POST(req: NextRequest) {
   try {
     await ConnectDB();
     const { data } = await req.json();
-    console.log(data);
     const userinfoes = await userInfo.findOne({ email: data });
+    console.log(userinfoes);
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: userinfoes },
       { status: STATUS.SUCCSESS },
