@@ -20,11 +20,14 @@ import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
+import Loader from "./Loader";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   // console.log(info);
 
   const [activePostId, setActivePostId] = useState<string | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [loaderId, setLoaderId] = useState<string>("");
   const [profPic, setProfPic] = useState<string>("");
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -34,6 +37,8 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   momentJalaali.loadPersian({ usePersianDigits: true });
 
   const likeHandler = async (id: string, postId: string) => {
+    setLoaderId(postId);
+    setLoader(true);
     await axios
       .patch("/api/like", { data: { id, postId } })
       .then((res) => {
@@ -42,6 +47,8 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         }
       })
       .catch((error) => console.log(error));
+    setLoader(false);
+    setLoaderId("");
   };
 
   const deleteHandler = async (id: string) => {
@@ -56,6 +63,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   };
 
   const savePostHandler = async (id: string) => {
+    setLoader(true);
     await axios
       .patch("/api/save-post", { data: id })
       .then((res) => {
@@ -64,7 +72,9 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         }
       })
       .catch((error) => console.log(error));
+    setLoader(false);
   };
+
   useEffect(() => {
     router.refresh();
   }, []);
@@ -73,7 +83,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
     <div>
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
-      
+
         return (
           <div
             key={item._id}
@@ -133,18 +143,25 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
             </audio>
             {user ? (
               <div className="flex items-center gap-4">
-                <span
-                  onClick={() => likeHandler(user.id, item._id)}
-                  className="flex items-center gap-2"
-                >
-                  {item.userLikeId.includes(user.id) ? (
-                    <FaHeart className="text-xl text-red-600" />
-                  ) : (
-                    <FaRegHeart className="text-xl" />
-                  )}
+                {loader && loaderId === item._id ? (
+                  <div>
+                    <Loader color="#7e22ce" width={40} height={20} />
+                  </div>
+                ) : (
+                  <span
+                    onClick={() => likeHandler(user.id, item._id)}
+                    className="flex items-center gap-2"
+                  >
+                    {item.userLikeId.includes(user.id) ? (
+                      <FaHeart className="text-xl text-red-600" />
+                    ) : (
+                      <FaRegHeart className="text-xl" />
+                    )}
 
-                  {item.userLikeId.length ? item.userLikeId.length : null}
-                </span>
+                    {item.userLikeId.length ? item.userLikeId.length : null}
+                  </span>
+                )}
+
                 <span>
                   <FaRegComment className="text-xl" />
                 </span>
