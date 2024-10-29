@@ -90,7 +90,7 @@ export interface IProfilePost {
   posts: any[];
   noPost: boolean;
   locale: string;
-  noPostSave: boolean;
+  noPostSave?: boolean;
 }
 export interface IMusicUrl {
   musicUrl: string;

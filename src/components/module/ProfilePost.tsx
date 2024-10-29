@@ -10,7 +10,6 @@ const ProfilePost: FC<IProfilePost> = ({
   posts,
   locale,
   noPost,
-  NoPostSave,
 }) => {
   const reversedPost = posts?.toReversed();
   return (

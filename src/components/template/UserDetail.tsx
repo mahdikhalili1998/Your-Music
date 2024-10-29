@@ -95,7 +95,7 @@ const UserDetail: FC<ILocale> = ({ user }) => {
           <div className="flex gap-2">
             <IoIosArrowRoundBack
               onClick={(e) => router.back()}
-              className="-mt-2 text-5xl"
+              className="-mt-2 text-5xl text-p-950"
             />
             <h1 className="mb-7 flex items-center gap-2 font-Roboto text-lg font-medium text-white">
               <LuUser2 className="-mt-2 text-xl" />
@@ -186,7 +186,6 @@ const UserDetail: FC<ILocale> = ({ user }) => {
               locale={locale}
             />
           )}
-
           <Toaster />
         </div>
       )}

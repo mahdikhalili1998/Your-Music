@@ -58,6 +58,7 @@ const SignUpInput: FC<ISignupPage> = ({
   const classNames = ` w-[10rem] border-b-2 border-solid border-p-700 bg-transparent py-1 pt-5 ${locale === "fa" ? "mr-4" : "ml-4"} text-center text-p-950 placeholder:text-center placeholder:text-p-950 placeholder:opacity-40 read-only:opacity-65 focus:outline-none md:plaeholder:text-lg`;
   const t = useTranslations("signUpPage");
   const E = useTranslations("enum");
+  
   useEffect(() => {
     const userPhone = localStorage.getItem("phoneNumber");
     const userGender = localStorage.getItem("gender");

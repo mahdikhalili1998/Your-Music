@@ -20,6 +20,8 @@ import { MdKeyboardReturn } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { checkWindowSize } from "@/helper/responsiv.js";
+import { IoMdAddCircle } from "react-icons/io";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const [openPersonalModal, setOpenPersonalModal] = useState<boolean>(false);
@@ -43,13 +45,6 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   // console.log(userData.profilePicUrl === profileImages.women);
   useEffect(() => {
     checkWindowSize(setOpenPersonalModal, setOpenLoginModal);
-    const handleResize = () => {
-      checkWindowSize();
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   const handleSave = async () => {
@@ -127,6 +122,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   const personalHandler = () => {
     setOpenPersonalModal((openPersonalModal) => !openPersonalModal);
   };
+
   const loginHandler = () => {
     setOpenLoginModal((openLoginModal) => !openLoginModal);
   };
@@ -170,11 +166,17 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
   return (
     <>
       <div
-        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : "directon-rtl"} items-center justify-center gap-6 bg-gradient-to-r from-p-500 to-p-200 py-6 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-bl-[100%] sm:rounded-tl-[100%] sm:py-10 sm:pr-10 670:w-[38rem] md:mx-auto md:mt-[106px] md:w-max md:rounded-xl md:rounded-bl-xl md:rounded-tl-xl md:px-20`}
+        className={`flex flex-col ${locale === "fa" ? "directon-rtl font-iransans" : "directon-rtl"}  items-center justify-center gap-6 bg-gradient-to-r from-p-500 to-p-200 py-6 sm:mx-3 sm:flex-row sm:justify-start sm:gap-5 sm:rounded-lg sm:py-10 sm:pr-10 md:mx-auto md:mt-[106px] md:w-max md:rounded-xl md:rounded-bl-xl md:rounded-tl-xl md:px-20`}
       >
+        <div className="ml-3 mr-auto w-max sm:hidden">
+          <IoIosArrowRoundBack
+            onClick={(e) => router.back()}
+            className="-mt-2 text-5xl text-p-950"
+          />
+        </div>
         <div className="flex-col gap-8 sm:flex">
           <div className="relative">
-            <div onClick={(e) => changeProfHandler()}>
+            <div className="relative" onClick={(e) => changeProfHandler()}>
               <Image
                 src={userData.profilePicUrl}
                 width={400}
@@ -183,6 +185,11 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
                 className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} ${profileOption ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} h-[9rem] w-[9rem] rounded-[100%] border-[3px] border-white shadow-xl shadow-p-500 sm:size-[11rem]`}
                 priority
               />
+              {!profileOption && (
+                <span className="absolute bottom-0 right-4">
+                  <IoMdAddCircle className="rounded-[100%] bg-white text-3xl text-blue-700" />
+                </span>
+              )}
             </div>
             <input
               type="file"
@@ -253,13 +260,21 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
               </div>
             </div>
           )}
-          <button
-            onClick={(e) => signOutHandler()}
-            className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} hidden items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white sm:flex`}
-          >
-            {t("Sign Out")}
-            <RiLogoutCircleRLine className="text-2xl font-medium" />
-          </button>
+          <div className="flex flex-col items-center justify-center gap-4">
+            <button
+              onClick={(e) => signOutHandler()}
+              className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} hidden items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white sm:flex`}
+            >
+              {t("Sign Out")}
+              <RiLogoutCircleRLine className="text-2xl font-medium" />
+            </button>
+            <div className="mx-auto hidden w-max">
+              <IoIosArrowRoundBack
+                onClick={(e) => router.back()}
+                className="-mt-2 text-5xl text-p-950"
+              />
+            </div>
+          </div>
         </div>
         <div
           className={`${isEditing && image ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex flex-col items-center justify-start gap-4 sm:flex-row`}
@@ -305,6 +320,7 @@ const ProfileDetail: FC<IProf> = ({ userData, locale }) => {
             />
           </div>
         </div>
+
         <button
           onClick={(e) => signOutHandler()}
           className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 font-medium text-white sm:hidden`}

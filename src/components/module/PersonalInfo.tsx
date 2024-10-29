@@ -11,6 +11,7 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import momentJalaali from "moment-jalaali";
 import { p2e } from "@/helper/replaceNumber.js";
+import isPersian from "@/helper/LanguageRecognizer.js";
 
 const PersonalInfo: FC<IProfileDetail> = ({
   userData,
@@ -30,6 +31,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
     _id: userData._id,
     bio: userData.bio,
   });
+
 
   const [changingOption, setChangingOption] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -122,7 +124,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("Name")} : </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
+                className={`${isPersian(editedInfo.name) || isPersian(userData.name) ? "font-iransans" : "font-Roboto"} rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]`}
                 ref={inputRef}
                 type="text"
                 name="name"
@@ -132,8 +134,14 @@ const PersonalInfo: FC<IProfileDetail> = ({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center">
-              <span className="font-medium text-rose-800">{t("Name")} : </span>
-              <span>{edit ? editedInfo.name : userData.name}</span>
+              <span className={`font-medium text-rose-800`}>
+                {t("Name")} :{" "}
+              </span>
+              <span
+                className={`${isPersian(editedInfo.name) || isPersian(userData.name) ? "font-iransans" : "font-Roboto"}`}
+              >
+                {edit ? editedInfo.name : userData.name}
+              </span>
             </div>
           )}
         </li>
@@ -145,7 +153,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
                 {t("lastName")} :{" "}
               </span>
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
+                className={`${isPersian(editedInfo.lastName) || isPersian(userData.lastName) ? "font-iransans" : "font-Roboto"} rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]`}
                 ref={inputRef}
                 type="text"
                 name="lastName"
@@ -158,7 +166,11 @@ const PersonalInfo: FC<IProfileDetail> = ({
               <span className="font-medium text-rose-800">
                 {t("lastName")} :{" "}
               </span>
-              <span>{edit ? editedInfo.lastName : userData.lastName}</span>
+              <span
+                className={`${isPersian(editedInfo.lastName) || isPersian(userData.lastNames) ? "font-iransans" : "font-Roboto"}`}
+              >
+                {edit ? editedInfo.lastName : userData.lastName}
+              </span>
             </div>
           )}
         </li>
@@ -168,7 +180,7 @@ const PersonalInfo: FC<IProfileDetail> = ({
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("bio")} : </span>{" "}
               <input
-                className="rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]"
+                className={`${isPersian(editedInfo.bio) || isPersian(userData.bio) ? "font-iransans" : "font-Roboto"} rounded-xl bg-transparent px-2 py-1 text-center text-p-950 focus:border-4 focus:border-solid focus:border-p-500 focus:outline-4 focus:outline-white sm:w-[6rem]`}
                 ref={inputRef}
                 type="text"
                 name="bio"
@@ -179,7 +191,11 @@ const PersonalInfo: FC<IProfileDetail> = ({
           ) : (
             <div className="flex flex-col items-center justify-center">
               <span className="font-medium text-rose-800">{t("bio")} : </span>
-              <span>{edit ? editedInfo.bio : userData.bio}</span>
+              <span
+                className={`${isPersian(editedInfo.bio) || isPersian(userData.bio) ? "font-iransans" : "font-Roboto"}`}
+              >
+                {edit ? editedInfo.bio : userData.bio}
+              </span>
             </div>
           )}
         </li>
