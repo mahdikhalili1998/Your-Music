@@ -21,7 +21,8 @@
     "Delete": "حذف",
     "Cancle": "لغو",
     "The values ​​are not the same": "مقدار خواسته شده با مقدار وارد شده تطابق ندارد",
-    "Waiting": "منتظر بمانید"
+    "Waiting": "منتظر بمانید",
+    "Sign Out": "خروج از حساب"
   },
   "profileDetailPage": {
     "Save": "ذخیره",
@@ -144,7 +145,8 @@
   "showPostPage": {
     "delete": "حذف",
     "download": "دانلود",
-    "sign in": "لطفا وارد حساب خود شوید"
+    "sign in": "لطفا وارد حساب خود شوید",
+    "comment": "برای دیدن کامنت ها باید حساب داشته باشید"
   },
   "pageNotFound": {
     "Page was not found": "صفحه ی مورد نظر یافت نشد",

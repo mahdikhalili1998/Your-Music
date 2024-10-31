@@ -28,6 +28,8 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [loaderId, setLoaderId] = useState<string>("");
+  const [showComment, setShowComment] = useState<boolean>(false);
+  const [saveId, setSaveId] = useState<string>("");
   const [profPic, setProfPic] = useState<string>("");
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -62,7 +64,13 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       .catch((error) => console.log(error));
   };
 
+  const showCommentHandler = (item) => {
+    console.log(item);
+    setShowComment(true);
+  };
+
   const savePostHandler = async (id: string) => {
+    setSaveId(id);
     setLoader(true);
     await axios
       .patch("/api/save-post", { data: id })
@@ -73,6 +81,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       })
       .catch((error) => console.log(error));
     setLoader(false);
+    setSaveId("");
   };
 
   useEffect(() => {
@@ -80,7 +89,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
 
@@ -162,17 +171,23 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   </span>
                 )}
 
-                <span>
+                <span onClick={(e) => showCommentHandler(item._id)}>
                   <FaRegComment className="text-xl" />
                 </span>
-
-                <span onClick={() => savePostHandler(item._id)}>
-                  {user.savePost.includes(item._id) ? (
-                    <FaBookmark className="text-xl" />
-                  ) : (
-                    <FaRegBookmark className="text-xl" />
-                  )}
-                </span>
+                {loader && saveId === item._id ? (
+                  <div>
+                    {" "}
+                    <Loader color="#7e22ce" width={40} height={20} />
+                  </div>
+                ) : (
+                  <span onClick={() => savePostHandler(item._id)}>
+                    {user.savePost.includes(item._id) ? (
+                      <FaBookmark className="text-xl" />
+                    ) : (
+                      <FaRegBookmark className="text-xl" />
+                    )}
+                  </span>
+                )}
               </div>
             ) : (
               <div className="flex items-center gap-4">
@@ -183,7 +198,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   <FaRegHeart className="text-xl" />
                   {item.userLikeId.length}
                 </span>
-                <span onClick={(e) => toast.error(t("sign in"))}>
+                <span onClick={(e) => toast.error(t("comment"))}>
                   <FaRegComment className="text-xl" />
                 </span>
                 <span onClick={(e) => toast.error(t("sign in"))}>
@@ -207,6 +222,13 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         );
       })}
       <Toaster />
+      <div
+        className={`${showComment ? "-translate-y-[100%]" : "translate-y-[100%]"} fixed h-full w-screen bg-red-400 transition-transform duration-300`}
+      >
+        <span onClick={(e) => setShowComment(false)} className="text-3xl">
+          ←
+        </span>
+      </div>
     </div>
   );
 };

@@ -9,17 +9,24 @@ import { ISession } from "@/types/props";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const SettingPage: FC<ISession> = ({ user, session, locale }) => {
   const [isSure, setIsSure] = useState<boolean>(false);
   const [finalDeleting, setFinalDeleting] = useState<boolean>(false);
   const [language, setLanguage] = useState<boolean>(false);
+  const [isBlur, setIsBlur] = useState<boolean>(false);
   const t = useTranslations("SettingPage");
   const router = useRouter();
 
   const languageHandler = (lang) => {
-    setLanguage(false);
+    setLanguage(true);
     router.push(`/${lang}/`);
+  };
+
+  const signOutHandler = () => {
+    signOut({ callbackUrl: `/${locale}/profile` });
   };
 
   return (
@@ -46,7 +53,7 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
           locale === "en"
             ? "-ml-2 w-max rounded-br-full rounded-tr-full bg-white p-2 pr-20"
             : "-mr-2 w-max rounded-bl-full rounded-tl-full bg-white p-2 pl-20 pr-4"
-        } 900:rounded-2xl 900:mx-auto 900:space-y-3 sm:py-5`}
+        } sm:py-5 900:mx-auto 900:space-y-3 900:rounded-2xl`}
       >
         {language ? (
           <div className="flex flex-col gap-3">
@@ -82,10 +89,16 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
                 />
               </span>
             </div>
+            <div onClick={(e) => setLanguage(false)} className="ml-auto w-max">
+              <span>
+                {" "}
+                <IoIosArrowRoundBack className="-mt-2 text-4xl text-p-950" />
+              </span>
+            </div>
           </div>
         ) : (
           <>
-            {user?.email ? (
+            {session?.user?.email ? (
               <>
                 <DeleteAccount
                   user={user}
@@ -122,6 +135,15 @@ const SettingPage: FC<ISession> = ({ user, session, locale }) => {
             <p className={`${isSure ? "pointer-events-none blur-sm" : null}`}>
               {t("Theme")}
             </p>
+            {session?.user?.email ? (
+              <button
+                onClick={(e) => signOutHandler()}
+                className={`${isBlur ? "pointer-events-none blur-sm" : "pointer-events-auto blur-none"} flex items-center gap-2 font-medium text-red-500`}
+              >
+                {t("Sign Out")}
+                {/* <RiLogoutCircleRLine className="text-2xl font-medium" /> */}
+              </button>
+            ) : null}
           </>
         )}
       </div>

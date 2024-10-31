@@ -24,6 +24,8 @@ import { FaBookmark } from "react-icons/fa6";
 
 function PostDetail() {
   const { locale, id } = useParams();
+  const [loaderId, setLoaderId] = useState<string>("");
+  const [loader, setLoader] = useState<boolean>(false);
   const [detail, setDetail] = useState<any[]>([]);
   const [userLogInfo, setUserLogInfo] = useState<any>();
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -76,14 +78,19 @@ function PostDetail() {
   };
 
   const likeHandler = async (id: string, postId: string) => {
+    setLoaderId(postId);
+    setLoader(true);
     await axios
       .patch("/api/like", { data: { id, postId } })
       .then((res) => {
+        // console.log(res);
         if (res.status === 201) {
           router.refresh();
         }
       })
       .catch((error) => console.log(error));
+    setLoaderId("");
+    setLoader(false);
   };
 
   const savePostHandler = async (id: string) => {
@@ -163,18 +170,25 @@ function PostDetail() {
             </audio>
             {userLogInfo ? (
               <div className="flex items-center gap-4 pl-2">
-                <span
-                  onClick={() => likeHandler(userLogInfo._id, item._id)}
-                  className="flex items-center gap-2"
-                >
-                  {item.userLikeId.includes(userLogInfo._id) ? (
-                    <FaHeart className="text-xl text-red-600" />
-                  ) : (
-                    <FaRegHeart className="text-xl" />
-                  )}
+                {loader && loaderId === item._id ? (
+                  <div>
+                    <Loader color="#7e22ce" width={40} height={20} />
+                  </div>
+                ) : (
+                  <span
+                    onClick={() => likeHandler(userLogInfo._id, item._id)}
+                    className="flex items-center gap-2"
+                  >
+                    {item.userLikeId.includes(userLogInfo._id) ? (
+                      <FaHeart className="text-xl text-red-600" />
+                    ) : (
+                      <FaRegHeart className="text-xl" />
+                    )}
 
-                  {item.userLikeId.length ? item.userLikeId.length : null}
-                </span>
+                    {item.userLikeId.length ? item.userLikeId.length : null}
+                  </span>
+                )}
+
                 <span>
                   <FaRegComment className="text-xl" />
                 </span>

@@ -21,7 +21,8 @@
     "Delete": "Delete",
     "Cancle": "Cancle",
     "The values ​​are not the same": "The values ​​are not the same",
-    "Waiting": "Waiting..."
+    "Waiting": "Waiting...",
+    "Sign Out": "Sign Out"
   },
   "profileDetailPage": {
     "Save": "Save",
@@ -144,7 +145,8 @@
   "showPostPage": {
     "delete": "delete",
     "download": "download",
-    "sign in": "please sign in/up"
+    "sign in": "please sign in/up",
+    "comment": "sign in/up for see comment"
   },
   "pageNotFound": {
     "Page was not found": "Page was not found",
