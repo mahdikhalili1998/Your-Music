@@ -21,6 +21,7 @@ import Link from "next/link";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
 import Loader from "./Loader";
+import CommentModal from "./CommentModal";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   // console.log(info);
@@ -28,9 +29,8 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [loaderId, setLoaderId] = useState<string>("");
-  const [showComment, setShowComment] = useState<boolean>(false);
+  const [showComment, setShowComment] = useState<boolean>(true);
   const [saveId, setSaveId] = useState<string>("");
-  const [profPic, setProfPic] = useState<string>("");
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
@@ -218,17 +218,19 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
                 : p2e(moment(item.createdAt).format("YYYY/MM/DD"))}
             </p>
+            <div
+              className={`${showComment ? "-translate-y-[100%]" : "translate-y-[100%]"} fixed h-full w-screen bg-slate-100 transition-transform duration-300`}
+            >
+              <CommentModal
+                setShowComment={setShowComment}
+                post={item}
+                locale={locale}
+              />
+            </div>
           </div>
         );
       })}
       <Toaster />
-      <div
-        className={`${showComment ? "-translate-y-[100%]" : "translate-y-[100%]"} fixed h-full w-screen bg-red-400 transition-transform duration-300`}
-      >
-        <span onClick={(e) => setShowComment(false)} className="text-3xl">
-          ←
-        </span>
-      </div>
     </div>
   );
 };

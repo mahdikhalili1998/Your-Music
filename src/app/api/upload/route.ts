@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       profilePicUrl: user.profilePicUrl,
       userName: user.userName,
       userLikeId: [],
+      comment: [],
       description,
       musicUrl: cutAudioUrl,
       userId: new Types.ObjectId(user._id),

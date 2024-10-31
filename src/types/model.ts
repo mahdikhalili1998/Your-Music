@@ -22,6 +22,7 @@ export interface IUserPostModel {
   userName: string;
   profilePicUrl: string;
   userLikeId: string[];
+  comment: string[];
   createdAt: Date;
   updatedAt: Date;
 }

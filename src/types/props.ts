@@ -98,3 +98,8 @@ export interface IMusicUrl {
   date: Date;
   id: string;
 }
+export interface ICommentModal {
+  setShowComment: Function;
+  post: Object;
+  locale: string;
+}
