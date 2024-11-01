@@ -100,6 +100,7 @@ export interface IMusicUrl {
 }
 export interface ICommentModal {
   setShowComment: Function;
-  post: Object;
+  showComment: boolean;
+  postId: string;
   locale: string;
 }

@@ -29,8 +29,9 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [loaderId, setLoaderId] = useState<string>("");
-  const [showComment, setShowComment] = useState<boolean>(true);
+  const [showComment, setShowComment] = useState<boolean>(false);
   const [saveId, setSaveId] = useState<string>("");
+  const [postId, setPostId] = useState<string>("");
   const reversedPost = post.toReversed();
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
@@ -64,8 +65,8 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       .catch((error) => console.log(error));
   };
 
-  const showCommentHandler = (item) => {
-    console.log(item);
+  const showCommentHandler = (id) => {
+    setPostId(id);
     setShowComment(true);
   };
 
@@ -89,14 +90,13 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className={`relative`}>
       {reversedPost.map((item) => {
         const userInfo = info.find((user) => user._id === item.userId);
-
         return (
           <div
             key={item._id}
-            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
+            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} ${showComment ? "overflow-hidde" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
           >
             <div className="flex items-center justify-between">
               {userInfo ? (
@@ -218,18 +218,19 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
                 : p2e(moment(item.createdAt).format("YYYY/MM/DD"))}
             </p>
-            <div
-              className={`${showComment ? "-translate-y-[100%]" : "translate-y-[100%]"} fixed h-full w-screen bg-slate-100 transition-transform duration-300`}
-            >
-              <CommentModal
-                setShowComment={setShowComment}
-                post={item}
-                locale={locale}
-              />
-            </div>
           </div>
         );
       })}
+      <div
+        className={`${showComment ? "-translate-y-[176%]" : "translate-y-[100%]"} directon-ltr fixed z-20 h-full w-screen bg-slate-100 transition-transform duration-300`}
+      >
+        <CommentModal
+          showComment={showComment}
+          setShowComment={setShowComment}
+          postId={postId}
+          locale={locale}
+        />
+      </div>
       <Toaster />
     </div>
   );

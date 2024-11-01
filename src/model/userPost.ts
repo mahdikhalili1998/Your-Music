@@ -10,7 +10,8 @@ const userPostSchema = new Schema<IUserPostModel>(
     profilePicUrl: { type: String, required: true },
     userName: { type: String, required: true },
     userLikeId: { type: [String], required: false },
-    comment: { type: [String], requireed: false },
+    comment: { type: [], requireed: true },
+
     createdAt: { type: Date, default: Date.now() }, // تاریخ ایجاد به صورت دستی
     updatedAt: { type: Date, default: Date.now() }, // تاریخ به‌روزرسانی به صورت دستی
   },

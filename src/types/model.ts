@@ -22,7 +22,16 @@ export interface IUserPostModel {
   userName: string;
   profilePicUrl: string;
   userLikeId: string[];
-  comment: string[];
+  comment: object[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IUserCommentModel {
+  userId: any;
+  userName: string;
+  profilePicUrl: string;
+  comment: string;
   createdAt: Date;
   updatedAt: Date;
 }
