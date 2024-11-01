@@ -63,10 +63,10 @@ const CommentModal: FC<ICommentModal> = ({
   };
 
   return (
-    <div className="max-h-[43rem] space-y-8 overflow-y-scroll">
+    <div className="max-h-[43rem] space-y-10 overflow-y-scroll">
       <span
         onClick={(e) => setShowComment(false)}
-        className="flex justify-center"
+        className="fixed -top-1 flex justify-center"
       >
         <TbMenuOrder className="m-2 w-80 rounded-xl bg-p-300 text-3xl" />
       </span>

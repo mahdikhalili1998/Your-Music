@@ -1,3 +1,4 @@
+// Import required packages
 "use client";
 
 import { IShowPost } from "@/types/props";
@@ -24,8 +25,6 @@ import Loader from "./Loader";
 import CommentModal from "./CommentModal";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
-  // console.log(info);
-
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
   const [loaderId, setLoaderId] = useState<string>("");
@@ -36,7 +35,6 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
   const t = useTranslations("showPostPage");
-  const E = useTranslations("enum");
   momentJalaali.loadPersian({ usePersianDigits: true });
 
   const likeHandler = async (id: string, postId: string) => {
@@ -86,8 +84,17 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   };
 
   useEffect(() => {
-    router.refresh();
-  }, []);
+    // Disable scrolling on body when showing comments
+    if (showComment) {
+      document.body.style.overflow = "hidden"; // Disable body scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Enable body scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup to enable scrolling again
+    };
+  }, [showComment]);
 
   return (
     <div className={`relative`}>
@@ -96,7 +103,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         return (
           <div
             key={item._id}
-            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} ${showComment ? "overflow-hidde" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
+            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 mt-4 flex flex-col gap-5 border-b-2 border-solid border-gray-400 pb-4 md:mx-10 lg:mx-20`}
           >
             <div className="flex items-center justify-between">
               {userInfo ? (
@@ -126,9 +133,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 />
                 <div
                   ref={(el) => (refs.current[item._id] = el)}
-                  className={`${
-                    activePostId !== item._id ? "hidden" : "absolute right-1"
-                  } ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
+                  className={`${activePostId !== item._id ? "hidden" : "absolute right-1"} ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
                 >
                   {!user ? null : user.userName === item.userName ? (
                     <span
@@ -166,17 +171,14 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                     ) : (
                       <FaRegHeart className="text-xl" />
                     )}
-
                     {item.userLikeId.length ? item.userLikeId.length : null}
                   </span>
                 )}
-
                 <span onClick={(e) => showCommentHandler(item._id)}>
                   <FaRegComment className="text-xl" />
                 </span>
                 {loader && saveId === item._id ? (
                   <div>
-                    {" "}
                     <Loader color="#7e22ce" width={40} height={20} />
                   </div>
                 ) : (
@@ -207,9 +209,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
               </div>
             )}
             <p
-              className={`${
-                isPersian(item.description) ? "font-iransans" : "font-Roboto"
-              } font-medium text-p-950`}
+              className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
             >
               {item.description}
             </p>
@@ -222,7 +222,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         );
       })}
       <div
-        className={`${showComment ? "-translate-y-[176%]" : "translate-y-[100%]"} directon-ltr fixed z-20 h-full w-screen bg-slate-100 transition-transform duration-300`}
+        className={`${showComment ? "fixed left-0 right-0 top-0 z-20 h-full overflow-y-scroll bg-slate-100" : "hidden"} directon-ltr`}
       >
         <CommentModal
           showComment={showComment}
