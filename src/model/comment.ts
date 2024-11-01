@@ -1,10 +1,12 @@
 import { IUserCommentModel } from "@/types/model";
 import { model, models, Schema } from "mongoose";
 import userInfo from "@/model/userInfo";
+import userPost from "./userPost";
 
 const userCommentSchema = new Schema<IUserCommentModel>(
   {
     userId: { type: Schema.Types.ObjectId, ref: userInfo },
+    postId: { type: Schema.Types.ObjectId, ref: userPost },
     profilePicUrl: { type: String, required: true },
     userName: { type: String, required: true },
     comment: { type: String, requireed: true },

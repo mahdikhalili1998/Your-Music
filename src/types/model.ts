@@ -29,6 +29,7 @@ export interface IUserPostModel {
 
 export interface IUserCommentModel {
   userId: any;
+  postId: any;
   userName: string;
   profilePicUrl: string;
   comment: string;

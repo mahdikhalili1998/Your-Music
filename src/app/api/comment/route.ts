@@ -34,12 +34,13 @@ export async function POST(req: NextRequest) {
       profilePicUrl: user.profilePicUrl,
       userName: user.userName,
       comment: commentText,
+      postId: new Types.ObjectId(id),
       userId: new Types.ObjectId(user._id),
     });
 
     // console.log(commentText);
 
-    const comment = await userComment.find({ userId: user._id });
+    const comment = await userComment.find({ postId: id });
 
     const post = await userPost.findOne({ _id: id });
 
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
       }
     });
     post.save();
-    // console.log(post);
+    console.log(post);
 
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: post },
