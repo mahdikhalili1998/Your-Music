@@ -25,7 +25,7 @@ const CommentModal: FC<ICommentModal> = ({
       await axios
         .get("/api/comment", { params: { id: postId } })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             setComments(null);
             setComments(res.data.data);
