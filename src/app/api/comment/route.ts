@@ -77,6 +77,7 @@ export async function GET(req: NextRequest) {
     const post = await userPost.findOne({
       _id: new mongoose.Types.ObjectId(postId),
     });
+  
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: post },
       { status: STATUS.SUCCSESS },

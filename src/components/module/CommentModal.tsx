@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import Image from "next/image";
 import Link from "next/link";
+import { p2e } from "@/helper/replaceNumber.js";
+import moment from "moment";
+import momentJalaali from "moment-jalaali";
 
 const CommentModal: FC<ICommentModal> = ({
   setShowComment,
@@ -18,20 +21,24 @@ const CommentModal: FC<ICommentModal> = ({
 }) => {
   const [commentText, setCommentText] = useState<string>("");
   const [comments, setComments] = useState<any>(null);
-  // console.log(comments);
 
+  momentJalaali.loadPersian({ usePersianDigits: true });
+
+  // console.log(comments);
   useEffect(() => {
     const commentFetcher = async () => {
-      await axios
-        .get("/api/comment", { params: { id: postId } })
-        .then((res) => {
-          // console.log(res);
-          if (res.status === 200) {
-            setComments(null);
-            setComments(res.data.data);
-          }
-        })
-        .catch((error) => console.log(error));
+      if (postId) {
+        await axios
+          .get("/api/comment", { params: { id: postId } })
+          .then((res) => {
+            // console.log(res);
+            if (res.status === 200) {
+              setComments(null);
+              setComments(res.data.data);
+            }
+          })
+          .catch((error) => console.log(error));
+      }
     };
     commentFetcher();
   }, [showComment]);
@@ -63,12 +70,12 @@ const CommentModal: FC<ICommentModal> = ({
   };
 
   return (
-    <div className="max-h-[43rem] space-y-10 overflow-y-scroll">
+    <div className="max-h-[43rem] space-y-12 overflow-y-scroll">
       <span
         onClick={(e) => setShowComment(false)}
-        className="fixed -top-1 flex justify-center"
+        className="950:left-[10rem] fixed left-[4rem] block w-max 330:left-[2rem] 450:left-[5rem] 550:left-[7rem] sm:left-[4rem] md:left-[8rem] lg:left-[10rem] 2xl:left-[10rem]"
       >
-        <TbMenuOrder className="m-2 w-80 rounded-xl bg-p-300 text-3xl" />
+        <TbMenuOrder className="m-2 w-[8rem] rounded-xl bg-p-300 text-3xl 330:w-[16rem] 400:w-[18rem]" />
       </span>
 
       <div className="gsp-3 mx-auto flex w-max items-center justify-between">
@@ -105,11 +112,18 @@ const CommentModal: FC<ICommentModal> = ({
                 priority
                 width={200}
                 height={200}
-                className="size-[3rem] rounded-[100%]"
+                className="size-[3rem] rounded-[100%] border-[3px] border-solid border-p-700"
               />
-              <span className="text-p-950">{item.userName}</span>
+              <div className="flex flex-col">
+                <span className="text-p-950">{item.userName}</span>
+                <span className="text-xs text-gray-500">
+                  {locale === "fa"
+                    ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
+                    : p2e(moment(item.createdAt).format("YYYY/MM/DD"))}
+                </span>
+              </div>
             </Link>
-            <p className="text-center text-slate-700"> {item.comment}</p>
+            <p className="text-center text-p-700"> {item.comment}</p>
           </div>
         ))
       )}
