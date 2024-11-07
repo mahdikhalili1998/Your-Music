@@ -24,7 +24,6 @@ import { FaBookmark } from "react-icons/fa6";
 import Loader from "./Loader";
 import CommentModal from "./CommentModal";
 import { FiShare2 } from "react-icons/fi";
-import { error } from "console";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -254,7 +253,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
         );
       })}
       <div
-        className={`${showComment ? "fixed left-0 right-0 z-20 h-full -translate-y-[176%] overflow-y-scroll bg-slate-100 sm:left-24 sm:right-24 sm:-translate-y-[170%] sm:rounded-xl sm:border-[3px] sm:border-solid sm:border-p-700 sm:shadow-xl sm:shadow-p-400 md:left-36 md:right-36 md:-translate-y-[156%] lg:left-56 lg:right-56 2xl:left-[27rem] 2xl:right-[27rem]" : "translate-y-[100%]"} directon-ltr duration-3000 pt-2 transition-transform`}
+        className={`${showComment ? "left-0 right-0 z-20 -translate-y-[176%] overflow-y-scroll bg-slate-100 sm:left-24 sm:right-24 sm:-translate-y-[170%] sm:rounded-xl sm:border-[3px] sm:border-solid sm:border-p-700 sm:shadow-xl sm:shadow-p-400 md:left-36 md:right-36 md:-translate-y-[156%] lg:left-56 lg:right-56 2xl:left-[27rem] 2xl:right-[27rem]" : "translate-y-[100%]"} directon-ltr duration-3000 fixed h-full pt-2 transition-transform`}
       >
         <CommentModal
           showComment={showComment}

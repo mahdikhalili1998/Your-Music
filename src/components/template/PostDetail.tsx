@@ -21,6 +21,8 @@ import { p2e } from "@/helper/replaceNumber";
 import moment from "moment";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
+import CommentModal from "../module/CommentModal";
+import { FiShare2 } from "react-icons/fi";
 
 function PostDetail() {
   const { locale, id } = useParams();
@@ -29,6 +31,8 @@ function PostDetail() {
   const [detail, setDetail] = useState<any[]>([]);
   const [userLogInfo, setUserLogInfo] = useState<any>();
   const [activePostId, setActivePostId] = useState<string | null>(null);
+  const [showComment, setShowComment] = useState<boolean>(false);
+  const [postId, setPostId] = useState<string>("");
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
   const t = useTranslations("showPostPage");
@@ -104,8 +108,25 @@ function PostDetail() {
       .catch((error) => console.log(error));
   };
 
+  const showCommentHandler = (id) => {
+    // console.log(id);
+    setPostId(id);
+    setShowComment(true);
+  };
+
+  const shareHandler = (id: string) => {
+    navigator.clipboard
+      .writeText(
+        `https://your-music-two.vercel.app//${locale}/postDetail/${id}`,
+      )
+      .then((res) => toast.success(t("copy")))
+      .catch((error) => console.log(error));
+  };
+
   return (
-    <div className={`${locale === "fa" ? "directon-ltr font-iransans" : ""}`}>
+    <div
+      className={`relative ${locale === "fa" ? "directon-ltr font-iransans" : ""} `}
+    >
       {!detail ? (
         <div className="mx-auto w-max">
           <Loader color="#7e22ce" width={120} height={70} />
@@ -189,8 +210,12 @@ function PostDetail() {
                   </span>
                 )}
 
-                <span>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => showCommentHandler(item._id)}
+                >
                   <FaRegComment className="text-xl" />
+                  {item.comment.length}
                 </span>
                 <span onClick={() => savePostHandler(item._id)}>
                   {userLogInfo.savePost.includes(item._id) ? (
@@ -198,6 +223,12 @@ function PostDetail() {
                   ) : (
                     <FaRegBookmark className="text-xl" />
                   )}
+                </span>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => shareHandler(item._id)}
+                >
+                  <FiShare2 className="text-2xl" />
                 </span>
               </div>
             ) : (
@@ -209,8 +240,21 @@ function PostDetail() {
                   <FaRegHeart className="text-xl" />
                   {item.userLikeId.length}
                 </span>
-                <span onClick={() => toast.error(t("sign in"))}>
+                <span
+                  onClick={() => toast.error(t("sign in"))}
+                  className="flex items-center gap-2"
+                >
                   <FaRegComment className="text-xl" />
+                  {item.comment.length}
+                </span>
+                <span onClick={(e) => toast.error(t("sign in"))}>
+                  <FaRegBookmark className="text-xl" />
+                </span>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => shareHandler(item._id)}
+                >
+                  <FiShare2 className="text-2xl" />
                 </span>
               </div>
             )}
@@ -229,6 +273,16 @@ function PostDetail() {
           </div>
         ))
       )}
+      <div
+        className={`${showComment ? "left-0 right-0 z-20 -translate-y-[60%] overflow-y-scroll bg-slate-100 sm:left-24 sm:right-24 sm:-translate-y-[60%] sm:rounded-xl sm:border-[3px] sm:border-solid sm:border-p-700 sm:shadow-xl sm:shadow-p-400 md:left-36 md:right-36 md:-translate-y-[40%] lg:left-56 lg:right-56 2xl:left-[27rem] 2xl:right-[27rem]" : "translate-y-[100%]"} directon-ltr duration-3000 fixed h-full pt-2 transition-transform`}
+      >
+        <CommentModal
+          showComment={showComment}
+          setShowComment={setShowComment}
+          postId={postId}
+          locale={locale}
+        />
+      </div>
       <Toaster />
     </div>
   );
