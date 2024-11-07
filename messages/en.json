@@ -148,6 +148,7 @@
     "sign in": "please sign in/up",
     "comment": "sign in/up for see comment"
   },
+  "CommentModal": { "NoComment": "No Comment Yet ..." },
   "pageNotFound": {
     "Page was not found": "Page was not found",
     "lang": "زبان فارسی",

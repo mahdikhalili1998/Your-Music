@@ -175,8 +175,12 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                     {item.userLikeId.length ? item.userLikeId.length : null}
                   </span>
                 )}
-                <span onClick={(e) => showCommentHandler(item._id)}>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => showCommentHandler(item._id)}
+                >
                   <FaRegComment className="text-xl" />
+                  {item.comment.length}
                 </span>
                 {loader && saveId === item._id ? (
                   <div>
@@ -201,8 +205,12 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   <FaRegHeart className="text-xl" />
                   {item.userLikeId.length}
                 </span>
-                <span onClick={(e) => toast.error(t("comment"))}>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => toast.error(t("comment"))}
+                >
                   <FaRegComment className="text-xl" />
+                  {item.comment.length}
                 </span>
                 <span onClick={(e) => toast.error(t("sign in"))}>
                   <FaRegBookmark className="text-xl" />

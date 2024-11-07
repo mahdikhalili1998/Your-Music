@@ -12,6 +12,7 @@ import Link from "next/link";
 import { p2e } from "@/helper/replaceNumber.js";
 import moment from "moment";
 import momentJalaali from "moment-jalaali";
+import { useTranslations } from "next-intl";
 
 const CommentModal: FC<ICommentModal> = ({
   setShowComment,
@@ -21,6 +22,7 @@ const CommentModal: FC<ICommentModal> = ({
 }) => {
   const [commentText, setCommentText] = useState<string>("");
   const [comments, setComments] = useState<any>(null);
+  const t = useTranslations("CommentModal");
 
   momentJalaali.loadPersian({ usePersianDigits: true });
 
@@ -51,7 +53,7 @@ const CommentModal: FC<ICommentModal> = ({
         data: { commentText, id: postId },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setCommentText("");
           setComments(res.data.data);
@@ -73,7 +75,7 @@ const CommentModal: FC<ICommentModal> = ({
     <div className="max-h-[43rem] space-y-12 overflow-y-scroll">
       <span
         onClick={(e) => setShowComment(false)}
-        className="950:left-[10rem] fixed left-[4rem] block w-max 330:left-[2rem] 450:left-[5rem] 550:left-[7rem] sm:left-[4rem] md:left-[8rem] lg:left-[10rem] 2xl:left-[10rem]"
+        className="fixed left-[4rem] block w-max 330:left-[2rem] 450:left-[5rem] 550:left-[7rem] sm:left-[4rem] md:left-[8rem] 950:left-[10rem] lg:left-[10rem] 2xl:left-[10rem]"
       >
         <TbMenuOrder className="m-2 w-[8rem] rounded-xl bg-p-300 text-3xl 330:w-[16rem] 400:w-[18rem]" />
       </span>
@@ -99,6 +101,12 @@ const CommentModal: FC<ICommentModal> = ({
         <div className="mx-auto w-max">
           <Loader color="#7e22ce" width={80} height={40} />
         </div>
+      ) : comments.comment.length === 0 ? (
+        <h2
+          className={`${locale === "fa" ? "directon-rtl" : "directon-ltr"} text-center`}
+        >
+          {t("NoComment")}
+        </h2>
       ) : (
         comments?.comment.map((item) => (
           <div className="mb-3 ml-3" key={item._id}>
