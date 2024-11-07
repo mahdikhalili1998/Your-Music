@@ -217,13 +217,19 @@ function PostDetail() {
                   <FaRegComment className="text-xl" />
                   {item.comment.length}
                 </span>
-                <span onClick={() => savePostHandler(item._id)}>
-                  {userLogInfo.savePost.includes(item._id) ? (
-                    <FaBookmark className="text-xl" />
-                  ) : (
-                    <FaRegBookmark className="text-xl" />
-                  )}
-                </span>
+                {loader && loaderId === item._id ? (
+                  <div>
+                    <Loader color="#7e22ce" width={40} height={20} />
+                  </div>
+                ) : (
+                  <span onClick={() => savePostHandler(item._id)}>
+                    {userLogInfo.savePost.includes(item._id) ? (
+                      <FaBookmark className="text-xl" />
+                    ) : (
+                      <FaRegBookmark className="text-xl" />
+                    )}
+                  </span>
+                )}
                 <span
                   className="flex items-center gap-2"
                   onClick={(e) => shareHandler(item._id)}
