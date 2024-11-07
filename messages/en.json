@@ -146,7 +146,8 @@
     "delete": "delete",
     "download": "download",
     "sign in": "please sign in/up",
-    "comment": "sign in/up for see comment"
+    "comment": "sign in/up for see comment",
+    "copy": "post url copied"
   },
   "CommentModal": { "NoComment": "No Comment Yet ..." },
   "pageNotFound": {

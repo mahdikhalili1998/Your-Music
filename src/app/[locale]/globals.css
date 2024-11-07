@@ -100,3 +100,27 @@
     right: 100%;
   }
 }
+
+@keyframes tiltAnimation {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(-30deg) rotateY(0deg); /* بالا بردن گوشه سمت راست */
+  }
+  50% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  75% {
+    transform: rotateX(0deg) rotateY(-30deg); /* بالا بردن گوشه سمت چپ */
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+}
+
+.animated-bg {
+  animation: tiltAnimation 4s infinite; /* می‌توانید مدت زمان و نوع تکرار را تغییر دهید */
+  display: inline-block;
+  transition: transform 0.3s ease;
+}

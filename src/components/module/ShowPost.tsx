@@ -23,6 +23,8 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
 import Loader from "./Loader";
 import CommentModal from "./CommentModal";
+import { FiShare2 } from "react-icons/fi";
+import { error } from "console";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -36,6 +38,19 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const router = useRouter();
   const t = useTranslations("showPostPage");
   momentJalaali.loadPersian({ usePersianDigits: true });
+
+  useEffect(() => {
+    // Disable scrolling on body when showing comments
+    if (showComment) {
+      document.body.style.overflow = "hidden"; // Disable body scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Enable body scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup to enable scrolling again
+    };
+  }, [showComment]);
 
   const likeHandler = async (id: string, postId: string) => {
     setLoaderId(postId);
@@ -69,6 +84,15 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
     setShowComment(true);
   };
 
+  const shareHandler = (id: string) => {
+    navigator.clipboard
+      .writeText(
+        `https://your-music-two.vercel.app//${locale}/postDetail/${id}`,
+      )
+      .then((res) => toast.success(t("copy")))
+      .catch((error) => console.log(error));
+  };
+
   const savePostHandler = async (id: string) => {
     setSaveId(id);
     setLoader(true);
@@ -83,19 +107,6 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
     setLoader(false);
     setSaveId("");
   };
-
-  useEffect(() => {
-    // Disable scrolling on body when showing comments
-    if (showComment) {
-      document.body.style.overflow = "hidden"; // Disable body scrolling
-    } else {
-      document.body.style.overflow = "auto"; // Enable body scrolling
-    }
-
-    return () => {
-      document.body.style.overflow = "auto"; // Cleanup to enable scrolling again
-    };
-  }, [showComment]);
 
   return (
     <div className={`relative`}>
@@ -195,6 +206,12 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                     )}
                   </span>
                 )}
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => shareHandler(item._id)}
+                >
+                  <FiShare2 className="text-2xl" />
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-4">
@@ -214,6 +231,12 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 </span>
                 <span onClick={(e) => toast.error(t("sign in"))}>
                   <FaRegBookmark className="text-xl" />
+                </span>
+                <span
+                  className="flex items-center gap-2"
+                  onClick={(e) => shareHandler(item._id)}
+                >
+                  <FiShare2 className="text-2xl" />
                 </span>
               </div>
             )}
