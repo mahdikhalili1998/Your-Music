@@ -85,7 +85,8 @@
     "The operation was successful": "The operation was successful",
     "Your profile picture changed": "Your profile picture changed",
     "no user": "No account was found with this number",
-    "login": "Please sign up/in "
+    "login": "Please sign up/in ",
+    "caption": "Caption changed"
   },
   "signUpPage": {
     "Create Account :": "Create Account :",
@@ -145,9 +146,11 @@
   "showPostPage": {
     "delete": "delete",
     "download": "download",
+    "edit": "edit caption",
     "sign in": "please sign in/up",
     "comment": "sign in/up for see comment",
-    "copy": "post url copied"
+    "copy": "post url copied",
+    "edits": "Edit"
   },
   "CommentModal": { "NoComment": "No Comment Yet ..." },
   "pageNotFound": {

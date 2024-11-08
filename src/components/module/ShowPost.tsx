@@ -24,6 +24,7 @@ import { FaBookmark } from "react-icons/fa6";
 import Loader from "./Loader";
 import CommentModal from "./CommentModal";
 import { FiShare2 } from "react-icons/fi";
+import { MdModeEditOutline } from "react-icons/md";
 
 const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
@@ -32,10 +33,14 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
   const [showComment, setShowComment] = useState<boolean>(false);
   const [saveId, setSaveId] = useState<string>("");
   const [postId, setPostId] = useState<string>("");
+  const [editCaption, setEditCaption] = useState<string>("");
+  const [isEditCaption, setIsEditCaption] = useState<boolean>(false);
   const reversedPost = post.toReversed();
-  const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const divRef = useRef(null);
   const router = useRouter();
   const t = useTranslations("showPostPage");
+  const E = useTranslations("enum");
+
   momentJalaali.loadPersian({ usePersianDigits: true });
 
   useEffect(() => {
@@ -50,6 +55,10 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
       document.body.style.overflow = "auto"; // Cleanup to enable scrolling again
     };
   }, [showComment]);
+
+  const closeMenu = () => {
+    setActivePostId(null); // بستن منو
+  };
 
   const likeHandler = async (id: string, postId: string) => {
     setLoaderId(postId);
@@ -107,6 +116,30 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
     setSaveId("");
   };
 
+  const editCaptionHandler = async (id: string, text: string) => {
+    setIsEditCaption(true);
+    setPostId(id);
+    setEditCaption(text);
+    closeMenu();
+  };
+
+  const finallEditCaption = async (id: string) => {
+    setLoader(true);
+    await axios
+      .patch("/api/upload", { data: { text: editCaption, id } })
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(E("caption"));
+          setIsEditCaption(false);
+          setPostId("");
+          setEditCaption("");
+          router.refresh();
+        }
+      })
+      .catch((error) => console.log(error));
+    setLoader(false);
+  };
+
   return (
     <div className={`relative`}>
       {reversedPost.map((item) => {
@@ -143,16 +176,28 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   }
                 />
                 <div
-                  ref={(el) => (refs.current[item._id] = el)}
-                  className={`${activePostId !== item._id ? "hidden" : "absolute right-1"} ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
+                  ref={divRef}
+                  className={`${activePostId !== item._id ? "hidden" : "absolute right-1"} ${
+                    locale === "fa" ? "px-6" : null
+                  } z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
                 >
                   {!user ? null : user.userName === item.userName ? (
-                    <span
-                      onClick={() => deleteHandler(item._id)}
-                      className="flex items-center gap-2 text-red-600"
-                    >
-                      <AiFillDelete /> {t("delete")}
-                    </span>
+                    <div className="flex flex-col items-start justify-start gap-2">
+                      <span
+                        onClick={(e) => deleteHandler(item._id)}
+                        className="flex items-center gap-2 text-red-600"
+                      >
+                        <AiFillDelete /> {t("delete")}
+                      </span>
+                      <span
+                        onClick={(e) =>
+                          editCaptionHandler(item._id, item.description)
+                        }
+                        className="flex w-max items-center gap-2 text-blue-600"
+                      >
+                        <MdModeEditOutline className="text-lg" /> {t("edit")}
+                      </span>
+                    </div>
                   ) : null}
                   <a
                     href={item.musicUrl}
@@ -239,11 +284,36 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                 </span>
               </div>
             )}
-            <p
-              className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
-            >
-              {item.description}
-            </p>
+            {isEditCaption && postId === item._id ? (
+              <div className="flex flex-col items-center gap-3 rounded-lg bg-p-300 px-2 py-4">
+                <input
+                  type="text"
+                  className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} bg-transparent focus:outline-none ${locale === "fa" ? "font-iransans" : "font-Roboto"}`}
+                  value={editCaption}
+                  onChange={(e) => setEditCaption(e.target.value)}
+                />
+                <button
+                  disabled={!editCaption}
+                  onClick={(e) => finallEditCaption(item._id)}
+                  className="w-max rounded-lg bg-p-700 px-3 py-1 text-white shadow-md shadow-p-950 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  {loader ? (
+                    <div>
+                      <Loader color="#fff" width={40} height={15} />
+                    </div>
+                  ) : (
+                    t("edits")
+                  )}
+                </button>
+              </div>
+            ) : (
+              <p
+                className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
+              >
+                {item.description}
+              </p>
+            )}
+
             <p className="-mt-4 text-xs font-medium text-gray-600">
               {locale === "fa"
                 ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
