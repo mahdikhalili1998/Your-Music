@@ -23,6 +23,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
 import CommentModal from "../module/CommentModal";
 import { FiShare2 } from "react-icons/fi";
+import { MdModeEditOutline } from "react-icons/md";
 
 function PostDetail() {
   const { locale, id } = useParams();
@@ -32,16 +33,20 @@ function PostDetail() {
   const [userLogInfo, setUserLogInfo] = useState<any>();
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [showComment, setShowComment] = useState<boolean>(false);
+  const [editCaption, setEditCaption] = useState<string>("");
+  const [isEditCaption, setIsEditCaption] = useState<boolean>(false);
   const [postId, setPostId] = useState<string>("");
   const refs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const router = useRouter();
   const t = useTranslations("showPostPage");
   const E = useTranslations("enum");
   const { data, status } = useSession();
+  const divRef = useRef(null);
   momentJalaali.loadPersian({ usePersianDigits: true });
   //   authenticated
   // console.log(detail);
   useEffect(() => {
+    router.refresh();
     const dataFetcher = async () => {
       await axios
         .post("/api/get-post", { data: id })
@@ -68,6 +73,23 @@ function PostDetail() {
     dataFetcher();
     getSesstion();
   }, []);
+
+  useEffect(() => {
+    // Disable scrolling on body when showing comments
+    if (showComment) {
+      document.body.style.overflow = "hidden"; // Disable body scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Enable body scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup to enable scrolling again
+    };
+  }, [showComment]);
+
+  const closeMenu = () => {
+    setActivePostId(null); // بستن منو
+  };
 
   const deleteHandler = async (id: string) => {
     await axios
@@ -123,6 +145,30 @@ function PostDetail() {
       .catch((error) => console.log(error));
   };
 
+  const editCaptionHandler = async (id: string, text: string) => {
+    setIsEditCaption(true);
+    setPostId(id);
+    setEditCaption(text);
+    closeMenu();
+  };
+
+  const finallEditCaption = async (id: string) => {
+    setLoader(true);
+    await axios
+      .patch("/api/upload", { data: { text: editCaption, id } })
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(E("caption"));
+          setIsEditCaption(false);
+          setPostId("");
+          setEditCaption("");
+          router.refresh();
+        }
+      })
+      .catch((error) => console.log(error));
+    setLoader(false);
+  };
+
   return (
     <div
       className={`relative ${locale === "fa" ? "directon-ltr font-iransans" : ""} `}
@@ -135,7 +181,7 @@ function PostDetail() {
         detail?.map((item) => (
           <div
             key={item._id}
-            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 flex flex-col pb-4 md:mx-10 lg:mx-20`}
+            className={`${locale === "fa" ? "directon-ltr font-iransans" : null} mx-1 flex flex-col gap-4 pb-4 md:mx-10 lg:mx-20`}
           >
             <IoIosArrowRoundBack
               onClick={(e) => router.back()}
@@ -164,22 +210,32 @@ function PostDetail() {
                   }
                 />
                 <div
-                  ref={(el) => (refs.current[item._id] = el)}
+                  ref={divRef}
                   className={`${
                     activePostId !== item._id ? "hidden" : "absolute right-1"
                   } ${locale === "fa" ? "px-6" : null} z-10 flex flex-col items-start justify-center gap-2 rounded-lg bg-gray-300 p-2 px-4 font-medium`}
                 >
                   {userLogInfo?._id === item.userId ? (
-                    <span
-                      onClick={() => deleteHandler(item._id)}
-                      className="flex items-center gap-2 text-red-600"
-                    >
-                      <AiFillDelete /> {t("delete")}
-                    </span>
+                    <div className="flex flex-col items-start justify-start gap-2">
+                      <span
+                        onClick={(e) => deleteHandler(item._id)}
+                        className="flex items-center gap-2 text-red-600"
+                      >
+                        <AiFillDelete /> {t("delete")}
+                      </span>
+                      <span
+                        onClick={(e) =>
+                          editCaptionHandler(item._id, item.description)
+                        }
+                        className="flex w-max items-center gap-2 text-blue-600"
+                      >
+                        <MdModeEditOutline className="text-lg" /> {t("edit")}
+                      </span>
+                    </div>
                   ) : null}
                   <a
                     href={item.musicUrl}
-                    className="flex w-max items-center gap-2"
+                    className="flex w-max items-center gap-2 text-green-700"
                   >
                     <LuDownload /> {t("download")}
                   </a>
@@ -264,13 +320,36 @@ function PostDetail() {
                 </span>
               </div>
             )}
-            <p
-              className={`${
-                isPersian(item.description) ? "font-iransans" : "font-Roboto"
-              } m-2 mt-4 font-medium text-p-950`}
-            >
-              {item.description}
-            </p>
+            {isEditCaption && postId === item._id ? (
+              <div className="flex flex-col items-center gap-3 rounded-lg bg-p-300 px-2 py-4">
+                <input
+                  type="text"
+                  className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} bg-transparent focus:outline-none ${locale === "fa" ? "font-iransans" : "font-Roboto"}`}
+                  value={editCaption}
+                  onChange={(e) => setEditCaption(e.target.value)}
+                />
+                <button
+                  disabled={!editCaption}
+                  onClick={(e) => finallEditCaption(item._id)}
+                  className="w-max rounded-lg bg-p-700 px-3 py-1 text-white shadow-md shadow-p-950 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  {loader ? (
+                    <div>
+                      <Loader color="#fff" width={40} height={15} />
+                    </div>
+                  ) : (
+                    t("edits")
+                  )}
+                </button>
+              </div>
+            ) : (
+              <p
+                className={`${isPersian(item.description) ? "font-iransans" : "font-Roboto"} font-medium text-p-950`}
+              >
+                {item.description}
+              </p>
+            )}
+
             <p className="ml-2 mt-1 text-xs font-medium text-gray-600">
               {locale === "fa"
                 ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")

@@ -201,7 +201,7 @@ const ShowPost: FC<IShowPost> = ({ post, info, user, locale }) => {
                   ) : null}
                   <a
                     href={item.musicUrl}
-                    className="flex w-max items-center gap-2"
+                    className="flex w-max items-center gap-2 text-green-700"
                   >
                     <LuDownload /> {t("download")}
                   </a>

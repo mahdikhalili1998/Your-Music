@@ -13,6 +13,7 @@ import { p2e } from "@/helper/replaceNumber.js";
 import moment from "moment";
 import momentJalaali from "moment-jalaali";
 import { useTranslations } from "next-intl";
+import isPersian from "@/helper/LanguageRecognizer";
 
 const CommentModal: FC<ICommentModal> = ({
   setShowComment,
@@ -109,7 +110,7 @@ const CommentModal: FC<ICommentModal> = ({
         </h2>
       ) : (
         comments?.comment.map((item) => (
-          <div className="mb-3 ml-3" key={item._id}>
+          <div className="mb-3 pb-3 ml-3" key={item._id}>
             <Link
               href={`/${locale}/userPage/${item.userId}`}
               className="flex items-center gap-3"
@@ -123,7 +124,11 @@ const CommentModal: FC<ICommentModal> = ({
                 className="size-[3rem] rounded-[100%] border-[3px] border-solid border-p-700"
               />
               <div className="flex flex-col">
-                <span className="text-p-950">{item.userName}</span>
+                <span
+                  className={`${locale === "fa" ? "font-iransans" : "font-Roboto"} text-p-950`}
+                >
+                  {item.userName}
+                </span>
                 <span className="text-xs text-gray-500">
                   {locale === "fa"
                     ? momentJalaali(item.createdAt).format("jYYYY/jMM/jDD")
@@ -131,7 +136,12 @@ const CommentModal: FC<ICommentModal> = ({
                 </span>
               </div>
             </Link>
-            <p className="text-center text-p-700"> {item.comment}</p>
+            <p
+              className={`${isPersian(item.comment) ? "font-iransans" : "font-Roboto"} ${locale === "fa" ? "font-iransans" : "font-Roboto"} text-center text-p-700 my-3`}
+            >
+              {" "}
+              {item.comment}
+            </p>
           </div>
         ))
       )}
