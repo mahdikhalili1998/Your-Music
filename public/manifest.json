@@ -1,0 +1,21 @@
+{
+  "name": "Your Music",
+  "short_name": "Your Music",
+  "description": "share your favorite music with other people",
+  "start_url": "/",
+  "scope": ".",
+  "orientation": "portrait-primary",
+  "display": "standalone",
+  "dir": "ltr",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "/icon/48.png", "type": "image/png", "size": "48×48" },
+    { "src": "/icon/64.png", "type": "image/png", "size": "64×64" },
+    { "src": "/icon/96.png", "type": "image/png", "size": "96×96" },
+    { "src": "/icon/144.png", "type": "image/png", "size": "144×144" },
+    { "src": "/icon/180.png", "type": "image/png", "size": "180×180" },
+    { "src": "/icon/192.png", "type": "image/png", "size": "192×192" },
+    { "src": "/icon/512.png", "type": "image/png", "size": "512×512" }
+  ]
+}
