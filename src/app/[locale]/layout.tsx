@@ -1,5 +1,3 @@
-// src/app/[locale]/layout.tsx
-import type { Metadata } from "next";
 import "./globals.css";
 import "@/font/font.css";
 import "@/font/menu.css";
@@ -8,6 +6,7 @@ import Layout from "@/components/layout/Layout";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import RegisterServiceWorker from "@/components/template/sw";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -26,12 +25,9 @@ const RootLayout: React.FC<LayoutProps> = async ({
         <title>Your Music</title>
         <meta name="description" content="Upload Your Favorite" />
         {/* safari  */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta
-          name="apple-mobile-web-app-title"
-          content="Upload Your Favorite"
-        />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-status-bar-style" content="black" />
+        <meta name="mobile-web-app-title" content="Upload Your Favorite" />
         <link rel="apple-touch-icon" sizes="48×48" href="icon/48.png" />
         <link rel="apple-touch-icon" sizes="64×64" href="icon/64.png" />
         <link rel="apple-touch-icon" sizes="96×96" href="icon/96.png" />
@@ -46,7 +42,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
         <meta name="msapplication-starturl" content="/" />
         {/* end ie  */}
         <meta name="theme-color" content="transparent" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
@@ -54,6 +50,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
           <NextAuthProvider>
             <Layout locale={JSON.parse(JSON.stringify(locale))}>
               {children}
+              <RegisterServiceWorker />
             </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>

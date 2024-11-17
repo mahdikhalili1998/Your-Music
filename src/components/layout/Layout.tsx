@@ -34,7 +34,7 @@ function Layout({ children, locale }: LayoutProps) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  
   return (
     <div
       className={`relative overflow-x-hidden ${locale === "fa" ? "font-iransans" : null}`}

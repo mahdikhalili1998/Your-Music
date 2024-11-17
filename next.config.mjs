@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 import createNextIntlPlugin from "next-intl/plugin";
+import nextPWA from "next-pwa";
+
 const withNextIntl = createNextIntlPlugin();
+const withPWA = nextPWA({
+  dest: "public", // مسیر قرارگیری فایل‌های Service Worker
+  register: true,
+  skipWaiting: true, // بلافاصله پس از نصب، نسخه جدید Service Worker فعال می‌شود
+});
 
 const nextConfig = {
   typescript: {
@@ -18,4 +25,4 @@ const nextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withPWA(withNextIntl(nextConfig));
