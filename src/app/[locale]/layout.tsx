@@ -42,7 +42,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
         <meta name="msapplication-starturl" content="/" />
         {/* end ie  */}
         <meta name="theme-color" content="transparent" />
-        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={"mx-auto max-w-[1600px] font-Roboto"}>
