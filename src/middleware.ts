@@ -2,9 +2,10 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
 export const config = {
-  // Match only internationalized pathnames
-  // matcher: ["/", "/(fa|en)/:path*"],
-  matcher: ["/((?!api|_next|.*\\..*).*)", "/(fa|en)/:path*"],
+  matcher: [
+    "/((?!api|_next|manifest\\.json|.*\\..*).*)", // هندل مسیرهای معمول
+    "/(fa|en)/:path*", // مسیرهای بین‌المللی
+  ],
 };
 
 export default createMiddleware(routing);
