@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 
-export default function RegisterServiceWorker() {
+const RegisterServiceWorker = () => {
   useEffect(() => {
     window.addEventListener("load", function () {
       navigator.serviceWorker
-        .register("sw.js")
+        .register("sw.js", { scope: "/" })
         .then(function () {
           console.log("service worker registered .");
         })
@@ -17,4 +17,6 @@ export default function RegisterServiceWorker() {
   }, []);
 
   return null; // این کامپوننت نیازی به رندر کردن چیزی ندارد
-}
+};
+
+export default RegisterServiceWorker;

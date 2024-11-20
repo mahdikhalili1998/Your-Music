@@ -2,7 +2,7 @@
   "name": "Your Music",
   "short_name": "Your Music",
   "description": "Share your favorite music with other people",
-  "start_url": "/fa/setting-page",
+  "start_url": "/en",
   "scope": "/",
   "orientation": "portrait-primary",
   "display": "standalone",
