@@ -1,12 +1,19 @@
 /** @type {import('next').NextConfig} */
 import createNextIntlPlugin from "next-intl/plugin";
-import nextPWA from "next-pwa";
+import withPWAInit from "@ducanh2912/next-pwa";
 
 const withNextIntl = createNextIntlPlugin();
-const withPWA = nextPWA({
-  dest: "public", // مسیر قرارگیری فایل‌های Service Worker
-  register: true,
-  skipWaiting: true, // بلافاصله پس از نصب، نسخه جدید Service Worker فعال می‌شود
+
+const withPWA = withPWAInit({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  swcMinify: true,
+  disable: false,
+  workboxOptions: {
+    disableDevLogs: true,
+  },
 });
 
 const nextConfig = {

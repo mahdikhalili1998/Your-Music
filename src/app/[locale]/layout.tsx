@@ -6,12 +6,16 @@ import Layout from "@/components/layout/Layout";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import RegisterServiceWorker from "@/components/template/sw";
+import { Viewport } from "next";
 
 interface LayoutProps {
   children: React.ReactNode;
   params: { locale: string };
 }
+
+export const viewport: Viewport = {
+  themeColor: '"transparent"',
+};
 
 const RootLayout: React.FC<LayoutProps> = async ({
   children,
@@ -50,7 +54,6 @@ const RootLayout: React.FC<LayoutProps> = async ({
           <NextAuthProvider>
             <Layout locale={JSON.parse(JSON.stringify(locale))}>
               {children}
-              <RegisterServiceWorker />
             </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>
