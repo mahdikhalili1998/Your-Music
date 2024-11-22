@@ -11,6 +11,7 @@ import { ILocale } from "@/types/props";
 import userPost from "@/model/userPost";
 import ShowPost from "../module/ShowPost";
 import Link from "next/link";
+import InstallAppUSeEffect from "../element/InstallAppUSeEffect";
 
 const HomePage: FC<ILocale> = async ({ locale }) => {
   await ConnectDB();
@@ -64,12 +65,16 @@ const HomePage: FC<ILocale> = async ({ locale }) => {
           locale={locale}
         />
       ) : null}
+
       <div className="sm:mx-6">
+        <div className="">
+          <InstallAppUSeEffect locale={locale} />
+        </div>
         <ShowPost
+          locale={locale}
           post={JSON.parse(JSON.stringify(post))}
           info={JSON.parse(JSON.stringify(info))}
           user={JSON.parse(JSON.stringify(user))}
-          locale={locale}
         />
       </div>
     </div>

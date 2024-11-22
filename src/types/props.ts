@@ -104,3 +104,10 @@ export interface ICommentModal {
   postId: string;
   locale: string;
 }
+
+export interface IInstallApp {
+  showInstallModal: any;
+  closeModal: Function;
+  installhandler: Function;
+  locale: string;
+}
