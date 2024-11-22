@@ -54,7 +54,7 @@ const Home = async ({ params: { locale } }: IParams) => {
       {session ? null : (
         <Link
           href={`/${locale}/profile`}
-          className="animated-bg mb-10 ml-6 w-full justify-center rounded-lg px-2 py-2 sm:mx-3 sm:w-full"
+          className="animated-bg mb-10 ml-6 w-full justify-center rounded-lg px-2 py-2 text-xs sm:mx-3 sm:w-full sm:text-sm"
         >
           {t("UnAuthenticated")}
         </Link>

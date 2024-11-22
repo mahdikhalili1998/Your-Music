@@ -88,6 +88,11 @@
     "login": "Please sign up/in ",
     "caption": "Caption changed"
   },
+  "InstallAppPage": {
+    "h3": "To enhance the user experience, incorporate it into your applications.",
+    "install": "Install it ...",
+    "no": "Maybe later ..."
+  },
   "signUpPage": {
     "Create Account :": "Create Account :",
     "Send": "Send",
