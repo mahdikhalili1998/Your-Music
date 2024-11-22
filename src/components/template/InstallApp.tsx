@@ -1,4 +1,3 @@
-"use client";
 import { IInstallApp } from "@/types/props";
 import React, { FC } from "react";
 
