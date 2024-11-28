@@ -13,15 +13,28 @@ const InstallAppUSeEffect: FC<ILocale> = ({ locale }) => {
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isInStandaloneMode = window.matchMedia(
+      "(display-mode: standalone)",
+    ).matches;
+
     if (typeof window !== "undefined") {
       const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
         e.preventDefault();
         setPrompt(e);
       };
 
-      // بررسی نصب بودن اپلیکیشن
-      if (!window.matchMedia("(display-mode: standalone)").matches) {
-        setShowInstallModal(true);
+      if (isIOS) {
+        // در iOS به کاربران راهنمایی کنید تا اپلیکیشن را به صفحه خانگی اضافه کنند
+        if (!isInStandaloneMode) {
+          setShowInstallModal(true);
+        }
+      } else {
+        // برای مرورگرهای دیگر مانند اندروید
+        if (!isInStandaloneMode) {
+          setShowInstallModal(true);
+        }
       }
 
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
