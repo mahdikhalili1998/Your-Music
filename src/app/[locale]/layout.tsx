@@ -30,11 +30,12 @@ const RootLayout: React.FC<LayoutProps> = async ({
         <meta name="description" content="Upload Your Favorite" />
         {/* safari  */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#a855f7" />
         <meta
           name="apple-mobile-web-app-title"
           content="Upload Your Favorite"
         />
+        <link rel="apple-touch-startup-image" href="/icon/192.png" />
         <link rel="apple-touch-icon" sizes="48×48" href="icon/48.png" />
         <link rel="apple-touch-icon" sizes="64×64" href="icon/64.png" />
         <link rel="apple-touch-icon" sizes="96×96" href="icon/96.png" />
