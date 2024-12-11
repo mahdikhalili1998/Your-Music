@@ -1,3 +1,12 @@
+const limitInCache = (key, size) => {
+  caches.open(key).then((cache) => {
+    cache.keys().then((keys) => {
+      if (keys.length > size) {
+        cache.delete(keys[0]).then(limitInCache(key, size));
+      }
+    });
+  });
+};
 const cacheVersion = 1.2;
 const activeCaches = {
   staticVersion: `yourMusicStatic_V ${cacheVersion}`,
@@ -40,6 +49,7 @@ self.addEventListener("fetch", (event) => {
       .then((response) => {
         return caches.open(activeCaches["dynamicVersion"]).then((cache) => {
           cache.put(event.request, response.clone());
+          limitInCache(activeCaches["dynamicVersion"], 70);
           return response;
         });
       })
