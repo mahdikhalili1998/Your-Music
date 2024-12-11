@@ -7,6 +7,7 @@ import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Viewport } from "next";
+import RegisterServiceWorker from "@/components/template/RegisteServiceWorker";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -26,7 +27,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
   return (
     <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
       <head>
-        <title>Your Music</title>
+        <title>Your Music </title>
         <meta name="description" content="Upload Your Favorite" />
         {/* safari  */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -58,6 +59,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
           <NextAuthProvider>
             <Layout locale={JSON.parse(JSON.stringify(locale))}>
               {children}
+              <RegisterServiceWorker />
             </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>
