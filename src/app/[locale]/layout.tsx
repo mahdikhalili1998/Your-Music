@@ -7,7 +7,6 @@ import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Metadata, Viewport } from "next";
-import RegisterServiceWorker from "@/components/template/RegisteServiceWorker";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -65,7 +64,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
           <NextAuthProvider>
             <Layout locale={JSON.parse(JSON.stringify(locale))}>
               {children}
-              <RegisterServiceWorker />
+           
             </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>
