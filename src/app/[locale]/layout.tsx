@@ -6,7 +6,7 @@ import Layout from "@/components/layout/Layout";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { Viewport } from "next";
+import { Metadata, Viewport } from "next";
 import RegisterServiceWorker from "@/components/template/RegisteServiceWorker";
 
 interface LayoutProps {
@@ -15,7 +15,13 @@ interface LayoutProps {
 }
 
 export const viewport: Viewport = {
-  themeColor: '"transparent"',
+  themeColor: "#a855f7",
+};
+
+export const metadata: Metadata = {
+  manifest: "/manifest.json",
+  title: "Your Music",
+  description: '"Upload Your Favorite" ',
 };
 
 const RootLayout: React.FC<LayoutProps> = async ({
@@ -30,7 +36,7 @@ const RootLayout: React.FC<LayoutProps> = async ({
         <title>Your Music </title>
         <meta name="description" content="Upload Your Favorite" />
         {/* safari  */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="#a855f7" />
         <meta
           name="apple-mobile-web-app-title"

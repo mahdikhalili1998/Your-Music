@@ -15,6 +15,7 @@ const InstallAppUSeEffect: FC<ILocale> = ({ locale }) => {
   useEffect(() => {
     const isIOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
     const isInStandaloneMode = window.matchMedia(
       "(display-mode: standalone)",
     ).matches;
@@ -23,6 +24,9 @@ const InstallAppUSeEffect: FC<ILocale> = ({ locale }) => {
       const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
         e.preventDefault();
         setPrompt(e);
+        if (!window.matchMedia("(display-mode:standalone)").matches) {
+          setShowInstallModal(true);
+        }
       };
 
       if (isIOS) {
