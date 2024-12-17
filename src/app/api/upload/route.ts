@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import userInfo from "@/model/userInfo";
 import userPost from "@/model/userPost";
 import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 export async function POST(req: NextRequest) {
   try {
