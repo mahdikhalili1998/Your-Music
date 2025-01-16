@@ -34,27 +34,14 @@ function OtpPage({ locale }: ILocale) {
       return;
     }
     setLoading(true);
-    try {
-      const res = await axios.post("/api/auth/exsitedPhoneNumber", {
+
+    await axios
+      .post("/api/auth/exsitedPhoneNumber", {
         data: p2e(phoneNumber),
-      });
-      if (res.status === 200) {
-        toast.error(E("There is an account with this phone number"));
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        if (error.response.status === 404) {
-          toast.error(E("Error in sending request"));
-          setLoading(false);
-        } else if (error.response.status === 500) {
-          toast.error(E("Server error , try again later"));
-          setLoading(false);
-        } else if (error.response.status === 403) {
-          toast.error(E("Can Not Find User"));
-          setLoading(false);
-        } else if (error.response.status === 409) {
+      })
+      .then(async (ans) => {
+        console.log(ans);
+        if (ans.status === 203) {
           await axios
             .post("/api/proxy", JSON.stringify(num), {
               headers,
@@ -72,9 +59,24 @@ function OtpPage({ locale }: ILocale) {
                 toast.error(E("Server error , try again later"));
               }
             });
+        } else if (ans.status === 200) {
+          toast.error(E("There is an account with this phone number"));
+          setLoading(false);
         }
-      }
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 404) {
+          toast.error(E("Error in sending request"));
+          setLoading(false);
+        } else if (error.response.status === 500) {
+          toast.error(E("Server error , try again later"));
+          setLoading(false);
+        } else if (error.response.status === 403) {
+          toast.error(E("Can Not Find User"));
+          setLoading(false);
+        }
+      });
   };
 
   const otpHandler = () => {

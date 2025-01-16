@@ -13,7 +13,8 @@ import ShowPost from "@/components/module/ShowPost";
 import InstallAppUSeEffect from "@/components/element/InstallAppUSeEffect";
 import Welcome from "@/components/module/Welcome";
 
-const Home = async ({ params: { locale } }: IParams) => {
+const Home = async ({ params }: IParams) => {
+  const { locale } = await params;
   await ConnectDB();
   const session = await getServerSession(authOptions);
   let user = null;

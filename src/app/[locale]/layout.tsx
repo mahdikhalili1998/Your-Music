@@ -23,10 +23,8 @@ export const metadata: Metadata = {
   description: '"Upload Your Favorite" ',
 };
 
-const RootLayout: React.FC<LayoutProps> = async ({
-  children,
-  params: { locale },
-}) => {
+const RootLayout: React.FC<LayoutProps> = async ({ children, params }) => {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
@@ -64,7 +62,6 @@ const RootLayout: React.FC<LayoutProps> = async ({
           <NextAuthProvider>
             <Layout locale={JSON.parse(JSON.stringify(locale))}>
               {children}
-           
             </Layout>
           </NextAuthProvider>
         </NextIntlClientProvider>

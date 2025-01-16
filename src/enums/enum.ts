@@ -23,6 +23,7 @@ export enum MESSSGE {
 export enum STATUS {
   ERROR = 500,
   SUCCSESS = 200,
+  SUCCSESS2 = 203,
   INCORRECT_INFO = 422,
   EXSITED_USER = 409,
   EXSITED_INFO = 409,

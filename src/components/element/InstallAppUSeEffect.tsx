@@ -2,21 +2,18 @@
 import { ILocale } from "@/types/props";
 import { FC, useEffect, useState } from "react";
 import InstallApp from "../template/InstallApp";
-
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => void;
   userChoice: Promise<{ outcome: string }>;
 }
-
 const InstallAppUSeEffect: FC<ILocale> = ({ locale }) => {
   const [showInstallModal, setShowInstallModal] = useState<boolean>(false);
   const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       if (window.matchMedia("(display-mode:standalone)").matches) {
-        return; // اگر نصب شده، از هندل ادامه نمی‌دهیم
-      }
+        return;
+      } // اگر نصب شده، از هندل ادامه نمی}
       e.preventDefault();
       setPrompt(e);
       setShowInstallModal(true);
