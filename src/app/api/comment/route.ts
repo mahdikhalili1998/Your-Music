@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       }
     });
     post.save();
-    console.log(post);
+    // console.log(post);
 
     return NextResponse.json(
       { message: MESSSGE.SUCCSESS, data: post },
